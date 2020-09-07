@@ -128,6 +128,42 @@ url: #填这里</code></pre>
       </tags>
   </entry>
   <entry>
+    <title>如何直接在浏览器网页上高亮文本内容？(DIIGO)</title>
+    <url>/2020/09/07/chrome-highlight-2/</url>
+    <content><![CDATA[<p>之前我介绍了我比较喜欢的MarkUp 但后来发现Diigo功能更齐全 于是就想也写个Diigo版的 就酱 开始啦～</p>
+<p>Diigo是一款chrome插件 可以在网页上高亮文本、进行笔记整理等。</p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>点击Diigo拓展进行安装 然后进行注册/登陆</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibsq61mzg30xc0h4dzp.gif" alt="9808904-89a822a3a30c9b9f"></p>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><p>▷高亮 方法1：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibsqzou2g30xc0h4wg3.gif" alt="9808904-ab84e97db37bf854"></p>
+<p>▷整理高亮内容：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibsucnb9g30xc0h4q7j.gif" alt="9808904-caaf8c575a8b6e02"></p>
+<p>▷视频截图&amp;整理</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibsyhai9g30xc0h4qv5.gif" alt="9808904-ac873d03b137beb8"></p>
+<p>▷高亮 方法2</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibsyyf0ag30xc0h4wg3.gif" alt="9808904-6714a76c289b63ae"></p>
+<p>▷在文本旁添加笔记</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibt0xaiwg30xc0h475h.gif" alt="9808904-75a0a28e231ebeef"></p>
+<p>▷在网页上添加笔记</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibt3mdxbg30xc0h4dig.gif" alt="9808904-012f92c3f27acf22"></p>
+<p>▷复制高亮内容</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibt5uk23g30xc0h4goh.gif" alt="9808904-c69e2dced99ea28b"></p>
+<p>▷ diigo会自动将高亮过的网页存储在个人的DIigo里以供之后使用 可以添加标签tag以便以后整理使用 也可以删除（删除会自动删除所有高亮内容）</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibta9mdmg30xc0h4q77.gif" alt="9808904-e44a1749895b6fcc"></p>
+<p>▷ 删除笔记</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibtdx29hg30xc0h475a.gif" alt="9808904-42eb60e0dcf363ce"></p>
+<p>▷ 删除高亮</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibti1a45g30xc0h4q3u.gif" alt="9808904-1dd8c563005beaff"></p>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>小技巧</tag>
+        <tag>chrome</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hexo-Academia 配置</title>
     <url>/2020/09/07/hexo-academia/</url>
     <content><![CDATA[<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><ul>
@@ -410,19 +446,6 @@ chmod 755 deploy.sh
       </tags>
   </entry>
   <entry>
-    <title>mac访达Finder中文件绝对路径怎么找</title>
-    <url>/2020/09/07/mac-path/</url>
-    <content><![CDATA[<p>最方便快捷的方式就是直接点击想知道路径的文件，然后按 option-command-c 就能自动复制到剪贴板啦，超easy！</p>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>小技巧</tag>
-        <tag>mac</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>如何在 numbers 单元格内换行？</title>
     <url>/2020/09/07/numbers-return/</url>
     <content><![CDATA[<p>通常我们都习惯在写文本的时候按回车（Enter）换行，但在numbers里，按了回车是会自动跳到下一格的，那么如何解决这个问题？</p>
@@ -442,42 +465,6 @@ chmod 755 deploy.sh
       <tags>
         <tag>小技巧</tag>
         <tag>numbers</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>如何直接在浏览器网页上高亮文本内容？(DIIGO)</title>
-    <url>/2020/09/07/chrome-highlight-2/</url>
-    <content><![CDATA[<p>之前我介绍了我比较喜欢的MarkUp 但后来发现Diigo功能更齐全 于是就想也写个Diigo版的 就酱 开始啦～</p>
-<p>Diigo是一款chrome插件 可以在网页上高亮文本、进行笔记整理等。</p>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>点击Diigo拓展进行安装 然后进行注册/登陆</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibsq61mzg30xc0h4dzp.gif" alt="9808904-89a822a3a30c9b9f"></p>
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><p>▷高亮 方法1：</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibsqzou2g30xc0h4wg3.gif" alt="9808904-ab84e97db37bf854"></p>
-<p>▷整理高亮内容：</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibsucnb9g30xc0h4q7j.gif" alt="9808904-caaf8c575a8b6e02"></p>
-<p>▷视频截图&amp;整理</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibsyhai9g30xc0h4qv5.gif" alt="9808904-ac873d03b137beb8"></p>
-<p>▷高亮 方法2</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibsyyf0ag30xc0h4wg3.gif" alt="9808904-6714a76c289b63ae"></p>
-<p>▷在文本旁添加笔记</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibt0xaiwg30xc0h475h.gif" alt="9808904-75a0a28e231ebeef"></p>
-<p>▷在网页上添加笔记</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibt3mdxbg30xc0h4dig.gif" alt="9808904-012f92c3f27acf22"></p>
-<p>▷复制高亮内容</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibt5uk23g30xc0h4goh.gif" alt="9808904-c69e2dced99ea28b"></p>
-<p>▷ diigo会自动将高亮过的网页存储在个人的DIigo里以供之后使用 可以添加标签tag以便以后整理使用 也可以删除（删除会自动删除所有高亮内容）</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibta9mdmg30xc0h4q77.gif" alt="9808904-e44a1749895b6fcc"></p>
-<p>▷ 删除笔记</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibtdx29hg30xc0h475a.gif" alt="9808904-42eb60e0dcf363ce"></p>
-<p>▷ 删除高亮</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibti1a45g30xc0h4q3u.gif" alt="9808904-1dd8c563005beaff"></p>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>小技巧</tag>
-        <tag>chrome</tag>
       </tags>
   </entry>
   <entry>
@@ -565,6 +552,19 @@ chmod 755 deploy.sh
       <tags>
         <tag>小技巧</tag>
         <tag>视频</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mac访达Finder中文件绝对路径怎么找</title>
+    <url>/2020/09/07/mac-path/</url>
+    <content><![CDATA[<p>最方便快捷的方式就是直接点击想知道路径的文件，然后按 option-command-c 就能自动复制到剪贴板啦，超easy！</p>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>小技巧</tag>
+        <tag>mac</tag>
       </tags>
   </entry>
 </search>
