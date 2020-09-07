@@ -7,16 +7,77 @@
 ]]></content>
   </entry>
   <entry>
-    <title>hexo-academia</title>
+    <title>Hexo 优化 II</title>
+    <url>/2020/09/07/hexo-2/</url>
+    <content><![CDATA[<h1 id="标签页"><a href="#标签页" class="headerlink" title="标签页"></a>标签页</h1><p>我来打脸了，用了两天突然发现 tags 还是挺实用的，所以又来设置标签页了……</p>
+<p>增加标签页面，会生成一个 source/tags/index.md 文件。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo new page tags</span><br></pre></td></tr></table></figure>
+
+<p>打开后在title下面增加两行。</p>
+<pre><code>type: tags
+comments: false</code></pre>
+<p>然后在主题的 _config.yml 文件里，在menu里打开tags就可以啦。</p>
+<pre><code>tags: /tags/ || fa fa-tags</code></pre>
+<h1 id="阅读全文"><a href="#阅读全文" class="headerlink" title="阅读全文"></a>阅读全文</h1><p>原来 Next 的老版本中能够自动节选文章开头作为摘录放到首页，然后有点击阅读更多的按钮，但是在最新版本中 Hexo 的开发者们把这个功能去掉了，所以现在如果想节选摘录的话主要有两种方法。</p>
+<h2 id="1-手动分割"><a href="#1-手动分割" class="headerlink" title="1. 手动分割"></a>1. 手动分割</h2><p>这是 Hexo 内置的方式，在每篇文章想要截取的位置写入一下代码，之后首页就会自动截取。</p>
+<pre><code>&lt;!-- more --&gt;</code></pre>
+<h2 id="2-安装插件"><a href="#2-安装插件" class="headerlink" title="2. 安装插件"></a>2. 安装插件</h2><p>向我这种懒人，实在是懒得每篇都加，写着写着很可能忘了不说，看着自己写的我总是拿不准要在哪里截比较好，好像哪里都怪怪的，还是觉着这种事交给机器做比较好。</p>
+<p>安装插件。</p>
+<pre><code>npm install hexo-excerpt --save    </code></pre>
+<p>然后就可以了，不过我自己觉着默认的摘录还是内容有点多，想改一下设置，就去 Hexo Program 的_config.yml 里加了两行。</p>
+<pre><code>excerpt:
+  depth: 5 #截取的数量 默认是10
+  excerpt_excludes: []
+  more_excludes: []
+  hideWholePostExcerpts: true</code></pre>
+<h1 id="添加阅读量统计功能"><a href="#添加阅读量统计功能" class="headerlink" title="添加阅读量统计功能"></a>添加阅读量统计功能</h1><p><a href="http://www.yangyong.xyz/2018/01/03/add-hexo-next-post-views/">Link</a></p>
+<h1 id="更改字体"><a href="#更改字体" class="headerlink" title="更改字体"></a>更改字体</h1><p>更改字体</p>
+<p>Hexo Next 毕竟是以英文为主进行开发的，对中文字体的挑选肯定就没有英文那么好，所以我就想自己修改一下字体。</p>
+<p>进入主题的_config.yml 配置文件，找到 fonts 部分把字体部分功能打开。</p>
+<pre><code>font:
+  enable: true</code></pre>
+<p>进行修改，可以自己在 Google Fonts 里找到喜欢的字体，然后加到想改的部分（标题、正文、全局……）</p>
+<pre><code>global: #修改全局字体
+  external: true
+  family: Noto Serif SC
+  size:
+
+title: #修改标题字体
+  external: true
+  family: 
+  size:
+
+headings: #修改文章里的小标题字体
+  external: true
+  family: Noto Serif SC
+  size:
+
+posts: #修改文章内容
+  external: true
+  family:
+
+codes: #修改代码块字体
+  external: true
+  family:</code></pre>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hexo-Academia 配置</title>
     <url>/2020/09/07/hexo-academia/</url>
-    <content><![CDATA[<h1 id="Hexo-Academia-配置"><a href="#Hexo-Academia-配置" class="headerlink" title="Hexo-Academia 配置"></a>Hexo-Academia 配置</h1><h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><ul>
+    <content><![CDATA[<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><ul>
 <li><p>一个已经搭建在Github Pages上的Hexo网站</p>
 <p>如果没有的话可以按照<a href="https://whitelephantee.github.io/2020/09/05/hexo-building/">这个链接</a>里进行搭建。</p>
 </li>
 <li><p>git 和 npm</p>
 </li>
 </ul>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>下载配置文件。</p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>下载配置文件。</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/PhosphorW/hexo-theme-academia.git themes/Academia</span><br></pre></td></tr></table></figure>
 
 <p>下载需要的插件。</p>
@@ -41,7 +102,7 @@
 <p>可以添加个人简历，可以通过在/themes/Academia/source/attaches/CV.pdf 替换添加。</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cv_dl:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span></span><br><span class="line">  dir: /attaches/CV.pdf</span><br><span class="line">  description: My Detail CV.</span><br></pre></td></tr></table></figure>
 
-<h2 id="编辑主页"><a href="#编辑主页" class="headerlink" title="编辑主页"></a>编辑主页</h2><p>新建文章。</p>
+<h1 id="编辑主页"><a href="#编辑主页" class="headerlink" title="编辑主页"></a>编辑主页</h1><p>新建文章。</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo n post <span class="string">&quot;any title&quot;</span></span><br></pre></td></tr></table></figure>
 
 <p>去到 hexo project 的/source/_posts 中就能找到名称相同的 markdown 文档，里面有几行内容。</p>
@@ -53,7 +114,7 @@
 <p>然后就可以在上面写想写的内容啦。</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: Public <span class="comment">#标题</span></span><br><span class="line">date: 2020-09-07 15:45:51 <span class="comment">#创建日期</span></span><br><span class="line">tags: <span class="comment">#标签 在 Academia 风格下不提供标签 所以无效</span></span><br><span class="line">academia: <span class="literal">true</span></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">在这里用 markdown 语法写任意想写的内容。</span><br></pre></td></tr></table></figure>
 
-<h2 id="编辑其他页"><a href="#编辑其他页" class="headerlink" title="编辑其他页"></a>编辑其他页</h2><p>我这里以 Publications 页为例。现在只在标题栏中有  Publications，但是实际后段文档中并没有，所以我们需要先添加一下。</p>
+<h1 id="编辑其他页"><a href="#编辑其他页" class="headerlink" title="编辑其他页"></a>编辑其他页</h1><p>我这里以 Publications 页为例。现在只在标题栏中有  Publications，但是实际后段文档中并没有，所以我们需要先添加一下。</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo n post <span class="string">&quot;Publications&quot;</span>  </span><br></pre></td></tr></table></figure>
 
 <p>然后系统就会在/source 里新增一个同名文件夹，同时文件夹里有一个 index.md. 直接打开然后和之前一样编辑就好啦。</p>
@@ -63,6 +124,12 @@
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">menu:</span><br><span class="line">  Publications: /Publications</span><br></pre></td></tr></table></figure>
 
 ]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
   </entry>
   <entry>
     <title>Hexo + Github Pages 搭建个人网站</title>
@@ -278,5 +345,8 @@ chmod 755 deploy.sh
       <categories>
         <category>鼓捣电脑</category>
       </categories>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
   </entry>
 </search>

@@ -117,6 +117,11 @@
     <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
 
   </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
         <li class="menu-item menu-item-categories">
 
     <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
@@ -182,6 +187,106 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/09/07/hexo-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.JPG">
+      <meta itemprop="name" content="whitelephantee">
+      <meta itemprop="description" content="一只喜欢鼓捣各种新鲜玩意的小白象">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小白象">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/09/07/hexo-2/" class="post-title-link" itemprop="url">Hexo 优化 II</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-09-07 17:05:47 / 修改时间：17:54:09" itemprop="dateCreated datePublished" datetime="2020-09-07T17:05:47+08:00">2020-09-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%BC%93%E6%8D%A3%E7%94%B5%E8%84%91/" itemprop="url" rel="index"><span itemprop="name">鼓捣电脑</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/09/07/hexo-2/" class="post-meta-item leancloud_visitors" data-flag-title="Hexo 优化 II" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="标签页"><a href="#标签页" class="headerlink" title="标签页"></a>标签页</h1><p>我来打脸了，用了两天突然发现 tags 还是挺实用的，所以又来设置标签页了……</p>
+<p>增加标签页面，会生成一个 source/tags/index.md 文件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new page tags</span><br></pre></td></tr></table></figure>
+
+<p>打开后在title下面增加两行。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/09/07/hexo-2/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2020/09/07/hexo-academia/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -196,7 +301,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/09/07/hexo-academia/" class="post-title-link" itemprop="url">hexo-academia</a>
+            <a href="/2020/09/07/hexo-academia/" class="post-title-link" itemprop="url">Hexo-Academia 配置</a>
         </h2>
 
         <div class="post-meta">
@@ -207,10 +312,26 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-09-07 16:19:25 / 修改时间：16:22:44" itemprop="dateCreated datePublished" datetime="2020-09-07T16:19:25+08:00">2020-09-07</time>
+              <time title="创建时间：2020-09-07 16:19:25 / 修改时间：17:15:54" itemprop="dateCreated datePublished" datetime="2020-09-07T16:19:25+08:00">2020-09-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%BC%93%E6%8D%A3%E7%94%B5%E8%84%91/" itemprop="url" rel="index"><span itemprop="name">鼓捣电脑</span></a>
+                </span>
             </span>
 
-          <br>
+          
+            <span id="/2020/09/07/hexo-academia/" class="post-meta-item leancloud_visitors" data-flag-title="Hexo-Academia 配置" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span><br>
             <span class="post-meta-item" title="本文字数">
               <span class="post-meta-item-icon">
                 <i class="far fa-file-word"></i>
@@ -235,60 +356,23 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="Hexo-Academia-配置"><a href="#Hexo-Academia-配置" class="headerlink" title="Hexo-Academia 配置"></a>Hexo-Academia 配置</h1><h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><ul>
+          <h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><ul>
 <li><p>一个已经搭建在Github Pages上的Hexo网站</p>
 <p>如果没有的话可以按照<a target="_blank" rel="noopener" href="https://whitelephantee.github.io/2020/09/05/hexo-building/">这个链接</a>里进行搭建。</p>
 </li>
 <li><p>git 和 npm</p>
 </li>
 </ul>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>下载配置文件。</p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>下载配置文件。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/PhosphorW/hexo-theme-academia.git themes/Academia</span><br></pre></td></tr></table></figure>
-
-<p>下载需要的插件。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-renderer-pug hexo-renderer-stylus</span><br></pre></td></tr></table></figure>
-
-<p>在项目的 _config.yml 中找到 theme 一栏并进行更改。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-renderer-pug hexo-renderer-stylus</span><br></pre></td></tr></table></figure>
-
-<p>##主题配置</p>
-<p>打开 themes 的 _config.yml（注意不是 hexo project 的 _config.yml ）</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">open _config.yml</span><br></pre></td></tr></table></figure>
-
-<p>个人信息配置。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">author: <span class="comment">#个人姓名</span></span><br><span class="line">author_bio: <span class="comment">#个人简介</span></span><br><span class="line">avatar: /img/avatar.jpg <span class="comment">#个人头像 默认是小灰人 可以通过在/themes/Academia/source/img/avatar.jpg 替换添加</span></span><br><span class="line"><span class="comment"># if author sets in hexo_config, this string doesn&#x27;t work</span></span><br></pre></td></tr></table></figure>
-
-<p>顶部菜单栏设置，默认提供 Publications，About 和 Blog，可以页内跳转也可以添加外链</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">menu:</span><br><span class="line">  Publications: /<span class="comment">#Publications #页内跳转</span></span><br><span class="line">  About: /</span><br><span class="line">  Blog: https://phower.me <span class="comment">#添加外链</span></span><br></pre></td></tr></table></figure>
-
-<p>添加社交信息，附带小图标，不需要的或不想展示的可以注释掉，或者直接关掉。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">social:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span> <span class="comment">#不想展示可以关掉</span></span><br><span class="line">social_links:</span><br><span class="line">  fab fa-twitter: /</span><br><span class="line">  fab fa-facebook-square: /</span><br><span class="line">  fab fa-github: /</span><br><span class="line">  fab fa-stack-overflow: /</span><br><span class="line">  fab fa-linkedin: /</span><br><span class="line">  fab fa-weibo: /</span><br><span class="line">  fab fa-weixin: /</span><br><span class="line">  fab fa-qq: /</span><br><span class="line">  fas fa-envelope: / <span class="comment">#E-mail</span></span><br><span class="line">  fas fa-rss: /  <span class="comment">#rss</span></span><br><span class="line">  </span><br><span class="line">e_social:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span> <span class="comment">#额外社交链接</span></span><br><span class="line">e_social_links:</span><br><span class="line">  Google Scholar: / || fas fa-graduation-cap</span><br><span class="line">  ORCID: / || fab fa-orcid</span><br></pre></td></tr></table></figure>
-
-<p>可以添加个人简历，可以通过在/themes/Academia/source/attaches/CV.pdf 替换添加。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cv_dl:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span></span><br><span class="line">  dir: /attaches/CV.pdf</span><br><span class="line">  description: My Detail CV.</span><br></pre></td></tr></table></figure>
-
-<h2 id="编辑主页"><a href="#编辑主页" class="headerlink" title="编辑主页"></a>编辑主页</h2><p>新建文章。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo n post <span class="string">&quot;any title&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>去到 hexo project 的/source/_posts 中就能找到名称相同的 markdown 文档，里面有几行内容。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: Public <span class="comment">#标题</span></span><br><span class="line">date: 2020-09-07 15:45:51 <span class="comment">#创建日期</span></span><br><span class="line">tags: <span class="comment">#标签 在 Academia 风格下不提供标签 所以无效</span></span><br><span class="line">---</span><br></pre></td></tr></table></figure>
-
-<p>在文首加上 academia: true，才会被 academia 显示出来。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: Public <span class="comment">#标题</span></span><br><span class="line">date: 2020-09-07 15:45:51 <span class="comment">#创建日期</span></span><br><span class="line">tags: <span class="comment">#标签 在 Academia 风格下不提供标签 所以无效</span></span><br><span class="line">academia: <span class="literal">true</span></span><br><span class="line">---</span><br></pre></td></tr></table></figure>
-
-<p>然后就可以在上面写想写的内容啦。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: Public <span class="comment">#标题</span></span><br><span class="line">date: 2020-09-07 15:45:51 <span class="comment">#创建日期</span></span><br><span class="line">tags: <span class="comment">#标签 在 Academia 风格下不提供标签 所以无效</span></span><br><span class="line">academia: <span class="literal">true</span></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">在这里用 markdown 语法写任意想写的内容。</span><br></pre></td></tr></table></figure>
-
-<h2 id="编辑其他页"><a href="#编辑其他页" class="headerlink" title="编辑其他页"></a>编辑其他页</h2><p>我这里以 Publications 页为例。现在只在标题栏中有  Publications，但是实际后段文档中并没有，所以我们需要先添加一下。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo n post <span class="string">&quot;Publications&quot;</span>  </span><br></pre></td></tr></table></figure>
-
-<p>然后系统就会在/source 里新增一个同名文件夹，同时文件夹里有一个 index.md. 直接打开然后和之前一样编辑就好啦。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /<span class="built_in">source</span>/Publications</span><br><span class="line">open index.md</span><br></pre></td></tr></table></figure>
-
-<p>编辑完成之后要在 Academia 的  _config.yml 文件中链接一下。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">menu:</span><br><span class="line">  Publications: /Publications</span><br></pre></td></tr></table></figure>
-
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/09/07/hexo-academia/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -338,7 +422,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-09-07 14:05:37" itemprop="dateModified" datetime="2020-09-07T14:05:37+08:00">2020-09-07</time>
+                <time title="修改时间：2020-09-07 17:14:33" itemprop="dateModified" datetime="2020-09-07T17:14:33+08:00">2020-09-07</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -350,7 +434,14 @@
                 </span>
             </span>
 
-          <br>
+          
+            <span id="/2020/09/05/hexo-building/" class="post-meta-item leancloud_visitors" data-flag-title="Hexo + Github Pages 搭建个人网站" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span><br>
             <span class="post-meta-item" title="本文字数">
               <span class="post-meta-item-icon">
                 <i class="far fa-file-word"></i>
@@ -379,210 +470,14 @@
 <h1 id="Github新建项目"><a href="#Github新建项目" class="headerlink" title="Github新建项目"></a>Github新建项目</h1><p>在 GitHub 新建一个仓库（Repository），然后去到 Settings，开启Github Pages，成功后就会提示你可以在https://{username}.github.io/{Repository Name}/中进行发布。</p>
 <p>比如我的github username是whitelephantee，如果我建一个叫做YujiaZhou的Repository，开启Github Pages后就能在<a target="_blank" rel="noopener" href="https://whitelephantee.github.io/YujiaZhou/%E5%8F%91%E5%B8%83%EF%BC%8C">https://whitelephantee.github.io/YujiaZhou/发布，</a></p>
 <p>一个特殊的Repository名是{username.github.io}，如果命名为这个的话Github就会自动合并。比如我（GitHub用户名是whitelephantee）把个人主页的Repository命名为whitelephantee.github.io的话，我的域名就不是<a target="_blank" rel="noopener" href="https://whitelephantee.github.io/whitelephantee.github.io/%EF%BC%8C%E8%80%8C%E6%98%AFhttps://whitelephantee.github.io/%E3%80%82">https://whitelephantee.github.io/whitelephantee.github.io/，而是https://whitelephantee.github.io/。</a></p>
-<p>新建完成之后就可以进行后续操作了。</p>
-<h1 id="安装环境"><a href="#安装环境" class="headerlink" title="安装环境"></a>安装环境</h1><h2 id="安装-Node-js"><a href="#安装-Node-js" class="headerlink" title="安装 Node.js"></a>安装 Node.js</h2><p>首先在自己的电脑上安装 Node.js，下载地址：<a target="_blank" rel="noopener" href="https://nodejs.org/zh-cn/download/%EF%BC%8C%E5%8F%AF%E4%BB%A5%E5%AE%89%E8%A3%85">https://nodejs.org/zh-cn/download/，可以安装</a> Stable 版本。</p>
-<p>安装成功后可以在terminal输入以下代码进行确认，如果返回版本号的话就安装成功啦。</p>
-<pre><code>node -v
-npm -v</code></pre>
-<h2 id="安装-Hexo"><a href="#安装-Hexo" class="headerlink" title="安装 Hexo"></a>安装 Hexo</h2><p>Hexo就是我们要用来搭建博客的平台。</p>
-<p>注意一定要有sudo，我看网上的教程都没有sudo，但我实际操作中没有sudo就不行诶。</p>
-<pre><code>sudo npm install -g hexo-cli</code></pre>
-<h1 id="初始化项目"><a href="#初始化项目" class="headerlink" title="初始化项目"></a>初始化项目</h1><p>创建项目。</p>
-<pre><code>hexo init &#123;name&#125;
-cd &#123;name&#125;
-npm install</code></pre>
-<p>这里面的 {name} 就是我们想给这个个人主页起的名称，比如我就起了whitelephantee。</p>
-<pre><code>hexo init whitelephantee
-cd whitelephantee
-npm install</code></pre>
-<p>然后可以确认一下里面的文档。</p>
-<pre><code>ls</code></pre>
-<p>预览一下</p>
-<pre><code>hexo s</code></pre>
-<p>出现这个就说明成功了，可以在浏览器里输入<a href="http://localhost:4000看一下就可以，这是Hexo的默认界面，之后等连接上Github之后可以再修改。">http://localhost:4000看一下就可以，这是Hexo的默认界面，之后等连接上Github之后可以再修改。</a></p>
-<pre><code> Hexo is running at http://localhost:4000 . Press Ctrl+C to stop</code></pre>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gifvhmss82j31c00u0e81.jpg" alt="截屏2020-09-05 下午4.51.13"></p>
-<p>预览好之后就可以按ctrl+c结束预览，然后进入下一步。</p>
-<h1 id="链接Github"><a href="#链接Github" class="headerlink" title="链接Github"></a>链接Github</h1><h2 id="配置SSH-Key"><a href="#配置SSH-Key" class="headerlink" title="配置SSH Key"></a>配置SSH Key</h2><p>首先看一下自己本身有没有SSH Key，如果没有报错的话就说明有SSH Key。</p>
-<pre><code>cd ~/.ssh</code></pre>
-<p>有的话直接查看一下。</p>
-<pre><code>cat ~/.ssh/id_rsa.pub</code></pre>
-<p>就算有的话还要再确认一下并添加主机到本机SSH可信列表。如果返回Hi xxx! You are successfully authenticated, but Github does not provide shell access. 的话就对啦，如果显示Permission denied(public key)的话，则表明需要重新生成SSH Key。</p>
-<pre><code>ssh -T git@github.com</code></pre>
-<p>无论是没有还是需要重新生成都可以参考这个。</p>
-<p><a target="_blank" rel="noopener" href="https://docs.github.com/en/github/authenticating-to-github/error-permission-denied-publickey">Github Docs: Error: Permission denied (public key)</a> 里 <a target="_blank" rel="noopener" href="https://docs.github.com/en/github/authenticating-to-github/error-permission-denied-publickey#make-sure-you-have-a-key-that-is-being-used">Make sure you have a key that is being used</a> 部分，并按照指示 <a target="_blank" rel="noopener" href="https://docs.github.com/en/github/authenticating-to-github/adding-a-new-ssh-key-to-your-github-account">新增SSH Key</a> 并 <a target="_blank" rel="noopener" href="https://docs.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent">添加到Github中</a></p>
-<h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><p>打开_config.yml 文件</p>
-<pre><code>cd &#123;name&#125;
-open _config.yml</code></pre>
-<p>找到 Deployment 这个地方，更改一下deploy这个地方，中间repo这个链接打开应该是Github里Respository的链接，修改完保存。</p>
-<pre><code>deploy:
-  type: git
-  repo: https://github.com/&#123;Repository Name&#125;/&#123;Project Name&#125;
-  branch: master</code></pre>
-<p>安装一个插件。</p>
-<pre><code>npm install hexo-deployer-git --save</code></pre>
-<p>之后进行部署，如果最后一行返回 INFO  Deploy done: git 就说明好啦。</p>
-<pre><code>hexo g -d</code></pre>
-<p>我们可以去 Github Pages 看一眼，比如我回到 <a target="_blank" rel="noopener" href="https://whitelephantee.github.io/">https://whitelephantee.github.io/</a> 看一下就能够看到和原来在localhost上的预览界面一样的界面啦。</p>
-<h1 id="部署网页"><a href="#部署网页" class="headerlink" title="部署网页"></a>部署网页</h1><p>虽然现在链接好了，但是个人网页里面的内容都还没有调整。</p>
-<h2 id="更改基本信息"><a href="#更改基本信息" class="headerlink" title="更改基本信息"></a>更改基本信息</h2><p>继续打开_config.yml 文件</p>
-<pre><code>open _config.yml</code></pre>
-<p>找到 site 部分</p>
-<pre><code>title: 小白象 #个人网页名称
-subtitle: whitelephantee #副标题
-description: 小白象的个人主页 想到什么写什么 #描述
-keywords: #关键词
-author: whitelephantee #作者
-language: zh-CN #语言,默认的是en英语，我打算写中文的居多所以改成中文</code></pre>
-<h2 id="更改主题"><a href="#更改主题" class="headerlink" title="更改主题"></a>更改主题</h2><p>Hexo 的主题就有很多，默认的是 landscape，其他得主题可以在 <a target="_blank" rel="noopener" href="https://hexo.io/themes/">Hexo Theme</a> 里进行预览，找到心仪的之后下载下来，比如我下载了 next 主题。</p>
-<pre><code>git clone https://github.com/theme-next/hexo-theme-next themes/next</code></pre>
-<p>在_config.yml 里找到 theme 部分，进行更改。</p>
-<pre><code>theme: next</code></pre>
-<h2 id="主题配置"><a href="#主题配置" class="headerlink" title="主题配置"></a>主题配置</h2><p>进入主题的_config.yml 文件（注意不是 project 的 _config.yml 文件），按自己的喜好进行一下更改和调整，还是以我的为例。</p>
-<pre><code>cd themes
-cd next
-open _config.yml</code></pre>
-<p>Minify：自动删除不必要的文件</p>
-<pre><code>minify: true</code></pre>
-<p>footer - icon：在最下面作者和年份默认会有一个心形小图标，我想换成一个大象的图标。</p>
-<pre><code>icon:
-    # Icon name in Font Awesome. See: https://fontawesome.com/icons
-    name: fa fa-elephant
-    # If you want to animate the icon, set it to true.
-    animated: false
-    # Change the color of icon, using Hex Code.
-    color: &quot;#000000&quot;</code></pre>
-<p>scheme：next一共提供了4种样式，默认是Muse，我选择了Pisces。</p>
-<pre><code>scheme: Pisces</code></pre>
-<p>Menu: 默认的标签栏只有主页和归档页，但hexo还提供了一些备选项，包括标签页、分类页等，可以按需开启。</p>
-<pre><code>menu:
-  home: / || fa fa-home
-  #about: /about/ || fa fa-user
-  tags: /tags/ || fa fa-tags
-  categories: /categories/ || fa fa-th
-  archives: /archives/ || fa fa-archive
-  schedule: /schedule/ || fa fa-calendar
-  sitemap: /sitemap.xml || fa fa-sitemap
-  #commonweal: /404/ || fa fa-heartbeat</code></pre>
-<p>avatar：小头像，把目标图片文件放到 themes/next/source/images/avatar.JPG 路径，然后再在主题的_config.yml 文件中进行更改。</p>
-<pre><code>avatar:
-  # Replace the default image and set the url here.
-  url: /images/avatar.JPG
-  # If true, the avatar will be dispalyed in circle.
-  rounded: true
-  # If true, the avatar will be rotated with the cursor.
-  rotated: false</code></pre>
-<p>Pangu: 这是一个神器的选项，专门针对强迫症患者，在编译生成页面的时候，中英文之间就会自动添加空格。</p>
-<pre><code>pangu: true</code></pre>
-<h1 id="内容构建"><a href="#内容构建" class="headerlink" title="内容构建"></a>内容构建</h1><h2 id="更改第一篇内容"><a href="#更改第一篇内容" class="headerlink" title="更改第一篇内容"></a>更改第一篇内容</h2><p>预览的内容还算符合想法，但是主页的第一篇默认为 Hello World，想改成自己的内容。</p>
-<p>首先打开/source/_posts/hello-world.md</p>
-<pre><code>cd source/_posts
-open hello-world.md</code></pre>
-<p>然后进行编辑就好啦，hexo和github一样，默认的都是用Markdown语法写作，很简单的一学就会。</p>
-<pre><code>---
-title: #标题
----
-
-# 一级标题
-## 二级标题
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#代码块</span><br></pre></td></tr></table></figure>
-
-[Name](Link) #链接</code></pre>
-<h2 id="新建一篇文章"><a href="#新建一篇文章" class="headerlink" title="新建一篇文章"></a>新建一篇文章</h2><p>新建一篇文章的话还是在终端中。</p>
-<pre><code>hexo new &#123;name&#125;</code></pre>
-<p>然后就像上面更改一样进行写作就好啦，最上面写上时间、标题等。</p>
-<pre><code>---
-title: 标题 
-date: 日期 # 自动创建，如 2019-08-22 11:47:21
-tags: 
-- 标签1
-- 标签2
-- 标签3
-categories:
-- 分类1
-- 分类2
----</code></pre>
-<h2 id="增加分类页"><a href="#增加分类页" class="headerlink" title="增加分类页"></a>增加分类页</h2><p>因为我不太喜欢标签的管理方式，所以我就只开了分类页，标签页的方式和分类页相似。</p>
-<p>增加分类页面，会生成一个 source/categories/index.md 文件。</p>
-<pre><code>hexo new page categories</code></pre>
-<p>打开后在title下面增加两行。</p>
-<pre><code>type: categories
-comments: false</code></pre>
-<p>然后在主题的 _config.yml 文件里，在menu里打开categories就可以啦。</p>
-<pre><code>categories: /categories/ || th</code></pre>
-<h2 id="增加搜索页"><a href="#增加搜索页" class="headerlink" title="增加搜索页"></a>增加搜索页</h2><p>增加一个网站内内容的搜索功能。</p>
-<p>安装一个hexo-generator-searchdb插件。</p>
-<pre><code>npm install hexo-generator-searchdb --save</code></pre>
-<p>在项目的 _config.yml 文件里添加search选项。</p>
-<pre><code>search:
-  path: search.xml
-  field: post
-  format: html
-  limit: 10000</code></pre>
-<p>然后在主题的 _config.yml 里面也修改一下。</p>
-<pre><code>local_search:
-  enable: true
-  # If auto, trigger search by changing input.
-  # If manual, trigger search by pressing enter key or search button.
-  trigger: auto
-  # Show top n results per article, show all results by setting to -1
-  top_n_per_article: 5
-  # Unescape html strings to the readable one.
-  unescape: false
-  # Preload the search data when the page loads.
-  preload: false</code></pre>
-<h2 id="添加字数统计和阅读时长"><a href="#添加字数统计和阅读时长" class="headerlink" title="添加字数统计和阅读时长"></a>添加字数统计和阅读时长</h2><p>首先安装一个插件。</p>
-<pre><code>npm install hexo-symbols-count-time --save</code></pre>
-<p>在项目的 _config.yml 文件里添加。</p>
-<pre><code>symbols_count_time:
-  symbols: true
-  time: true
-  total_symbols: true
-  total_time: true
-  exclude_codeblock: false
-  awl: 4
-  wpm: 300
-  suffix: &quot;mins.&quot;</code></pre>
-<p>然后在主题的 _config.yml 里面也修改一下。</p>
-<pre><code>symbols_count_time:
-  separated_meta: true
-  item_text_post: true
-  item_text_total: false</code></pre>
-<h2 id="增加动态背景"><a href="#增加动态背景" class="headerlink" title="增加动态背景"></a>增加动态背景</h2><p>切换到Next主题文件夹</p>
-<pre><code>cd themes/next</code></pre>
-<p>安装模块</p>
-<pre><code>git clone https://github.com/theme-next/theme-next-canvas-nest source/lib/canvas-nest</code></pre>
-<p>修改主题的 _config.yml </p>
-<pre><code># Canvas-nest
-# Dependencies: https://github.com/theme-next/theme-next-canvas-nest
-canvas_nest:
-  enable: true
-  onmobile: true # 是否在手机上显示
-  color: &quot;255,51,51&quot; # RGB颜色设置
-  opacity: 0.5 # 线条透明度
-  zIndex: -1 # 显示级别
-  count: 160 # 线条的数量，越多越卡</code></pre>
-<h1 id="Final-Touch"><a href="#Final-Touch" class="headerlink" title="Final Touch"></a>Final Touch</h1><h2 id="预览"><a href="#预览" class="headerlink" title="预览"></a>预览</h2><p>设置了那么多，效果如何呢？让我们先在本地预览一下。</p>
-<pre><code>hexo s</code></pre>
-<h2 id="更新Github-Page"><a href="#更新Github-Page" class="headerlink" title="更新Github Page"></a>更新Github Page</h2><p>可以直接在终端中运行。</p>
-<pre><code>hexo clean
-hexo generate
-hexo deploy</code></pre>
-<p>为了方便，我直接创建了一个脚本文件，这样以后每次更新就只用输入一行就可以了。</p>
-<p>创建创建脚本文件。</p>
-<pre><code>touch deploy.sh
-chmod 755 deploy.sh
-./deploy.sh</code></pre>
-<p>将文本打开并写入内容，然后执行。</p>
-<pre><code>sh deploy.sh</code></pre>
-<p>这样一个个人网页就算基本搭建好啦。</p>
-<p>参考文档：</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000017986794">超详细Hexo+Github博客搭建技术</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.cxyxiaowu.com/6407.html">超全面！如何用 GitHub 从零开始搭建一个博客 ？</a></li>
-</ul>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/09/05/hexo-building/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -629,7 +524,14 @@ chmod 755 deploy.sh
               <time title="创建时间：2020-09-05 16:23:37 / 修改时间：20:57:13" itemprop="dateCreated datePublished" datetime="2020-09-05T16:23:37+08:00">2020-09-05</time>
             </span>
 
-          <br>
+          
+            <span id="/2020/09/05/hello-world/" class="post-meta-item leancloud_visitors" data-flag-title="Hello World" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span><br>
             <span class="post-meta-item" title="本文字数">
               <span class="post-meta-item-icon">
                 <i class="far fa-file-word"></i>
@@ -738,7 +640,7 @@ chmod 755 deploy.sh
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">4</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -747,6 +649,12 @@ chmod 755 deploy.sh
           
         <span class="site-state-item-count">1</span>
         <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
 </div>
@@ -781,12 +689,12 @@ chmod 755 deploy.sh
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">7k</span>
+    <span title="站点总字数">8k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">13 分钟</span>
+    <span title="站点阅读时长">15 分钟</span>
 </div>
 
         
@@ -796,6 +704,92 @@ chmod 755 deploy.sh
 
 
 
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"6lRKCpg6jIUS6cyp0fcVJ38X-gzGzoHsz","app_key":"vY6uCheNaSEQzJRHoe6IzJul","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
 
 
       </div>
