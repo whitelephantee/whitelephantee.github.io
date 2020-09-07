@@ -182,6 +182,131 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/09/07/hexo-academia/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.JPG">
+      <meta itemprop="name" content="whitelephantee">
+      <meta itemprop="description" content="一只喜欢鼓捣各种新鲜玩意的小白象">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小白象">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/09/07/hexo-academia/" class="post-title-link" itemprop="url">hexo-academia</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-09-07 16:19:25 / 修改时间：16:22:44" itemprop="dateCreated datePublished" datetime="2020-09-07T16:19:25+08:00">2020-09-07</time>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Hexo-Academia-配置"><a href="#Hexo-Academia-配置" class="headerlink" title="Hexo-Academia 配置"></a>Hexo-Academia 配置</h1><h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><ul>
+<li><p>一个已经搭建在Github Pages上的Hexo网站</p>
+<p>如果没有的话可以按照<a target="_blank" rel="noopener" href="https://whitelephantee.github.io/2020/09/05/hexo-building/">这个链接</a>里进行搭建。</p>
+</li>
+<li><p>git 和 npm</p>
+</li>
+</ul>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>下载配置文件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/PhosphorW/hexo-theme-academia.git themes/Academia</span><br></pre></td></tr></table></figure>
+
+<p>下载需要的插件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-renderer-pug hexo-renderer-stylus</span><br></pre></td></tr></table></figure>
+
+<p>在项目的 _config.yml 中找到 theme 一栏并进行更改。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-renderer-pug hexo-renderer-stylus</span><br></pre></td></tr></table></figure>
+
+<p>##主题配置</p>
+<p>打开 themes 的 _config.yml（注意不是 hexo project 的 _config.yml ）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">open _config.yml</span><br></pre></td></tr></table></figure>
+
+<p>个人信息配置。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">author: <span class="comment">#个人姓名</span></span><br><span class="line">author_bio: <span class="comment">#个人简介</span></span><br><span class="line">avatar: /img/avatar.jpg <span class="comment">#个人头像 默认是小灰人 可以通过在/themes/Academia/source/img/avatar.jpg 替换添加</span></span><br><span class="line"><span class="comment"># if author sets in hexo_config, this string doesn&#x27;t work</span></span><br></pre></td></tr></table></figure>
+
+<p>顶部菜单栏设置，默认提供 Publications，About 和 Blog，可以页内跳转也可以添加外链</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">menu:</span><br><span class="line">  Publications: /<span class="comment">#Publications #页内跳转</span></span><br><span class="line">  About: /</span><br><span class="line">  Blog: https://phower.me <span class="comment">#添加外链</span></span><br></pre></td></tr></table></figure>
+
+<p>添加社交信息，附带小图标，不需要的或不想展示的可以注释掉，或者直接关掉。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">social:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span> <span class="comment">#不想展示可以关掉</span></span><br><span class="line">social_links:</span><br><span class="line">  fab fa-twitter: /</span><br><span class="line">  fab fa-facebook-square: /</span><br><span class="line">  fab fa-github: /</span><br><span class="line">  fab fa-stack-overflow: /</span><br><span class="line">  fab fa-linkedin: /</span><br><span class="line">  fab fa-weibo: /</span><br><span class="line">  fab fa-weixin: /</span><br><span class="line">  fab fa-qq: /</span><br><span class="line">  fas fa-envelope: / <span class="comment">#E-mail</span></span><br><span class="line">  fas fa-rss: /  <span class="comment">#rss</span></span><br><span class="line">  </span><br><span class="line">e_social:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span> <span class="comment">#额外社交链接</span></span><br><span class="line">e_social_links:</span><br><span class="line">  Google Scholar: / || fas fa-graduation-cap</span><br><span class="line">  ORCID: / || fab fa-orcid</span><br></pre></td></tr></table></figure>
+
+<p>可以添加个人简历，可以通过在/themes/Academia/source/attaches/CV.pdf 替换添加。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cv_dl:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span></span><br><span class="line">  dir: /attaches/CV.pdf</span><br><span class="line">  description: My Detail CV.</span><br></pre></td></tr></table></figure>
+
+<h2 id="编辑主页"><a href="#编辑主页" class="headerlink" title="编辑主页"></a>编辑主页</h2><p>新建文章。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo n post <span class="string">&quot;any title&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>去到 hexo project 的/source/_posts 中就能找到名称相同的 markdown 文档，里面有几行内容。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: Public <span class="comment">#标题</span></span><br><span class="line">date: 2020-09-07 15:45:51 <span class="comment">#创建日期</span></span><br><span class="line">tags: <span class="comment">#标签 在 Academia 风格下不提供标签 所以无效</span></span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+
+<p>在文首加上 academia: true，才会被 academia 显示出来。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: Public <span class="comment">#标题</span></span><br><span class="line">date: 2020-09-07 15:45:51 <span class="comment">#创建日期</span></span><br><span class="line">tags: <span class="comment">#标签 在 Academia 风格下不提供标签 所以无效</span></span><br><span class="line">academia: <span class="literal">true</span></span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+
+<p>然后就可以在上面写想写的内容啦。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: Public <span class="comment">#标题</span></span><br><span class="line">date: 2020-09-07 15:45:51 <span class="comment">#创建日期</span></span><br><span class="line">tags: <span class="comment">#标签 在 Academia 风格下不提供标签 所以无效</span></span><br><span class="line">academia: <span class="literal">true</span></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">在这里用 markdown 语法写任意想写的内容。</span><br></pre></td></tr></table></figure>
+
+<h2 id="编辑其他页"><a href="#编辑其他页" class="headerlink" title="编辑其他页"></a>编辑其他页</h2><p>我这里以 Publications 页为例。现在只在标题栏中有  Publications，但是实际后段文档中并没有，所以我们需要先添加一下。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo n post <span class="string">&quot;Publications&quot;</span>  </span><br></pre></td></tr></table></figure>
+
+<p>然后系统就会在/source 里新增一个同名文件夹，同时文件夹里有一个 index.md. 直接打开然后和之前一样编辑就好啦。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /<span class="built_in">source</span>/Publications</span><br><span class="line">open index.md</span><br></pre></td></tr></table></figure>
+
+<p>编辑完成之后要在 Academia 的  _config.yml 文件中链接一下。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">menu:</span><br><span class="line">  Publications: /Publications</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2020/09/05/hexo-building/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -205,10 +330,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-09-05 20:58:39 / 修改时间：22:55:35" itemprop="dateCreated datePublished" datetime="2020-09-05T20:58:39+08:00">2020-09-05</time>
+              <time title="创建时间：2020-09-05 20:58:39" itemprop="dateCreated datePublished" datetime="2020-09-05T20:58:39+08:00">2020-09-05</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-09-07 14:05:37" itemprop="dateModified" datetime="2020-09-07T14:05:37+08:00">2020-09-07</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -446,6 +577,11 @@ chmod 755 deploy.sh
 <p>将文本打开并写入内容，然后执行。</p>
 <pre><code>sh deploy.sh</code></pre>
 <p>这样一个个人网页就算基本搭建好啦。</p>
+<p>参考文档：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000017986794">超详细Hexo+Github博客搭建技术</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cxyxiaowu.com/6407.html">超全面！如何用 GitHub 从零开始搭建一个博客 ？</a></li>
+</ul>
 
       
     </div>
@@ -602,7 +738,7 @@ chmod 755 deploy.sh
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-count">3</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -645,12 +781,12 @@ chmod 755 deploy.sh
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">5k</span>
+    <span title="站点总字数">7k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">10 分钟</span>
+    <span title="站点阅读时长">13 分钟</span>
 </div>
 
         
