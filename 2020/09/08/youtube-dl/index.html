@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"github.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="youtube-dl是非常有名的命令行下载工具，使用方法简单，支持的网站也多。 安装终端中输入。 brew install youtube-dl 然后查看一下版本，我下载的时候brew下载的最高版本只能是2018.07.21，但实际youtube-dl更新非常勤，截止我写这篇文章时（2020.09.08），已经有2020.09.06版本了，因为这类下载工具经常需要更新来保证能够继续下载，所以要确保">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Youtube-dl 安装使用指南">
+<meta property="og:url" content="https://github.com/whitelephantee/whitelephantee.github.io/2020/09/08/youtube-dl/index.html">
+<meta property="og:site_name" content="小白象">
+<meta property="og:description" content="youtube-dl是非常有名的命令行下载工具，使用方法简单，支持的网站也多。 安装终端中输入。 brew install youtube-dl 然后查看一下版本，我下载的时候brew下载的最高版本只能是2018.07.21，但实际youtube-dl更新非常勤，截止我写这篇文章时（2020.09.08），已经有2020.09.06版本了，因为这类下载工具经常需要更新来保证能够继续下载，所以要确保">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-09-08T14:30:52.000Z">
+<meta property="article:modified_time" content="2020-09-08T14:32:50.107Z">
+<meta property="article:author" content="whitelephantee">
+<meta property="article:tag" content="mac">
+<meta property="article:tag" content="downloader">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://github.com/whitelephantee/whitelephantee.github.io/2020/09/08/youtube-dl/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Youtube-dl 安装使用指南 | 小白象</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">小白象</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">whitelephantee</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://github.com/whitelephantee/whitelephantee.github.io/2020/09/08/youtube-dl/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.JPG">
+      <meta itemprop="name" content="whitelephantee">
+      <meta itemprop="description" content="一只喜欢鼓捣各种新鲜玩意的小白象">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小白象">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Youtube-dl 安装使用指南
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-09-08 22:30:52 / 修改时间：22:32:50" itemprop="dateCreated datePublished" datetime="2020-09-08T22:30:52+08:00">2020-09-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%BC%93%E6%8D%A3%E7%94%B5%E8%84%91/" itemprop="url" rel="index"><span itemprop="name">鼓捣电脑</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>7.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>14 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>youtube-dl是非常有名的命令行下载工具，使用方法简单，支持的<a target="_blank" rel="noopener" href="https://ytdl-org.github.io/youtube-dl/supportedsites.htm">网站</a>也多。</p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>终端中输入。</p>
+<pre><code>brew install youtube-dl</code></pre>
+<p>然后查看一下版本，我下载的时候brew下载的最高版本只能是2018.07.21，但实际youtube-dl更新非常勤，截止我写这篇文章时（2020.09.08），已经有2020.09.06版本了，因为这类下载工具经常需要更新来保证能够继续下载，所以要确保到最新的版本，</p>
+<pre><code>youtube-dl --version</code></pre>
+<p>如果不是最新版本的话。</p>
+<pre><code>sudo youtube-dl --update</code></pre>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><p>youtube-dl的基本使用方法非常简单。</p>
+<pre><code>youtube-dl &#123;url&#125;</code></pre>
+<p>就可以啦，会下载到所在的位置。</p>
+<p>当然，youtube-dl也提供非常多样的选项以供使用，常用比如说——</p>
+<pre><code>#标准用法
+youtube-dl [OPTIONS] URL [URL...]</code></pre>
+<p>调整存储位置+修改下载视频的名称。</p>
+<pre><code>#比如要放到 Downloads 文件夹
+youtube-dl -o &#39;/Users/&#123;username&#125;/Downloads/%(title)s.%(ext)s&#39; &#123;url&#125;</code></pre>
+<p>下载字幕</p>
+<pre><code>#下载字幕文件
+--write-sub                  
+#下载youtube自动生成的cc字幕
+--write-auto-sub    </code></pre>
+<p>只下载音频</p>
+<pre><code>-x</code></pre>
+<p>下载youtube列表。</p>
+<pre><code>--playlist-start NUMBER          指定列表中开始下载的视频(默认为1)
+--playlist-end NUMBER            指定列表中结束的视频(默认为last)
+--playlist-items ITEM_SPEC       指定列表中要下载的视频项目编号.如：&quot;--playlist-items 1,2,5,8&quot;或&quot;--playlist-items 1-3,7,10-13&quot;
+--match-title REGEX              下载标题匹配的视频(正则表达式或区分大小写的字符串)
+--reject-title REGEX             跳过下载标题匹配的视频(正则表达式或区分大小写的字符串)
+--max-downloads NUMBER           下载NUMBER个视频后停止
+--no-playlist                    当视频链接到一个视频和一个播放列表时，仅下载视频
+--yes-playlist                   当视频链接到一个视频和一个播放列表时，下载视频和播放列表</code></pre>
+<p>下载多个视频时，默认如果一个视频发生错误就终止下载，可以用-i改成忽略错误继续下载。</p>
+<pre><code>-i, --ignore-errors              遇到下载错误时跳过</code></pre>
+<p>代理协议。</p>
+<pre><code>--proxy URL                      使用HTTP/HTTPS/SOCKS协议的代理，如socks5://127.0.0.1:1080/.</code></pre>
+<p>在视频中嵌入字幕。</p>
+<pre><code>--embed-subs                     在视频中嵌入字幕(仅适用于mp4,webm和mkv视频）</code></pre>
+<p>对视频进行转码，不过需要装ffmpeg或者其他转码的工具。</p>
+<pre><code>--recode-video FORMAT            必要时将视频转码为其他格式(当前支持: mp4|flv|ogg|webm|mkv|avi)</code></pre>
+<p>配置文件（后面会说到）。</p>
+<pre><code>--ignore-config                  不读取配置文件，当时用了全局配置文件/etc/youtube-dl.conf:不再读取 ~/.config/youtube-dl/config 
+--config-location PATH           使用指定路径下的配置文件</code></pre>
+<h1 id="其他可选命令"><a href="#其他可选命令" class="headerlink" title="其他可选命令"></a>其他可选命令</h1><p>我这里粘贴了这位<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/2a7244199bfa">好心人</a> 的部分翻译（侵删），留作参考。</p>
+<p>通用选项</p>
+<pre><code>-h, --help                       打印帮助文档
+--version                        打印版本信息
+-U, --update                     更新到最新版(需要权限)
+-i, --ignore-errors              遇到下载错误时跳过
+--abort-on-error                 遇到下载错误时终止
+--dump-user-agent                显示当前使用的浏览器(User-agent)
+--list-extractors                列出所有的提取器(支持的网站)
+--extractor-descriptions         同上
+--force-generic-extractor        强制使用通用提取器下载
+--default-search PREFIX          使用此前缀补充不完整的URLs，例如：&quot;ytsearch2 yt-dl&quot; 从youtube搜索并下载两个关于yt-dl视频. 使用&quot;auto&quot;youtube-dl就会猜一个，一般效果等价于&quot;ytsearch&quot;(&quot;auto_warning&quot;猜测时加入警告).我已知支持的PREFIX：ytsearch (youtube), ytsearchdate (youtube), yvsearch (yahoo videos), gvsearch (google videos)
+--ignore-config                  不读取配置文件，当时用了全局配置文件/etc/youtube-dl.conf:不再读取 ~/.config/youtube-dl/config (%APPDATA%/youtube-dl/config.txt on Windows)
+--config-location PATH           使用指定路径下的配置文件
+--flat-playlist                  列出列表视频但不下载
+--mark-watched                   标记看过此视频 (YouTube only)
+--no-mark-watched                不标记看过此视频 (YouTube only)
+--no-color                       打印到屏幕上的代码不带色</code></pre>
+<p>网络选项</p>
+<pre><code>--proxy URL                      使用HTTP/HTTPS/SOCKS协议的代理.如：socks5://127.0.0.1:1080/.
+--socket-timeout SECONDS         放弃连接前等待时间
+--source-address IP              绑定的客户端IP地址
+-4, --force-ipv4                 所有连接通过IPv4
+-6, --force-ipv6                 所有连接通过IPv6</code></pre>
+<p>地理限制</p>
+<pre><code>--geo-verification-proxy URL     使用此代理地址测试一些有地理限制的地址
+--geo-bypass                     绕过地理限制通过伪装X-Forwarded-For HTTP头部的客户端ip (实验)
+--no-geo-bypass                  不 绕过地理限制通过伪装X-Forwarded-For HTTP头部的客户端ip (实验)
+--geo-bypass-country CODE        强制绕过地理限制通过提供准确的ISO 3166-2标准的国别代码(实验) 注：以上三个实验参数实测未成功</code></pre>
+<p>视频选择</p>
+<pre><code>--playlist-start NUMBER          指定列表中开始下载的视频(默认为1)
+--playlist-end NUMBER            指定列表中结束的视频(默认为last)
+--playlist-items ITEM_SPEC       指定列表中要下载的视频项目编号.如：&quot;--playlist-items 1,2,5,8&quot;或&quot;--playlist-items 1-3,7,10-13&quot;
+--match-title REGEX              下载标题匹配的视频(正则表达式或区分大小写的字符串)
+--reject-title REGEX             跳过下载标题匹配的视频(正则表达式或区分大小写的字符串)
+--max-downloads NUMBER           下载NUMBER个视频后停止
+--min-filesize SIZE              不下载小于SIZE的视频(e.g. 50k or 44.6m)
+--max-filesize SIZE              不下载大于SIZE的视频(e.g. 50k or 44.6m)
+--date DATE                      仅下载上传日期在指定日期的视频
+--datebefore DATE                仅下载上传日期在指定日期或之前的视频 (i.e. inclusive)
+--dateafter DATE                 仅下载上传日期在指定日期或之后的视频 (i.e. inclusive)
+--min-views COUNT                不下载观影数小于指定值的视频
+--max-views COUNT                不下载观影数大于指定值的视频
+--match-filter FILTER            通用视频过滤器. Specify any key (see help for -o for a list of available keys) to match if the key is present, !key to check if the key is not present, key &gt; NUMBER (like &quot;comment_count &gt; 12&quot;, also works with &gt;=, &lt;, &lt;=, !=, =) to compare against a number,key = ‘LITERAL‘ (like &quot;uploader = ‘Mike Smith‘&quot;, also works with !=) to match against a string literal and &amp; to require multiple matches. Values which are not known are excluded unless you put a question mark (?) after the operator. For example, to only match videos that have been liked more than 100 times and disliked less than 50 times (or the dislike functionality is not available at the given service), but who also have a description, use --match-filter &quot;like_count &gt; 100 &amp; dislike_count &lt;? 50 &amp; description&quot; .
+--no-playlist                    当视频链接到一个视频和一个播放列表时，仅下载视频
+--yes-playlist                   当视频链接到一个视频和一个播放列表时，下载视频和播放列表
+--age-limit YEARS                下载合适上传年限的视频
+--download-archive FILE          仅下载档案文件中未列出的影片，已下载的记录ID
+--include-ads                    同时下载广告(实验)</code></pre>
+<p>下载选项</p>
+<pre><code>-r, --limit-rate RATE            最大bps (e.g. 50K or 4.2M)
+-R, --retries RETRIES            重试次数 (默认10), or &quot;infinite&quot;.
+--fragment-retries RETRIES       一个分段的最大重试次数(default is 10), or &quot;infinite&quot; (DASH, hlsnative and ISM)
+--skip-unavailable-fragments     跳过不可用分段(DASH, hlsnative and ISM)
+--abort-on-unavailable-fragment  放弃某个分段当不可获取时
+--keep-fragments                 下载完成后，将下载的片段保存在磁盘上; 片段默认被删除
+--buffer-size SIZE               设置缓冲区大小buffer (e.g. 1024 or 16K) (default is 1024)
+--no-resize-buffer               不自动调整缓冲区大小.默认情况下自动调整
+--playlist-reverse               以相反的顺序下载播放列表视频
+--playlist-random                以随机的顺序下载播放列表视频
+--xattr-set-filesize             Set file xattribute ytdl.filesize with expected file size (experimental)
+--hls-prefer-native              使用本机默认HLS下载器而不是ffmpeg
+--hls-prefer-ffmpeg              使用ffmpeg而不是本机HLS下载器
+--hls-use-mpegts                 使用TS流容器来存放HLS视频,一些高级播放器允许在下载的同时播放视频
+--external-downloader COMMAND    使用指定的第三方下载工具,当前支持：aria2c,avconv,axel,curl,ffmpeg,httpie,wget
+--external-downloader-args ARGS  给第三方下载工具指定参数，如：--external-downloader aria2c --external-downloader-args -j8</code></pre>
+<p>文件系统选项</p>
+<pre><code>-a, --batch-file FILE            文件中包含需要下载的URL
+--id                             仅使用文件名中的视频ID
+-o, --output TEMPLATE            Output filename template, see the &quot;OUTPUT TEMPLATE&quot; for all the info
+--autonumber-start NUMBER        指定%(autonumber)s的起始值(默认为1)
+--restrict-filenames             将文件名限制为ASCII字符，并避免文件名中的“＆”和空格
+-w, --no-overwrites              不要覆盖文件
+-c, --continue                   强制恢复部分下载的文件。 默认情况下，youtube-dl仅在可能时将恢复下载。
+--no-continue                    不要恢复部分下载的文件(从头开始重新启动)
+--no-part                        不使用.part文件 - 直接写入输出文件
+--no-mtime                       不使用Last-modified header来设置文件最后修改时间
+--write-description              将视频描述写入.description文件
+--write-info-json                将视频元数据写入.info.json文件
+--write-annotations              将视频注释写入.annotations.xml文件
+--load-info-json FILE            包含视频信息的JSON文件(使用“--write-info-json”选项创建)
+--cookies FILE                   文件从中读取Cookie(经测试，export cookies插件可以使用，但firebug导出的cookies导致错误,chrome下请用cookies.txt)注意：不同平台windows、Linux、OSX之间需要转换CE LF才能使用！
+--cache-dir DIR                  文件存储位置。youtube-dl需要永久保存一些下载的信息。默认为$XDG_CACHE_HOME/youtube-dl或/.cache/youtube-dl。目前，只有YouTube播放器文件（对于具有模糊签名的视频）进行缓存，但可能会发生变化。
+--no-cache-dir                   不用缓存
+--rm-cache-dir                   删除所有缓存文件</code></pre>
+<p>视频格式选项</p>
+<pre><code>-f, --format FORMAT              视频格式代码,查看&quot;FORMAT SELECTION&quot;获取所有信息
+--all-formats                    获取所有视频格式
+--prefer-free-formats            开源的视频格式优先，除非有特定的请求
+-F, --list-formats               列出请求视频的所有可用格式
+--youtube-skip-dash-manifest     不要下载关于YouTube视频的DASH清单和相关数据
+--merge-output-format FORMAT     如果需要合并(例如bestvideo + bestaudio)，则输出到给定的容器格式。mkv，mp4，ogg，webm，flv之一。如果不需要合并，则忽略</code></pre>
+<p>字幕选项</p>
+<pre><code>--write-sub                      下载字幕文件
+--write-auto-sub                 下载自动生成的字幕文件 (YouTube only)
+--all-subs                       下载所有可用的字幕
+--list-subs                      列出所有字幕
+--sub-format FORMAT              字幕格式,接受格式偏好,如：&quot;srt&quot; or &quot;ass/srt/best&quot;
+--sub-lang LANGS                 要下载的字幕的语言(可选)用逗号分隔,请使用--list-subs表示可用的语言标签</code></pre>
+<p>后处理选项 </p>
+<pre><code>-x, --extract-audio              将视频文件转换为纯音频文件(需要ffmpeg或avconv和ffprobe或avprobe)
+--audio-format FORMAT            指定音频格式: &quot;best&quot;, &quot;aac&quot;, &quot;flac&quot;, &quot;mp3&quot;, &quot;m4a&quot;, &quot;opus&quot;, &quot;vorbis&quot;, or &quot;wav&quot;; &quot;best&quot; by default;-x存在时无效
+--audio-quality QUALITY          指定ffmpeg/avconv音频质量,为VBR插入一个0(best)-9(worse)的值(默认5),或者指定比特率
+--recode-video FORMAT            必要时将视频转码为其他格式(当前支持: mp4|flv|ogg|webm|mkv|avi)
+--postprocessor-args ARGS        给后处理器提供这些参数
+-k, --keep-video                 视频文件在后处理后保存在磁盘上; 该视频默认被删除
+--no-post-overwrites             不要覆盖后处理文件; 默认情况下,后处理文件将被覆盖
+--embed-subs                     在视频中嵌入字幕(仅适用于mp4,webm和mkv视频）
+--embed-thumbnail                将缩略图嵌入音频作为封面艺术
+--add-metadata                   将元数据写入视频文件
+--metadata-from-title FORMAT     从视频标题中解析附加元数据，如歌曲标题/艺术家。格式语法和--output相似.也可以使用带有命名捕获组的正则表达式。解析的参数替换现有值。Example: --metadata-from-title &quot;%(artist)s - %(title)s&quot; matches a title like &quot;Coldplay - Paradise&quot;. Example (regex): --metadata-from-title &quot;(?P&lt;artist&gt;.+?) - (?P&lt;title&gt;.+)&quot;
+--xattrs                         将元数据写入视频文件的xattrs(使用dublin core 和 xdg标准)
+--fixup POLICY                   自动更正文件的已知故障。never(不做警告), warn(只发出警告), detect_or_warn (默认;如果可以的话修复文件,否则警告)
+--prefer-avconv                  后处理时相较ffmpeg偏向于avconv
+--prefer-ffmpeg                  后处理优先使用ffmpeg
+--ffmpeg-location PATH           ffmpeg/avconv程序位置;PATH为二进制所在文件夹或者目录.
+--exec CMD                       在下载后对文件执行命令,类似于find -exec语法.示例：--exec‘adb push &#123;&#125; /sdcard/Music/ &amp;&amp; rm &#123;&#125;‘
+--convert-subs FORMAT            转换字幕格式(当前支持: srt|ass|vtt)</code></pre>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/mac/" rel="tag"># mac</a>
+              <a href="/tags/downloader/" rel="tag"># downloader</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/09/08/mac-photo-sizing/" rel="prev" title="mac图片大小调整">
+      <i class="fa fa-chevron-left"></i> mac图片大小调整
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/09/08/mac-shortcut/" rel="next" title="mac一些有用的快捷键（随时更新）">
+      mac一些有用的快捷键（随时更新） <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8"><span class="nav-number">2.</span> <span class="nav-text">使用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E5%8F%AF%E9%80%89%E5%91%BD%E4%BB%A4"><span class="nav-number">3.</span> <span class="nav-text">其他可选命令</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="whitelephantee"
+      src="/images/avatar.JPG">
+  <p class="site-author-name" itemprop="name">whitelephantee</p>
+  <div class="site-description" itemprop="description">一只喜欢鼓捣各种新鲜玩意的小白象</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-elephant"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">whitelephantee</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">20k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">36 分钟</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='255,51,51' opacity='0.5' zIndex='-1' count='160' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

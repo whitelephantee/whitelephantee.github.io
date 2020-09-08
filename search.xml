@@ -107,12 +107,6 @@ whitelephant     14893   0.0  0.0  5286740   1076   ??  Ss    3:47下午   0:00.
       </tags>
   </entry>
   <entry>
-    <title>Hello World</title>
-    <url>/2020/09/05/hello-world/</url>
-    <content><![CDATA[<p>作为一个只学过一点python的小白，终于！经过两天的倒腾，终于搞定了这个个人网页！呱唧呱唧喜大普奔！</p>
-]]></content>
-  </entry>
-  <entry>
     <title>如何直接在浏览器网页上高亮文本内容？(DIIGO)</title>
     <url>/2020/09/07/chrome-highlight-2/</url>
     <content><![CDATA[<p>之前我介绍了我比较喜欢的MarkUp 但后来发现Diigo功能更齐全 于是就想也写个Diigo版的 就酱 开始啦～</p>
@@ -147,6 +141,12 @@ whitelephant     14893   0.0  0.0  5286740   1076   ??  Ss    3:47下午   0:00.
         <tag>小技巧</tag>
         <tag>chrome</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2020/09/05/hello-world/</url>
+    <content><![CDATA[<p>作为一个只学过一点python的小白，终于！经过两天的倒腾，终于搞定了这个个人网页！呱唧呱唧喜大普奔！</p>
+]]></content>
   </entry>
   <entry>
     <title>Hexo 优化 II</title>
@@ -230,6 +230,70 @@ url: #填这里</code></pre>
 <p>就可以啦。</p>
 <p>对了，开启评论之后默认的是所有文章都会开启，想不开启的话（比如分类页和标签页的index）要在文章最开头写title的那里写上。</p>
 <pre><code>comments: false</code></pre>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hexo-Academia 配置</title>
+    <url>/2020/09/07/hexo-academia/</url>
+    <content><![CDATA[<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><ul>
+<li><p>一个已经搭建在Github Pages上的Hexo网站</p>
+<p>如果没有的话可以按照<a href="https://whitelephantee.github.io/2020/09/05/hexo-building/">这个链接</a>里进行搭建。</p>
+</li>
+<li><p>git 和 npm</p>
+</li>
+</ul>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>下载配置文件。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/PhosphorW/hexo-theme-academia.git themes/Academia</span><br></pre></td></tr></table></figure>
+
+<p>下载需要的插件。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install hexo-renderer-pug hexo-renderer-stylus</span><br></pre></td></tr></table></figure>
+
+<p>在项目的 _config.yml 中找到 theme 一栏并进行更改。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install hexo-renderer-pug hexo-renderer-stylus</span><br></pre></td></tr></table></figure>
+
+<p>##主题配置</p>
+<p>打开 themes 的 _config.yml（注意不是 hexo project 的 _config.yml ）</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">open _config.yml</span><br></pre></td></tr></table></figure>
+
+<p>个人信息配置。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">author: <span class="comment">#个人姓名</span></span><br><span class="line">author_bio: <span class="comment">#个人简介</span></span><br><span class="line">avatar: /img/avatar.jpg <span class="comment">#个人头像 默认是小灰人 可以通过在/themes/Academia/source/img/avatar.jpg 替换添加</span></span><br><span class="line"><span class="comment"># if author sets in hexo_config, this string doesn&#x27;t work</span></span><br></pre></td></tr></table></figure>
+
+<p>顶部菜单栏设置，默认提供 Publications，About 和 Blog，可以页内跳转也可以添加外链</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">menu:</span><br><span class="line">  Publications: /<span class="comment">#Publications #页内跳转</span></span><br><span class="line">  About: /</span><br><span class="line">  Blog: https://phower.me <span class="comment">#添加外链</span></span><br></pre></td></tr></table></figure>
+
+<p>添加社交信息，附带小图标，不需要的或不想展示的可以注释掉，或者直接关掉。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">social:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span> <span class="comment">#不想展示可以关掉</span></span><br><span class="line">social_links:</span><br><span class="line">  fab fa-twitter: /</span><br><span class="line">  fab fa-facebook-square: /</span><br><span class="line">  fab fa-github: /</span><br><span class="line">  fab fa-stack-overflow: /</span><br><span class="line">  fab fa-linkedin: /</span><br><span class="line">  fab fa-weibo: /</span><br><span class="line">  fab fa-weixin: /</span><br><span class="line">  fab fa-qq: /</span><br><span class="line">  fas fa-envelope: / <span class="comment">#E-mail</span></span><br><span class="line">  fas fa-rss: /  <span class="comment">#rss</span></span><br><span class="line">  </span><br><span class="line">e_social:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span> <span class="comment">#额外社交链接</span></span><br><span class="line">e_social_links:</span><br><span class="line">  Google Scholar: / || fas fa-graduation-cap</span><br><span class="line">  ORCID: / || fab fa-orcid</span><br></pre></td></tr></table></figure>
+
+<p>可以添加个人简历，可以通过在/themes/Academia/source/attaches/CV.pdf 替换添加。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cv_dl:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span></span><br><span class="line">  dir: /attaches/CV.pdf</span><br><span class="line">  description: My Detail CV.</span><br></pre></td></tr></table></figure>
+
+<h1 id="编辑主页"><a href="#编辑主页" class="headerlink" title="编辑主页"></a>编辑主页</h1><p>新建文章。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo n post <span class="string">&quot;any title&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>去到 hexo project 的/source/_posts 中就能找到名称相同的 markdown 文档，里面有几行内容。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: Public <span class="comment">#标题</span></span><br><span class="line">date: 2020-09-07 15:45:51 <span class="comment">#创建日期</span></span><br><span class="line">tags: <span class="comment">#标签 在 Academia 风格下不提供标签 所以无效</span></span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+
+<p>在文首加上 academia: true，才会被 academia 显示出来。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: Public <span class="comment">#标题</span></span><br><span class="line">date: 2020-09-07 15:45:51 <span class="comment">#创建日期</span></span><br><span class="line">tags: <span class="comment">#标签 在 Academia 风格下不提供标签 所以无效</span></span><br><span class="line">academia: <span class="literal">true</span></span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+
+<p>然后就可以在上面写想写的内容啦。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: Public <span class="comment">#标题</span></span><br><span class="line">date: 2020-09-07 15:45:51 <span class="comment">#创建日期</span></span><br><span class="line">tags: <span class="comment">#标签 在 Academia 风格下不提供标签 所以无效</span></span><br><span class="line">academia: <span class="literal">true</span></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">在这里用 markdown 语法写任意想写的内容。</span><br></pre></td></tr></table></figure>
+
+<h1 id="编辑其他页"><a href="#编辑其他页" class="headerlink" title="编辑其他页"></a>编辑其他页</h1><p>我这里以 Publications 页为例。现在只在标题栏中有  Publications，但是实际后段文档中并没有，所以我们需要先添加一下。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo n post <span class="string">&quot;Publications&quot;</span>  </span><br></pre></td></tr></table></figure>
+
+<p>然后系统就会在/source 里新增一个同名文件夹，同时文件夹里有一个 index.md. 直接打开然后和之前一样编辑就好啦。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /<span class="built_in">source</span>/Publications</span><br><span class="line">open index.md</span><br></pre></td></tr></table></figure>
+
+<p>编辑完成之后要在 Academia 的  _config.yml 文件中链接一下。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">menu:</span><br><span class="line">  Publications: /Publications</span><br></pre></td></tr></table></figure>
+
 ]]></content>
       <categories>
         <category>鼓捣电脑</category>
@@ -470,70 +534,6 @@ chmod 755 deploy.sh
       </tags>
   </entry>
   <entry>
-    <title>Hexo-Academia 配置</title>
-    <url>/2020/09/07/hexo-academia/</url>
-    <content><![CDATA[<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><ul>
-<li><p>一个已经搭建在Github Pages上的Hexo网站</p>
-<p>如果没有的话可以按照<a href="https://whitelephantee.github.io/2020/09/05/hexo-building/">这个链接</a>里进行搭建。</p>
-</li>
-<li><p>git 和 npm</p>
-</li>
-</ul>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>下载配置文件。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/PhosphorW/hexo-theme-academia.git themes/Academia</span><br></pre></td></tr></table></figure>
-
-<p>下载需要的插件。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install hexo-renderer-pug hexo-renderer-stylus</span><br></pre></td></tr></table></figure>
-
-<p>在项目的 _config.yml 中找到 theme 一栏并进行更改。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install hexo-renderer-pug hexo-renderer-stylus</span><br></pre></td></tr></table></figure>
-
-<p>##主题配置</p>
-<p>打开 themes 的 _config.yml（注意不是 hexo project 的 _config.yml ）</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">open _config.yml</span><br></pre></td></tr></table></figure>
-
-<p>个人信息配置。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">author: <span class="comment">#个人姓名</span></span><br><span class="line">author_bio: <span class="comment">#个人简介</span></span><br><span class="line">avatar: /img/avatar.jpg <span class="comment">#个人头像 默认是小灰人 可以通过在/themes/Academia/source/img/avatar.jpg 替换添加</span></span><br><span class="line"><span class="comment"># if author sets in hexo_config, this string doesn&#x27;t work</span></span><br></pre></td></tr></table></figure>
-
-<p>顶部菜单栏设置，默认提供 Publications，About 和 Blog，可以页内跳转也可以添加外链</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">menu:</span><br><span class="line">  Publications: /<span class="comment">#Publications #页内跳转</span></span><br><span class="line">  About: /</span><br><span class="line">  Blog: https://phower.me <span class="comment">#添加外链</span></span><br></pre></td></tr></table></figure>
-
-<p>添加社交信息，附带小图标，不需要的或不想展示的可以注释掉，或者直接关掉。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">social:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span> <span class="comment">#不想展示可以关掉</span></span><br><span class="line">social_links:</span><br><span class="line">  fab fa-twitter: /</span><br><span class="line">  fab fa-facebook-square: /</span><br><span class="line">  fab fa-github: /</span><br><span class="line">  fab fa-stack-overflow: /</span><br><span class="line">  fab fa-linkedin: /</span><br><span class="line">  fab fa-weibo: /</span><br><span class="line">  fab fa-weixin: /</span><br><span class="line">  fab fa-qq: /</span><br><span class="line">  fas fa-envelope: / <span class="comment">#E-mail</span></span><br><span class="line">  fas fa-rss: /  <span class="comment">#rss</span></span><br><span class="line">  </span><br><span class="line">e_social:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span> <span class="comment">#额外社交链接</span></span><br><span class="line">e_social_links:</span><br><span class="line">  Google Scholar: / || fas fa-graduation-cap</span><br><span class="line">  ORCID: / || fab fa-orcid</span><br></pre></td></tr></table></figure>
-
-<p>可以添加个人简历，可以通过在/themes/Academia/source/attaches/CV.pdf 替换添加。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cv_dl:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span></span><br><span class="line">  dir: /attaches/CV.pdf</span><br><span class="line">  description: My Detail CV.</span><br></pre></td></tr></table></figure>
-
-<h1 id="编辑主页"><a href="#编辑主页" class="headerlink" title="编辑主页"></a>编辑主页</h1><p>新建文章。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo n post <span class="string">&quot;any title&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>去到 hexo project 的/source/_posts 中就能找到名称相同的 markdown 文档，里面有几行内容。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: Public <span class="comment">#标题</span></span><br><span class="line">date: 2020-09-07 15:45:51 <span class="comment">#创建日期</span></span><br><span class="line">tags: <span class="comment">#标签 在 Academia 风格下不提供标签 所以无效</span></span><br><span class="line">---</span><br></pre></td></tr></table></figure>
-
-<p>在文首加上 academia: true，才会被 academia 显示出来。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: Public <span class="comment">#标题</span></span><br><span class="line">date: 2020-09-07 15:45:51 <span class="comment">#创建日期</span></span><br><span class="line">tags: <span class="comment">#标签 在 Academia 风格下不提供标签 所以无效</span></span><br><span class="line">academia: <span class="literal">true</span></span><br><span class="line">---</span><br></pre></td></tr></table></figure>
-
-<p>然后就可以在上面写想写的内容啦。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: Public <span class="comment">#标题</span></span><br><span class="line">date: 2020-09-07 15:45:51 <span class="comment">#创建日期</span></span><br><span class="line">tags: <span class="comment">#标签 在 Academia 风格下不提供标签 所以无效</span></span><br><span class="line">academia: <span class="literal">true</span></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">在这里用 markdown 语法写任意想写的内容。</span><br></pre></td></tr></table></figure>
-
-<h1 id="编辑其他页"><a href="#编辑其他页" class="headerlink" title="编辑其他页"></a>编辑其他页</h1><p>我这里以 Publications 页为例。现在只在标题栏中有  Publications，但是实际后段文档中并没有，所以我们需要先添加一下。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo n post <span class="string">&quot;Publications&quot;</span>  </span><br></pre></td></tr></table></figure>
-
-<p>然后系统就会在/source 里新增一个同名文件夹，同时文件夹里有一个 index.md. 直接打开然后和之前一样编辑就好啦。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /<span class="built_in">source</span>/Publications</span><br><span class="line">open index.md</span><br></pre></td></tr></table></figure>
-
-<p>编辑完成之后要在 Academia 的  _config.yml 文件中链接一下。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">menu:</span><br><span class="line">  Publications: /Publications</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>mac图片大小调整</title>
     <url>/2020/09/08/mac-photo-sizing/</url>
     <content><![CDATA[<p>有时某些网站会限制上传照片的大小（50K变到10K），或者需要调整照片的大小（2寸照片变成1寸），这些当然可以通过phtooshop简单做到，但是mac预览本身也提供了非常简单的方法可以进行修改。</p>
@@ -541,6 +541,41 @@ chmod 755 deploy.sh
 <p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gijgkcz6yuj30zq0m44pj.jpg" alt="mac-photo-01"></p>
 <p>调到合适大小就可以啦，分辨率越低、图片大小越小，所占的Size也就越小啦。</p>
 <p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gijgof6ohaj30zk0mc4qp.jpg" alt="mac-photo-02"></p>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>mac</tag>
+        <tag>小技巧</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>如何在 numbers 单元格内换行？</title>
+    <url>/2020/09/07/numbers-return/</url>
+    <content><![CDATA[<p>通常我们都习惯在写文本的时候按回车（Enter）换行，但在numbers里，按了回车是会自动跳到下一格的，那么如何解决这个问题？</p>
+<p>用 <strong>option+Enter</strong> 就行啦！</p>
+<hr>
+<h2 id="Example小栗子："><a href="#Example小栗子：" class="headerlink" title="Example小栗子："></a>Example小栗子：</h2><p>现在我有文本如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiajmqwqnj30xc0c1aad.jpg" alt="9808904-94c37e422ac7dfe1."></p>
+<p>可我不想说自己傻，所以想获得酱紫的效果：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiajuhojoj30xc07bq30.jpg" alt="9808904-49be64714c4f3411."></p>
+<p>于是我按option+Enter:</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiajzbr1fg30pb0kcgmm.gif" alt="9808904-a9435cc4ed1b7815"></p>
+<p>Perfect！</p>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>小技巧</tag>
+        <tag>numbers</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mac一些有用的快捷键（随时更新）</title>
+    <url>/2020/09/08/mac-shortcut/</url>
+    <content><![CDATA[<p>command+i | 访达 | 显示简介<br>command+shift+c | 访达 ｜ 复制路径</p>
 ]]></content>
       <categories>
         <category>鼓捣电脑</category>
@@ -563,6 +598,32 @@ chmod 755 deploy.sh
 <p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giicesxtguj30xc0hqgmy.jpg" alt="9808904-d0bc2014ff4d9869"></p>
 <h1 id="小栗子"><a href="#小栗子" class="headerlink" title="小栗子"></a>小栗子</h1><p>1.0版：<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giicfqj6ljg30s90kcwht.gif" alt="9808904-c940fa8e6cf85b3d"></p>
 <p>2.0版：<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giicftx0p8g30s90kcta8.gif" alt="9808904-d0d98444cda8b3a1"></p>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>pages</tag>
+        <tag>小技巧</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>如何在 pages 里快速复制格式/格式刷？</title>
+    <url>/2020/09/07/pages-formatting/</url>
+    <content><![CDATA[<h1 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h1><p>快捷键：</p>
+<ul>
+<li><p>opt+command+c 复制格式</p>
+</li>
+<li><p>opt+command+v 粘贴格式</p>
+</li>
+</ul>
+<p>常规方法：</p>
+<ul>
+<li>pages标签栏-格式-拷贝样式/粘贴样式</li>
+</ul>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiao3q6cvj30ti0m40tz.jpg" alt="9808904-778c5800c618cf4c"></p>
+<h1 id="小栗子"><a href="#小栗子" class="headerlink" title="小栗子"></a>小栗子</h1><p>1.0版：<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiaoc2qskg30sf0kbwhv.gif" alt="9808904-d6799f3140157c59"></p>
+<p>2.0版<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiaovee63g30sf0kbabl.gif" alt="9808904-4812c80c61f8814c"></p>
 ]]></content>
       <categories>
         <category>鼓捣电脑</category>
@@ -612,51 +673,176 @@ chmod 755 deploy.sh
       </tags>
   </entry>
   <entry>
-    <title>如何在 pages 里快速复制格式/格式刷？</title>
-    <url>/2020/09/07/pages-formatting/</url>
-    <content><![CDATA[<h1 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h1><p>快捷键：</p>
-<ul>
-<li><p>opt+command+c 复制格式</p>
-</li>
-<li><p>opt+command+v 粘贴格式</p>
-</li>
-</ul>
-<p>常规方法：</p>
-<ul>
-<li>pages标签栏-格式-拷贝样式/粘贴样式</li>
-</ul>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiao3q6cvj30ti0m40tz.jpg" alt="9808904-778c5800c618cf4c"></p>
-<h1 id="小栗子"><a href="#小栗子" class="headerlink" title="小栗子"></a>小栗子</h1><p>1.0版：<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiaoc2qskg30sf0kbwhv.gif" alt="9808904-d6799f3140157c59"></p>
-<p>2.0版<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiaovee63g30sf0kbabl.gif" alt="9808904-4812c80c61f8814c"></p>
+    <title>Youtube-dl 安装使用指南</title>
+    <url>/2020/09/08/youtube-dl/</url>
+    <content><![CDATA[<p>youtube-dl是非常有名的命令行下载工具，使用方法简单，支持的<a href="https://ytdl-org.github.io/youtube-dl/supportedsites.htm">网站</a>也多。</p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>终端中输入。</p>
+<pre><code>brew install youtube-dl</code></pre>
+<p>然后查看一下版本，我下载的时候brew下载的最高版本只能是2018.07.21，但实际youtube-dl更新非常勤，截止我写这篇文章时（2020.09.08），已经有2020.09.06版本了，因为这类下载工具经常需要更新来保证能够继续下载，所以要确保到最新的版本，</p>
+<pre><code>youtube-dl --version</code></pre>
+<p>如果不是最新版本的话。</p>
+<pre><code>sudo youtube-dl --update</code></pre>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><p>youtube-dl的基本使用方法非常简单。</p>
+<pre><code>youtube-dl &#123;url&#125;</code></pre>
+<p>就可以啦，会下载到所在的位置。</p>
+<p>当然，youtube-dl也提供非常多样的选项以供使用，常用比如说——</p>
+<pre><code>#标准用法
+youtube-dl [OPTIONS] URL [URL...]</code></pre>
+<p>调整存储位置+修改下载视频的名称。</p>
+<pre><code>#比如要放到 Downloads 文件夹
+youtube-dl -o &#39;/Users/&#123;username&#125;/Downloads/%(title)s.%(ext)s&#39; &#123;url&#125;</code></pre>
+<p>下载字幕</p>
+<pre><code>#下载字幕文件
+--write-sub                  
+#下载youtube自动生成的cc字幕
+--write-auto-sub    </code></pre>
+<p>只下载音频</p>
+<pre><code>-x</code></pre>
+<p>下载youtube列表。</p>
+<pre><code>--playlist-start NUMBER          指定列表中开始下载的视频(默认为1)
+--playlist-end NUMBER            指定列表中结束的视频(默认为last)
+--playlist-items ITEM_SPEC       指定列表中要下载的视频项目编号.如：&quot;--playlist-items 1,2,5,8&quot;或&quot;--playlist-items 1-3,7,10-13&quot;
+--match-title REGEX              下载标题匹配的视频(正则表达式或区分大小写的字符串)
+--reject-title REGEX             跳过下载标题匹配的视频(正则表达式或区分大小写的字符串)
+--max-downloads NUMBER           下载NUMBER个视频后停止
+--no-playlist                    当视频链接到一个视频和一个播放列表时，仅下载视频
+--yes-playlist                   当视频链接到一个视频和一个播放列表时，下载视频和播放列表</code></pre>
+<p>下载多个视频时，默认如果一个视频发生错误就终止下载，可以用-i改成忽略错误继续下载。</p>
+<pre><code>-i, --ignore-errors              遇到下载错误时跳过</code></pre>
+<p>代理协议。</p>
+<pre><code>--proxy URL                      使用HTTP/HTTPS/SOCKS协议的代理，如socks5://127.0.0.1:1080/.</code></pre>
+<p>在视频中嵌入字幕。</p>
+<pre><code>--embed-subs                     在视频中嵌入字幕(仅适用于mp4,webm和mkv视频）</code></pre>
+<p>对视频进行转码，不过需要装ffmpeg或者其他转码的工具。</p>
+<pre><code>--recode-video FORMAT            必要时将视频转码为其他格式(当前支持: mp4|flv|ogg|webm|mkv|avi)</code></pre>
+<p>配置文件（后面会说到）。</p>
+<pre><code>--ignore-config                  不读取配置文件，当时用了全局配置文件/etc/youtube-dl.conf:不再读取 ~/.config/youtube-dl/config 
+--config-location PATH           使用指定路径下的配置文件</code></pre>
+<h1 id="其他可选命令"><a href="#其他可选命令" class="headerlink" title="其他可选命令"></a>其他可选命令</h1><p>我这里粘贴了这位<a href="https://www.jianshu.com/p/2a7244199bfa">好心人</a> 的部分翻译（侵删），留作参考。</p>
+<p>通用选项</p>
+<pre><code>-h, --help                       打印帮助文档
+--version                        打印版本信息
+-U, --update                     更新到最新版(需要权限)
+-i, --ignore-errors              遇到下载错误时跳过
+--abort-on-error                 遇到下载错误时终止
+--dump-user-agent                显示当前使用的浏览器(User-agent)
+--list-extractors                列出所有的提取器(支持的网站)
+--extractor-descriptions         同上
+--force-generic-extractor        强制使用通用提取器下载
+--default-search PREFIX          使用此前缀补充不完整的URLs，例如：&quot;ytsearch2 yt-dl&quot; 从youtube搜索并下载两个关于yt-dl视频. 使用&quot;auto&quot;youtube-dl就会猜一个，一般效果等价于&quot;ytsearch&quot;(&quot;auto_warning&quot;猜测时加入警告).我已知支持的PREFIX：ytsearch (youtube), ytsearchdate (youtube), yvsearch (yahoo videos), gvsearch (google videos)
+--ignore-config                  不读取配置文件，当时用了全局配置文件/etc/youtube-dl.conf:不再读取 ~/.config/youtube-dl/config (%APPDATA%/youtube-dl/config.txt on Windows)
+--config-location PATH           使用指定路径下的配置文件
+--flat-playlist                  列出列表视频但不下载
+--mark-watched                   标记看过此视频 (YouTube only)
+--no-mark-watched                不标记看过此视频 (YouTube only)
+--no-color                       打印到屏幕上的代码不带色</code></pre>
+<p>网络选项</p>
+<pre><code>--proxy URL                      使用HTTP/HTTPS/SOCKS协议的代理.如：socks5://127.0.0.1:1080/.
+--socket-timeout SECONDS         放弃连接前等待时间
+--source-address IP              绑定的客户端IP地址
+-4, --force-ipv4                 所有连接通过IPv4
+-6, --force-ipv6                 所有连接通过IPv6</code></pre>
+<p>地理限制</p>
+<pre><code>--geo-verification-proxy URL     使用此代理地址测试一些有地理限制的地址
+--geo-bypass                     绕过地理限制通过伪装X-Forwarded-For HTTP头部的客户端ip (实验)
+--no-geo-bypass                  不 绕过地理限制通过伪装X-Forwarded-For HTTP头部的客户端ip (实验)
+--geo-bypass-country CODE        强制绕过地理限制通过提供准确的ISO 3166-2标准的国别代码(实验) 注：以上三个实验参数实测未成功</code></pre>
+<p>视频选择</p>
+<pre><code>--playlist-start NUMBER          指定列表中开始下载的视频(默认为1)
+--playlist-end NUMBER            指定列表中结束的视频(默认为last)
+--playlist-items ITEM_SPEC       指定列表中要下载的视频项目编号.如：&quot;--playlist-items 1,2,5,8&quot;或&quot;--playlist-items 1-3,7,10-13&quot;
+--match-title REGEX              下载标题匹配的视频(正则表达式或区分大小写的字符串)
+--reject-title REGEX             跳过下载标题匹配的视频(正则表达式或区分大小写的字符串)
+--max-downloads NUMBER           下载NUMBER个视频后停止
+--min-filesize SIZE              不下载小于SIZE的视频(e.g. 50k or 44.6m)
+--max-filesize SIZE              不下载大于SIZE的视频(e.g. 50k or 44.6m)
+--date DATE                      仅下载上传日期在指定日期的视频
+--datebefore DATE                仅下载上传日期在指定日期或之前的视频 (i.e. inclusive)
+--dateafter DATE                 仅下载上传日期在指定日期或之后的视频 (i.e. inclusive)
+--min-views COUNT                不下载观影数小于指定值的视频
+--max-views COUNT                不下载观影数大于指定值的视频
+--match-filter FILTER            通用视频过滤器. Specify any key (see help for -o for a list of available keys) to match if the key is present, !key to check if the key is not present, key &gt; NUMBER (like &quot;comment_count &gt; 12&quot;, also works with &gt;=, &lt;, &lt;=, !=, =) to compare against a number,key = ‘LITERAL‘ (like &quot;uploader = ‘Mike Smith‘&quot;, also works with !=) to match against a string literal and &amp; to require multiple matches. Values which are not known are excluded unless you put a question mark (?) after the operator. For example, to only match videos that have been liked more than 100 times and disliked less than 50 times (or the dislike functionality is not available at the given service), but who also have a description, use --match-filter &quot;like_count &gt; 100 &amp; dislike_count &lt;? 50 &amp; description&quot; .
+--no-playlist                    当视频链接到一个视频和一个播放列表时，仅下载视频
+--yes-playlist                   当视频链接到一个视频和一个播放列表时，下载视频和播放列表
+--age-limit YEARS                下载合适上传年限的视频
+--download-archive FILE          仅下载档案文件中未列出的影片，已下载的记录ID
+--include-ads                    同时下载广告(实验)</code></pre>
+<p>下载选项</p>
+<pre><code>-r, --limit-rate RATE            最大bps (e.g. 50K or 4.2M)
+-R, --retries RETRIES            重试次数 (默认10), or &quot;infinite&quot;.
+--fragment-retries RETRIES       一个分段的最大重试次数(default is 10), or &quot;infinite&quot; (DASH, hlsnative and ISM)
+--skip-unavailable-fragments     跳过不可用分段(DASH, hlsnative and ISM)
+--abort-on-unavailable-fragment  放弃某个分段当不可获取时
+--keep-fragments                 下载完成后，将下载的片段保存在磁盘上; 片段默认被删除
+--buffer-size SIZE               设置缓冲区大小buffer (e.g. 1024 or 16K) (default is 1024)
+--no-resize-buffer               不自动调整缓冲区大小.默认情况下自动调整
+--playlist-reverse               以相反的顺序下载播放列表视频
+--playlist-random                以随机的顺序下载播放列表视频
+--xattr-set-filesize             Set file xattribute ytdl.filesize with expected file size (experimental)
+--hls-prefer-native              使用本机默认HLS下载器而不是ffmpeg
+--hls-prefer-ffmpeg              使用ffmpeg而不是本机HLS下载器
+--hls-use-mpegts                 使用TS流容器来存放HLS视频,一些高级播放器允许在下载的同时播放视频
+--external-downloader COMMAND    使用指定的第三方下载工具,当前支持：aria2c,avconv,axel,curl,ffmpeg,httpie,wget
+--external-downloader-args ARGS  给第三方下载工具指定参数，如：--external-downloader aria2c --external-downloader-args -j8</code></pre>
+<p>文件系统选项</p>
+<pre><code>-a, --batch-file FILE            文件中包含需要下载的URL
+--id                             仅使用文件名中的视频ID
+-o, --output TEMPLATE            Output filename template, see the &quot;OUTPUT TEMPLATE&quot; for all the info
+--autonumber-start NUMBER        指定%(autonumber)s的起始值(默认为1)
+--restrict-filenames             将文件名限制为ASCII字符，并避免文件名中的“＆”和空格
+-w, --no-overwrites              不要覆盖文件
+-c, --continue                   强制恢复部分下载的文件。 默认情况下，youtube-dl仅在可能时将恢复下载。
+--no-continue                    不要恢复部分下载的文件(从头开始重新启动)
+--no-part                        不使用.part文件 - 直接写入输出文件
+--no-mtime                       不使用Last-modified header来设置文件最后修改时间
+--write-description              将视频描述写入.description文件
+--write-info-json                将视频元数据写入.info.json文件
+--write-annotations              将视频注释写入.annotations.xml文件
+--load-info-json FILE            包含视频信息的JSON文件(使用“--write-info-json”选项创建)
+--cookies FILE                   文件从中读取Cookie(经测试，export cookies插件可以使用，但firebug导出的cookies导致错误,chrome下请用cookies.txt)注意：不同平台windows、Linux、OSX之间需要转换CE LF才能使用！
+--cache-dir DIR                  文件存储位置。youtube-dl需要永久保存一些下载的信息。默认为$XDG_CACHE_HOME/youtube-dl或/.cache/youtube-dl。目前，只有YouTube播放器文件（对于具有模糊签名的视频）进行缓存，但可能会发生变化。
+--no-cache-dir                   不用缓存
+--rm-cache-dir                   删除所有缓存文件</code></pre>
+<p>视频格式选项</p>
+<pre><code>-f, --format FORMAT              视频格式代码,查看&quot;FORMAT SELECTION&quot;获取所有信息
+--all-formats                    获取所有视频格式
+--prefer-free-formats            开源的视频格式优先，除非有特定的请求
+-F, --list-formats               列出请求视频的所有可用格式
+--youtube-skip-dash-manifest     不要下载关于YouTube视频的DASH清单和相关数据
+--merge-output-format FORMAT     如果需要合并(例如bestvideo + bestaudio)，则输出到给定的容器格式。mkv，mp4，ogg，webm，flv之一。如果不需要合并，则忽略</code></pre>
+<p>字幕选项</p>
+<pre><code>--write-sub                      下载字幕文件
+--write-auto-sub                 下载自动生成的字幕文件 (YouTube only)
+--all-subs                       下载所有可用的字幕
+--list-subs                      列出所有字幕
+--sub-format FORMAT              字幕格式,接受格式偏好,如：&quot;srt&quot; or &quot;ass/srt/best&quot;
+--sub-lang LANGS                 要下载的字幕的语言(可选)用逗号分隔,请使用--list-subs表示可用的语言标签</code></pre>
+<p>后处理选项 </p>
+<pre><code>-x, --extract-audio              将视频文件转换为纯音频文件(需要ffmpeg或avconv和ffprobe或avprobe)
+--audio-format FORMAT            指定音频格式: &quot;best&quot;, &quot;aac&quot;, &quot;flac&quot;, &quot;mp3&quot;, &quot;m4a&quot;, &quot;opus&quot;, &quot;vorbis&quot;, or &quot;wav&quot;; &quot;best&quot; by default;-x存在时无效
+--audio-quality QUALITY          指定ffmpeg/avconv音频质量,为VBR插入一个0(best)-9(worse)的值(默认5),或者指定比特率
+--recode-video FORMAT            必要时将视频转码为其他格式(当前支持: mp4|flv|ogg|webm|mkv|avi)
+--postprocessor-args ARGS        给后处理器提供这些参数
+-k, --keep-video                 视频文件在后处理后保存在磁盘上; 该视频默认被删除
+--no-post-overwrites             不要覆盖后处理文件; 默认情况下,后处理文件将被覆盖
+--embed-subs                     在视频中嵌入字幕(仅适用于mp4,webm和mkv视频）
+--embed-thumbnail                将缩略图嵌入音频作为封面艺术
+--add-metadata                   将元数据写入视频文件
+--metadata-from-title FORMAT     从视频标题中解析附加元数据，如歌曲标题/艺术家。格式语法和--output相似.也可以使用带有命名捕获组的正则表达式。解析的参数替换现有值。Example: --metadata-from-title &quot;%(artist)s - %(title)s&quot; matches a title like &quot;Coldplay - Paradise&quot;. Example (regex): --metadata-from-title &quot;(?P&lt;artist&gt;.+?) - (?P&lt;title&gt;.+)&quot;
+--xattrs                         将元数据写入视频文件的xattrs(使用dublin core 和 xdg标准)
+--fixup POLICY                   自动更正文件的已知故障。never(不做警告), warn(只发出警告), detect_or_warn (默认;如果可以的话修复文件,否则警告)
+--prefer-avconv                  后处理时相较ffmpeg偏向于avconv
+--prefer-ffmpeg                  后处理优先使用ffmpeg
+--ffmpeg-location PATH           ffmpeg/avconv程序位置;PATH为二进制所在文件夹或者目录.
+--exec CMD                       在下载后对文件执行命令,类似于find -exec语法.示例：--exec‘adb push &#123;&#125; /sdcard/Music/ &amp;&amp; rm &#123;&#125;‘
+--convert-subs FORMAT            转换字幕格式(当前支持: srt|ass|vtt)</code></pre>
 ]]></content>
       <categories>
         <category>鼓捣电脑</category>
       </categories>
       <tags>
-        <tag>pages</tag>
-        <tag>小技巧</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>如何在 numbers 单元格内换行？</title>
-    <url>/2020/09/07/numbers-return/</url>
-    <content><![CDATA[<p>通常我们都习惯在写文本的时候按回车（Enter）换行，但在numbers里，按了回车是会自动跳到下一格的，那么如何解决这个问题？</p>
-<p>用 <strong>option+Enter</strong> 就行啦！</p>
-<hr>
-<h2 id="Example小栗子："><a href="#Example小栗子：" class="headerlink" title="Example小栗子："></a>Example小栗子：</h2><p>现在我有文本如下：</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiajmqwqnj30xc0c1aad.jpg" alt="9808904-94c37e422ac7dfe1."></p>
-<p>可我不想说自己傻，所以想获得酱紫的效果：</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiajuhojoj30xc07bq30.jpg" alt="9808904-49be64714c4f3411."></p>
-<p>于是我按option+Enter:</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiajzbr1fg30pb0kcgmm.gif" alt="9808904-a9435cc4ed1b7815"></p>
-<p>Perfect！</p>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>小技巧</tag>
-        <tag>numbers</tag>
+        <tag>mac</tag>
+        <tag>downloader</tag>
       </tags>
   </entry>
 </search>
