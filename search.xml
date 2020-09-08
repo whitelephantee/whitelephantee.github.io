@@ -107,6 +107,12 @@ whitelephant     14893   0.0  0.0  5286740   1076   ??  Ss    3:47下午   0:00.
       </tags>
   </entry>
   <entry>
+    <title>Hello World</title>
+    <url>/2020/09/05/hello-world/</url>
+    <content><![CDATA[<p>作为一个只学过一点python的小白，终于！经过两天的倒腾，终于搞定了这个个人网页！呱唧呱唧喜大普奔！</p>
+]]></content>
+  </entry>
+  <entry>
     <title>如何直接在浏览器网页上高亮文本内容？(DIIGO)</title>
     <url>/2020/09/07/chrome-highlight-2/</url>
     <content><![CDATA[<p>之前我介绍了我比较喜欢的MarkUp 但后来发现Diigo功能更齐全 于是就想也写个Diigo版的 就酱 开始啦～</p>
@@ -141,12 +147,6 @@ whitelephant     14893   0.0  0.0  5286740   1076   ??  Ss    3:47下午   0:00.
         <tag>小技巧</tag>
         <tag>chrome</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/2020/09/05/hello-world/</url>
-    <content><![CDATA[<p>作为一个只学过一点python的小白，终于！经过两天的倒腾，终于搞定了这个个人网页！呱唧呱唧喜大普奔！</p>
-]]></content>
   </entry>
   <entry>
     <title>Hexo 优化 II</title>
@@ -300,19 +300,6 @@ url: #填这里</code></pre>
       </categories>
       <tags>
         <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mac访达Finder中文件绝对路径怎么找</title>
-    <url>/2020/09/07/mac-path/</url>
-    <content><![CDATA[<p>最方便快捷的方式就是直接点击想知道路径的文件，然后按 option-command-c 就能自动复制到剪贴板啦，超easy！</p>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>mac</tag>
-        <tag>小技巧</tag>
       </tags>
   </entry>
   <entry>
@@ -534,6 +521,19 @@ chmod 755 deploy.sh
       </tags>
   </entry>
   <entry>
+    <title>mac访达Finder中文件绝对路径怎么找</title>
+    <url>/2020/09/07/mac-path/</url>
+    <content><![CDATA[<p>最方便快捷的方式就是直接点击想知道路径的文件，然后按 option-command-c 就能自动复制到剪贴板啦，超easy！</p>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>mac</tag>
+        <tag>小技巧</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>mac图片大小调整</title>
     <url>/2020/09/08/mac-photo-sizing/</url>
     <content><![CDATA[<p>有时某些网站会限制上传照片的大小（50K变到10K），或者需要调整照片的大小（2寸照片变成1寸），这些当然可以通过phtooshop简单做到，但是mac预览本身也提供了非常简单的方法可以进行修改。</p>
@@ -541,6 +541,19 @@ chmod 755 deploy.sh
 <p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gijgkcz6yuj30zq0m44pj.jpg" alt="mac-photo-01"></p>
 <p>调到合适大小就可以啦，分辨率越低、图片大小越小，所占的Size也就越小啦。</p>
 <p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gijgof6ohaj30zk0mc4qp.jpg" alt="mac-photo-02"></p>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>mac</tag>
+        <tag>小技巧</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mac一些有用的快捷键（随时更新）</title>
+    <url>/2020/09/08/mac-shortcut/</url>
+    <content><![CDATA[<p>command+i | 访达 | 显示简介<br>command+shift+c | 访达 ｜ 复制路径</p>
 ]]></content>
       <categories>
         <category>鼓捣电脑</category>
@@ -570,19 +583,6 @@ chmod 755 deploy.sh
       <tags>
         <tag>小技巧</tag>
         <tag>numbers</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mac一些有用的快捷键（随时更新）</title>
-    <url>/2020/09/08/mac-shortcut/</url>
-    <content><![CDATA[<p>command+i | 访达 | 显示简介<br>command+shift+c | 访达 ｜ 复制路径</p>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>mac</tag>
-        <tag>小技巧</tag>
       </tags>
   </entry>
   <entry>
