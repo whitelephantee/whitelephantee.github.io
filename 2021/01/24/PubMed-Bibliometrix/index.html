@@ -20,21 +20,24 @@
     var CONFIG = {"hostname":"github.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="You-get 和 youtube-dl 一样，都是命令行下载工具，不过you-get是国人开发的，对国内视频网站的支持更好。 安装用homebrew安装。 brew install you-get 再升级一下。">
+  <meta name="description" content="上期介绍了怎么用bibliometrix，但是我发现导师要求找的数据库是PubMed而新版的PubMed没有导出BibTex的功能，这可怎么办呢，我又求助万能的谷歌，鼓捣了半天，找到了两种方法～  方法一：通过 Endnote 转换  方法二：通过 python 转换   这两种方法整体而言没有什么差别，只是看哪个用着更顺手而已，从bib文件就可以看出，由于PubMed本身的局限性，无论是哪种方法">
 <meta property="og:type" content="article">
-<meta property="og:title" content="you-get安装和使用">
-<meta property="og:url" content="https://github.com/whitelephantee/whitelephantee.github.io/2020/09/09/you-get/index.html">
+<meta property="og:title" content="如何将PubMed导出BibTex并导入Bibliometrix">
+<meta property="og:url" content="https://github.com/whitelephantee/whitelephantee.github.io/2021/01/24/PubMed-Bibliometrix/index.html">
 <meta property="og:site_name" content="小白象">
-<meta property="og:description" content="You-get 和 youtube-dl 一样，都是命令行下载工具，不过you-get是国人开发的，对国内视频网站的支持更好。 安装用homebrew安装。 brew install you-get 再升级一下。">
+<meta property="og:description" content="上期介绍了怎么用bibliometrix，但是我发现导师要求找的数据库是PubMed而新版的PubMed没有导出BibTex的功能，这可怎么办呢，我又求助万能的谷歌，鼓捣了半天，找到了两种方法～  方法一：通过 Endnote 转换  方法二：通过 python 转换   这两种方法整体而言没有什么差别，只是看哪个用着更顺手而已，从bib文件就可以看出，由于PubMed本身的局限性，无论是哪种方法">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-09-09T05:38:55.000Z">
-<meta property="article:modified_time" content="2020-09-09T05:41:27.762Z">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/008eGmZEgy1gmylfvf5qrj32800sudkw.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/008eGmZEgy1gmymdojgqpj31qs0u0du5.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/008eGmZEgy1gmymee9oq6j320v0u0te1.jpg">
+<meta property="article:published_time" content="2021-01-24T07:38:55.000Z">
+<meta property="article:modified_time" content="2021-01-24T03:43:51.297Z">
 <meta property="article:author" content="whitelephantee">
-<meta property="article:tag" content="mac">
-<meta property="article:tag" content="downloader">
+<meta property="article:tag" content="Research">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://tva1.sinaimg.cn/large/008eGmZEgy1gmylfvf5qrj32800sudkw.jpg">
 
-<link rel="canonical" href="https://github.com/whitelephantee/whitelephantee.github.io/2020/09/09/you-get/">
+<link rel="canonical" href="https://github.com/whitelephantee/whitelephantee.github.io/2021/01/24/PubMed-Bibliometrix/">
 
 
 <script id="page-configurations">
@@ -47,7 +50,7 @@
   };
 </script>
 
-  <title>you-get安装和使用 | 小白象</title>
+  <title>如何将PubMed导出BibTex并导入Bibliometrix | 小白象</title>
   
 
 
@@ -192,7 +195,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://github.com/whitelephantee/whitelephantee.github.io/2020/09/09/you-get/">
+    <link itemprop="mainEntityOfPage" href="https://github.com/whitelephantee/whitelephantee.github.io/2021/01/24/PubMed-Bibliometrix/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.JPG">
@@ -205,7 +208,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          you-get安装和使用
+          如何将PubMed导出BibTex并导入Bibliometrix
         </h1>
 
         <div class="post-meta">
@@ -216,7 +219,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-09-09 13:38:55 / 修改时间：13:41:27" itemprop="dateCreated datePublished" datetime="2020-09-09T13:38:55+08:00">2020-09-09</time>
+              <time title="创建时间：2021-01-24 15:38:55 / 修改时间：11:43:51" itemprop="dateCreated datePublished" datetime="2021-01-24T15:38:55+08:00">2021-01-24</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -224,7 +227,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%BC%93%E6%8D%A3%E7%94%B5%E8%84%91/" itemprop="url" rel="index"><span itemprop="name">鼓捣电脑</span></a>
+                  <a href="/categories/%E9%BC%93%E6%8D%A3%E6%96%87%E7%8C%AE/" itemprop="url" rel="index"><span itemprop="name">鼓捣文献</span></a>
                 </span>
             </span>
 
@@ -234,14 +237,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>544</span>
+              <span>1.4k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -253,22 +256,62 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><a href="https://github.com/soimort/you-get#supported-sites">You-get</a> 和 <a target="_blank" rel="noopener" href="https://whitelephantee.github.io/2020/09/08/youtube-dl/">youtube-dl</a> 一样，都是命令行下载工具，不过you-get是国人开发的，对国内视频网站的支持更好。</p>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>用homebrew安装。</p>
-<pre><code>brew install you-get</code></pre>
-<p>再升级一下。</p>
-<pre><code>pip3 install --upgrade you-get</code></pre>
-<p>然后就可以用啦。</p>
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><p>使用和youtube-dl也很相似，超简单。</p>
-<pre><code>you-get &#123;url&#125;</code></pre>
-<p>you-get也支持断点续传，会留有之前的记录。</p>
-<p>可以设置存储位置(-o)和存储名称(-0)。</p>
-<pre><code>you-get -o ~/Videos -O zoo.webm &#39;https://www.youtube.com/watch?v=jNQXAC9IVRw&#39;</code></pre>
-<p>设置代理</p>
-<pre><code>you-get -x 127.0.0.1:8087 &#39;https://www.youtube.com/watch?v=jNQXAC9IVRw&#39;</code></pre>
-<p>也可以把视频发送到播放器或者浏览器中，不要广告，</p>
-<pre><code> you-get -p vlc &#39;https://www.youtube.com/watch?v=jNQXAC9IVRw&#39;
- you-get -p chromium &#39;https://www.youtube.com/watch?v=jNQXAC9IVRw&#39;</code></pre>
+        <p>上期介绍了怎么用bibliometrix，但是我发现导师要求找的数据库是PubMed而新版的PubMed没有导出BibTex的功能，这可怎么办呢，我又求助万能的谷歌，鼓捣了半天，找到了两种方法～</p>
+<ul>
+<li><p>方法一：通过 Endnote 转换</p>
+</li>
+<li><p>方法二：通过 python 转换</p>
+</li>
+</ul>
+<p>这两种方法整体而言没有什么差别，只是看哪个用着更顺手而已，从bib文件就可以看出，由于PubMed本身的局限性，无论是哪种方法都没有办法做到Web of Science那种程度的信息量，WoS里面不仅会有每篇文章的基本信息，还会包括每篇参考文献、作者机构、国家等等，实际上只有这种等级的信息量才能够最大限度利用bibliometrix，因此还是推荐WoS进行分析。但既然都找到方法了，那就继续写完好啦，毕竟不然不就白瞎了嘛～</p>
+<h2 id="通过Endnote转换"><a href="#通过Endnote转换" class="headerlink" title="通过Endnote转换"></a>通过Endnote转换</h2><p>前提：</p>
+<ul>
+<li>安装最新版正版Endnote并新建一个Library</li>
+</ul>
+<p>方法：</p>
+<ol>
+<li><p>从PubMed找到所需文献</p>
+</li>
+<li><p>Send to - Citation Manager - All Results - Create Files</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmylfvf5qrj32800sudkw.jpg"></p>
+</li>
+<li><p>点击下载完毕的文档，用相应的Library打开</p>
+</li>
+<li><p>成功加进Endnote后导出</p>
+<p>File - Export - TXT - BibTex</p>
+<p>如果这里没有BibTex的选项，则需要手动添加——</p>
+<ol>
+<li><p>Tools - Output Styles - open style manager </p>
+</li>
+<li><p>找到 BibTex 并勾选</p>
+</li>
+<li><p>如果没有 BibTex 的选项，则点击 Get more on Web 并在弹出的网页搜索 BibTex</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmymdojgqpj31qs0u0du5.jpg"></p>
+</li>
+<li><p>点击 Download 下载并将下载好的文件放到 Endnote - Styles 文件夹里就有啦</p>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="通过-python-转换"><a href="#通过-python-转换" class="headerlink" title="通过 python 转换"></a>通过 python 转换</h2><p>前提：</p>
+<ul>
+<li>已有Python3和相应编程软件如Visual Code Studio</li>
+</ul>
+<p>方法：</p>
+<ol>
+<li><p>从PubMed下载所需文献的PMID导出</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmymee9oq6j320v0u0te1.jpg"></p>
+</li>
+<li><p>打开 terminal 用 pip 下载 <a target="_blank" rel="noopener" href="https://pypi.org/project/pubmed-bibtex/">pubmed_bibtex</a> 这个库可以将PMID转换为对应的BibTex信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 -m pip install pubmed-bibtex</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>新建python文件，读取下载的文档、转换并写入 bibtex</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pubmed_bibtex <span class="keyword">import</span> bibtex_entry_from_pmid</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打开文件</span></span><br><span class="line">inputFile = open(<span class="string">&quot;pmid-physicalac-set.txt&quot;</span>, <span class="string">&quot;r&quot;</span>) <span class="comment">#只有将下载的PMID文档放入python文件同一个文件夹才可以用相对路径 否则用绝对路径</span></span><br><span class="line">outputFile = open(<span class="string">&quot;output.txt&quot;</span>, <span class="string">&quot;w&quot;</span>)            <span class="comment">#新建输出文档</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> inputFile.readlines():                          <span class="comment">#依次读取每行  </span></span><br><span class="line">    line = line.strip()                             <span class="comment">#去掉每行头尾空白  </span></span><br><span class="line">    <span class="keyword">print</span> (<span class="string">&quot;读取的数据为: %s&quot;</span> % (line))							</span><br><span class="line">    bibMes = bibtex_entry_from_pmid(int(line))</span><br><span class="line">    print(bibMes)</span><br><span class="line">    outputFile.write(bibMes)                       <span class="comment">#写入输出文档</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭文件</span></span><br><span class="line">inputFile.close()</span><br><span class="line">outputFile.close()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>这个时候python文件所在文件夹里就应该有一个名为 output.txt 的文档，里面就是相对应的信息啦，把后缀改为.bib就可以放入 biblioshiny里啦。</p>
+<p>P.S. 只是因为这个库依托的是TexMed，所以转换速度会慢一些，如果量大的话可能得等一阵。</p>
+</li>
+</ol>
 
     </div>
 
@@ -278,8 +321,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/mac/" rel="tag"># mac</a>
-              <a href="/tags/downloader/" rel="tag"># downloader</a>
+              <a href="/tags/Research/" rel="tag"># Research</a>
           </div>
 
         
@@ -288,12 +330,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/09/08/mac-shortcut/" rel="prev" title="mac一些有用的快捷键（随时更新）">
-      <i class="fa fa-chevron-left"></i> mac一些有用的快捷键（随时更新）
+    <a href="/2021/01/24/bibliometrix/" rel="prev" title="如何使用bibliometrix进行文献综述准备">
+      <i class="fa fa-chevron-left"></i> 如何使用bibliometrix进行文献综述准备
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/10/19/mac-pip/" rel="next" title="mac pip 用法">
-      mac pip 用法 <i class="fa fa-chevron-right"></i>
+    <a href="/2021/01/24/python%20-%20file/" rel="next" title="python小菜鸟备忘录：怎么读取/写入文档">
+      python小菜鸟备忘录：怎么读取/写入文档 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -353,7 +395,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8"><span class="nav-number">2.</span> <span class="nav-text">使用</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%9A%E8%BF%87Endnote%E8%BD%AC%E6%8D%A2"><span class="nav-number">1.</span> <span class="nav-text">通过Endnote转换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%9A%E8%BF%87-python-%E8%BD%AC%E6%8D%A2"><span class="nav-number">2.</span> <span class="nav-text">通过 python 转换</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
