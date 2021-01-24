@@ -76,6 +76,93 @@ whitelephant     14893   0.0  0.0  5286740   1076   ??  Ss    3:47下午   0:00.
       </tags>
   </entry>
   <entry>
+    <title>如何使用bibliometrix进行文献综述准备</title>
+    <url>/2021/01/24/bibliometrix/</url>
+    <content><![CDATA[<p>怎么快速了解一个科研领域写文献综述？听说可以用bibliometrix。</p>
+<p>bibliometrix是一个R包，一般用来做文献计量，也可以用来在文献综述初期对一个领域进行一个整体的了解——这一领域主要的期刊是什么，主要作者是谁，高引用量的文献有什么，研究趋势和未来可能的研究热点是什么……</p>
+<h2 id="安装Bibliometrix"><a href="#安装Bibliometrix" class="headerlink" title="安装Bibliometrix"></a>安装Bibliometrix</h2><ol>
+<li><p>安装R和RStudio</p>
+</li>
+<li><p>安装bibliometrix</p>
+<p>打开RStudio，新建一个RScript并写入以下代码——</p>
+<figure class="highlight r"><table><tr><td class="code"><pre><span class="line">install.packages(<span class="string">&quot;bibliometrix&quot;</span>) </span><br><span class="line"><span class="keyword">library</span>(bibliometrix) </span><br><span class="line">biblioshiny()</span><br></pre></td></tr></table></figure>
+
+<p>运行然后RStudio就会自动安装bibliometrix包</p>
+<p>再次运行会自动弹出一个网页（如下图），就表示启动成功啦</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmy1hbg47nj31c00u0wpo.jpg"></p>
+</li>
+</ol>
+<h2 id="准备文献列表"><a href="#准备文献列表" class="headerlink" title="准备文献列表"></a>准备文献列表</h2><p>bibliometrix可以批量导入bibTex格式的文献列表，这里就以web of science为例演示一下如何生成文献列表。</p>
+<ol>
+<li><p>打开web of science页面，选择 web of science 核心数据库</p>
+</li>
+<li><p>输入所需要的关键词进行检索</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmy1l7k4yoj31c00u07gy.jpg"></p>
+</li>
+<li><p>导出为其他格式文件格式-全记录与引用的参考文献-bibTex</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmy1pdcweqj31c00u0h89.jpg"></p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmy1pjfrdrj31c00u0arn.jpg"></p>
+</li>
+<li><p>由于web of science一次只能导出500个，所以可以多导出几次。如果是多次导出的话就将所有的.bib文件压缩（因为bibliometrix一次只能import一个文件）。</p>
+</li>
+</ol>
+<h2 id="使用Bibliometrix"><a href="#使用Bibliometrix" class="headerlink" title="使用Bibliometrix"></a>使用Bibliometrix</h2><p>###导入数据</p>
+<ol>
+<li><p>选择Data - Import or Load Files</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmy1rec5afj31c00u015g.jpg"></p>
+</li>
+<li><p>选择 import raw files - 选择相应的数据库（Web of Science）- Choose File - Start</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmy1t5go98j318o0u043s.jpg"></p>
+</li>
+</ol>
+<h3 id="按需分析"><a href="#按需分析" class="headerlink" title="按需分析"></a>按需分析</h3><p>我将每个按钮的用法都解释一下，大家可以按需使用自己需要的。</p>
+<p>Filter：按照一定条件从导入的文档中进行筛选，如年份、文章类型等。</p>
+<p>Sources: 期刊分析，即导入的文档列表中最常收录该领域文章的期刊有哪些。</p>
+<p>Authors: 作者分析，即导入的文档列表中发表文章数量最多的作者、所属单位和国家是什么，其中可以分析每个作者随着时间变化发表的趋势等。</p>
+<p>Documents: 文章分析，即导入的文档列表中被引用数量最多的文献是哪一篇，以及根据摘要/关键词等绘出词云、近期的热点和未来的方向。值得说明的是 Global Cited 和 Local Cited 的区别，我的理解是Local Cited更像是领域内部互相的认可度，所以更加具有参考价值。</p>
+<p>Conceptual Structure - Thematic Map: 领域分析，即哪些方向更值得研究，越右上角越promising；以及不同方向之间的关联如何。</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://zhuanlan.zhihu.com/p/179176839">了解一个全新领域有没有什么更好的办法？</a></p>
+]]></content>
+      <categories>
+        <category>鼓捣文献</category>
+      </categories>
+      <tags>
+        <tag>R</tag>
+        <tag>Research</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>如何直接在chrome浏览器网页上高亮文本内容？</title>
+    <url>/2020/09/07/chrome-highlight/</url>
+    <content><![CDATA[<p>写东西的时候经常会在网页上看到一些有用的内容 但通常会打开好几个标签页好几千字 竟然在开始动笔的时候就找不到需要的那段话去哪儿了 经过一番寻找和对比（主要是对比Diigo和CollaMark），最终发现了 <a href="https://link.jianshu.com/?t=https://chrome.google.com/webstore/detail/pdf-markup-my-web-markups/cbjngbfjehiofmihfpodinolkcokdojp">Markup</a> 拓展是我想要的那一款！</p>
+<p>优势：</p>
+<ul>
+<li><p>标注后网页高亮</p>
+</li>
+<li><p>页面旁同时也有一个个内容标签</p>
+</li>
+<li><p>主页里留有标注的出处网址</p>
+</li>
+</ul>
+<p>方法：</p>
+<ol>
+<li><p>点击上面的链接 将markup加载自己的拓展里<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiaxny04yg30xc0h44nr.gif" alt="9808904-e43e1bdaa2048e9d"></p>
+</li>
+<li><p>进入markup官网注册<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiaxtbs4wg30xc0h4n1g.gif" alt="9808904-10285bc0ed9fae83"></p>
+</li>
+<li><p>注册之后进入 看到的这些内容都是其他人标注的内容 不用管这些 把它关掉 就可以愉快的开始标注啦<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiay0r90rg30xc0h4dm6.gif" alt="9808904-879b9225b7c3256e"></p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>pages</tag>
+        <tag>小技巧</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>如何直接在浏览器网页上高亮文本内容？(DIIGO)</title>
     <url>/2020/09/07/chrome-highlight-2/</url>
     <content><![CDATA[<p>之前我介绍了我比较喜欢的MarkUp 但后来发现Diigo功能更齐全 于是就想也写个Diigo版的 就酱 开始啦～</p>
@@ -107,39 +194,8 @@ whitelephant     14893   0.0  0.0  5286740   1076   ??  Ss    3:47下午   0:00.
         <category>鼓捣电脑</category>
       </categories>
       <tags>
+        <tag>小技巧</tag>
         <tag>chrome</tag>
-        <tag>小技巧</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>如何直接在chrome浏览器网页上高亮文本内容？</title>
-    <url>/2020/09/07/chrome-highlight/</url>
-    <content><![CDATA[<p>写东西的时候经常会在网页上看到一些有用的内容 但通常会打开好几个标签页好几千字 竟然在开始动笔的时候就找不到需要的那段话去哪儿了 经过一番寻找和对比（主要是对比Diigo和CollaMark），最终发现了 <a href="https://link.jianshu.com/?t=https://chrome.google.com/webstore/detail/pdf-markup-my-web-markups/cbjngbfjehiofmihfpodinolkcokdojp">Markup</a> 拓展是我想要的那一款！</p>
-<p>优势：</p>
-<ul>
-<li><p>标注后网页高亮</p>
-</li>
-<li><p>页面旁同时也有一个个内容标签</p>
-</li>
-<li><p>主页里留有标注的出处网址</p>
-</li>
-</ul>
-<p>方法：</p>
-<ol>
-<li><p>点击上面的链接 将markup加载自己的拓展里<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiaxny04yg30xc0h44nr.gif" alt="9808904-e43e1bdaa2048e9d"></p>
-</li>
-<li><p>进入markup官网注册<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiaxtbs4wg30xc0h4n1g.gif" alt="9808904-10285bc0ed9fae83"></p>
-</li>
-<li><p>注册之后进入 看到的这些内容都是其他人标注的内容 不用管这些 把它关掉 就可以愉快的开始标注啦<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiay0r90rg30xc0h4dm6.gif" alt="9808904-879b9225b7c3256e"></p>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>小技巧</tag>
-        <tag>pages</tag>
       </tags>
   </entry>
   <entry>
@@ -236,6 +292,36 @@ url: #填这里</code></pre>
       </categories>
       <tags>
         <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mac访达Finder中文件绝对路径怎么找</title>
+    <url>/2020/09/07/mac-path/</url>
+    <content><![CDATA[<p>最方便快捷的方式就是直接点击想知道路径的文件，然后按 option-command-c 就能自动复制到剪贴板啦，超easy！</p>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>mac</tag>
+        <tag>小技巧</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mac图片大小调整</title>
+    <url>/2020/09/08/mac-photo-sizing/</url>
+    <content><![CDATA[<p>有时某些网站会限制上传照片的大小（50K变到10K），或者需要调整照片的大小（2寸照片变成1寸），这些当然可以通过phtooshop简单做到，但是mac预览本身也提供了非常简单的方法可以进行修改。</p>
+<p>预览-工具-调整大小。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gijgkcz6yuj30zq0m44pj.jpg" alt="mac-photo-01"></p>
+<p>调到合适大小就可以啦，分辨率越低、图片大小越小，所占的Size也就越小啦。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gijgof6ohaj30zk0mc4qp.jpg" alt="mac-photo-02"></p>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>mac</tag>
+        <tag>小技巧</tag>
       </tags>
   </entry>
   <entry>
@@ -521,36 +607,6 @@ chmod 755 deploy.sh
       </tags>
   </entry>
   <entry>
-    <title>mac访达Finder中文件绝对路径怎么找</title>
-    <url>/2020/09/07/mac-path/</url>
-    <content><![CDATA[<p>最方便快捷的方式就是直接点击想知道路径的文件，然后按 option-command-c 就能自动复制到剪贴板啦，超easy！</p>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>mac</tag>
-        <tag>小技巧</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mac图片大小调整</title>
-    <url>/2020/09/08/mac-photo-sizing/</url>
-    <content><![CDATA[<p>有时某些网站会限制上传照片的大小（50K变到10K），或者需要调整照片的大小（2寸照片变成1寸），这些当然可以通过phtooshop简单做到，但是mac预览本身也提供了非常简单的方法可以进行修改。</p>
-<p>预览-工具-调整大小。</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gijgkcz6yuj30zq0m44pj.jpg" alt="mac-photo-01"></p>
-<p>调到合适大小就可以啦，分辨率越低、图片大小越小，所占的Size也就越小啦。</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gijgof6ohaj30zk0mc4qp.jpg" alt="mac-photo-02"></p>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>mac</tag>
-        <tag>小技巧</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>mac pip 用法</title>
     <url>/2020/10/19/mac-pip/</url>
     <content><![CDATA[<p>mac系统更新后，pip以前的命令似乎都不能用了。</p>
@@ -610,32 +666,6 @@ chmod 755 deploy.sh
       </tags>
   </entry>
   <entry>
-    <title>如何在 pages 里快速复制格式/格式刷？</title>
-    <url>/2020/09/07/pages-formatting/</url>
-    <content><![CDATA[<h1 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h1><p>快捷键：</p>
-<ul>
-<li><p>opt+command+c 复制格式</p>
-</li>
-<li><p>opt+command+v 粘贴格式</p>
-</li>
-</ul>
-<p>常规方法：</p>
-<ul>
-<li>pages标签栏-格式-拷贝样式/粘贴样式</li>
-</ul>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiao3q6cvj30ti0m40tz.jpg" alt="9808904-778c5800c618cf4c"></p>
-<h1 id="小栗子"><a href="#小栗子" class="headerlink" title="小栗子"></a>小栗子</h1><p>1.0版：<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiaoc2qskg30sf0kbwhv.gif" alt="9808904-d6799f3140157c59"></p>
-<p>2.0版<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiaovee63g30sf0kbabl.gif" alt="9808904-4812c80c61f8814c"></p>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>小技巧</tag>
-        <tag>pages</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Pages如何快速无格式粘贴粘贴</title>
     <url>/2020/09/07/pages-paste/</url>
     <content><![CDATA[<p>很多时候我们复制的文本都是带有格式的 可我们又不需要 粘贴过来再要改又好麻烦 那怎么破呢？</p>
@@ -653,8 +683,8 @@ chmod 755 deploy.sh
         <category>鼓捣电脑</category>
       </categories>
       <tags>
-        <tag>小技巧</tag>
         <tag>pages</tag>
+        <tag>小技巧</tag>
       </tags>
   </entry>
   <entry>
@@ -722,6 +752,32 @@ chmod 755 deploy.sh
       <tags>
         <tag>mac</tag>
         <tag>downloader</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>如何在 pages 里快速复制格式/格式刷？</title>
+    <url>/2020/09/07/pages-formatting/</url>
+    <content><![CDATA[<h1 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h1><p>快捷键：</p>
+<ul>
+<li><p>opt+command+c 复制格式</p>
+</li>
+<li><p>opt+command+v 粘贴格式</p>
+</li>
+</ul>
+<p>常规方法：</p>
+<ul>
+<li>pages标签栏-格式-拷贝样式/粘贴样式</li>
+</ul>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiao3q6cvj30ti0m40tz.jpg" alt="9808904-778c5800c618cf4c"></p>
+<h1 id="小栗子"><a href="#小栗子" class="headerlink" title="小栗子"></a>小栗子</h1><p>1.0版：<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiaoc2qskg30sf0kbwhv.gif" alt="9808904-d6799f3140157c59"></p>
+<p>2.0版<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiaovee63g30sf0kbabl.gif" alt="9808904-4812c80c61f8814c"></p>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>pages</tag>
+        <tag>小技巧</tag>
       </tags>
   </entry>
   <entry>
