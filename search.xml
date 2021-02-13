@@ -1,6 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>如何将PubMed导出BibTex并导入Bibliometrix</title>
+    <url>/2021/01/24/PubMed-Bibliometrix/</url>
+    <content><![CDATA[<p>上期介绍了怎么用bibliometrix，但是我发现导师要求找的数据库是PubMed而新版的PubMed没有导出BibTex的功能，这可怎么办呢，我又求助万能的谷歌，鼓捣了半天，找到了两种方法～</p>
+<ul>
+<li><p>方法一：通过 Endnote 转换</p>
+</li>
+<li><p>方法二：通过 python 转换</p>
+</li>
+</ul>
+<p>这两种方法整体而言没有什么差别，只是看哪个用着更顺手而已，从bib文件就可以看出，由于PubMed本身的局限性，无论是哪种方法都没有办法做到Web of Science那种程度的信息量，WoS里面不仅会有每篇文章的基本信息，还会包括每篇参考文献、作者机构、国家等等，实际上只有这种等级的信息量才能够最大限度利用bibliometrix，因此还是推荐WoS进行分析。但既然都找到方法了，那就继续写完好啦，毕竟不然不就白瞎了嘛～</p>
+<h2 id="通过Endnote转换"><a href="#通过Endnote转换" class="headerlink" title="通过Endnote转换"></a>通过Endnote转换</h2><p>前提：</p>
+<ul>
+<li>安装最新版正版Endnote并新建一个Library</li>
+</ul>
+<p>方法：</p>
+<ol>
+<li><p>从PubMed找到所需文献</p>
+</li>
+<li><p>Send to - Citation Manager - All Results - Create Files</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmylfvf5qrj32800sudkw.jpg"></p>
+</li>
+<li><p>点击下载完毕的文档，用相应的Library打开</p>
+</li>
+<li><p>成功加进Endnote后导出</p>
+<p>File - Export - TXT - BibTex</p>
+<p>如果这里没有BibTex的选项，则需要手动添加——</p>
+<ol>
+<li><p>Tools - Output Styles - open style manager </p>
+</li>
+<li><p>找到 BibTex 并勾选</p>
+</li>
+<li><p>如果没有 BibTex 的选项，则点击 Get more on Web 并在弹出的网页搜索 BibTex</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmymdojgqpj31qs0u0du5.jpg"></p>
+</li>
+<li><p>点击 Download 下载并将下载好的文件放到 Endnote - Styles 文件夹里就有啦</p>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="通过-python-转换"><a href="#通过-python-转换" class="headerlink" title="通过 python 转换"></a>通过 python 转换</h2><p>前提：</p>
+<ul>
+<li>已有Python3和相应编程软件如Visual Code Studio</li>
+</ul>
+<p>方法：</p>
+<ol>
+<li><p>从PubMed下载所需文献的PMID导出</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmymee9oq6j320v0u0te1.jpg"></p>
+</li>
+<li><p>打开 terminal 用 pip 下载 <a href="https://pypi.org/project/pubmed-bibtex/">pubmed_bibtex</a> 这个库可以将PMID转换为对应的BibTex信息</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">python3 -m pip install pubmed-bibtex</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>新建python文件，读取下载的文档、转换并写入 bibtex</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> pubmed_bibtex <span class="keyword">import</span> bibtex_entry_from_pmid</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打开文件</span></span><br><span class="line">inputFile = open(<span class="string">&quot;pmid-physicalac-set.txt&quot;</span>, <span class="string">&quot;r&quot;</span>) <span class="comment">#只有将下载的PMID文档放入python文件同一个文件夹才可以用相对路径 否则用绝对路径</span></span><br><span class="line">outputFile = open(<span class="string">&quot;output.txt&quot;</span>, <span class="string">&quot;w&quot;</span>)            <span class="comment">#新建输出文档</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> inputFile.readlines():                          <span class="comment">#依次读取每行  </span></span><br><span class="line">    line = line.strip()                             <span class="comment">#去掉每行头尾空白  </span></span><br><span class="line">    <span class="keyword">print</span> (<span class="string">&quot;读取的数据为: %s&quot;</span> % (line))							</span><br><span class="line">    bibMes = bibtex_entry_from_pmid(int(line))</span><br><span class="line">    print(bibMes)</span><br><span class="line">    outputFile.write(bibMes)                       <span class="comment">#写入输出文档</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭文件</span></span><br><span class="line">inputFile.close()</span><br><span class="line">outputFile.close()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>这个时候python文件所在文件夹里就应该有一个名为 output.txt 的文档，里面就是相对应的信息啦，把后缀改为.bib就可以放入 biblioshiny里啦。</p>
+<p>P.S. 只是因为这个库依托的是TexMed，所以转换速度会慢一些，如果量大的话可能得等一阵。</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>鼓捣文献</category>
+      </categories>
+      <tags>
+        <tag>Research</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>aria2安装+使用</title>
     <url>/2020/09/08/aria2/</url>
     <content><![CDATA[<p>好久之前下过 aria2, 不过很久没用，时间太久都已经忘了怎么用了，所以今天心血来潮又重新折腾了一番，</p>
@@ -76,42 +143,6 @@ whitelephant     14893   0.0  0.0  5286740   1076   ??  Ss    3:47下午   0:00.
       </tags>
   </entry>
   <entry>
-    <title>如何直接在浏览器网页上高亮文本内容？(DIIGO)</title>
-    <url>/2020/09/07/chrome-highlight-2/</url>
-    <content><![CDATA[<p>之前我介绍了我比较喜欢的MarkUp 但后来发现Diigo功能更齐全 于是就想也写个Diigo版的 就酱 开始啦～</p>
-<p>Diigo是一款chrome插件 可以在网页上高亮文本、进行笔记整理等。</p>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>点击Diigo拓展进行安装 然后进行注册/登陆</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibsq61mzg30xc0h4dzp.gif" alt="9808904-89a822a3a30c9b9f"></p>
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><p>▷高亮 方法1：</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibsqzou2g30xc0h4wg3.gif" alt="9808904-ab84e97db37bf854"></p>
-<p>▷整理高亮内容：</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibsucnb9g30xc0h4q7j.gif" alt="9808904-caaf8c575a8b6e02"></p>
-<p>▷视频截图&amp;整理</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibsyhai9g30xc0h4qv5.gif" alt="9808904-ac873d03b137beb8"></p>
-<p>▷高亮 方法2</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibsyyf0ag30xc0h4wg3.gif" alt="9808904-6714a76c289b63ae"></p>
-<p>▷在文本旁添加笔记</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibt0xaiwg30xc0h475h.gif" alt="9808904-75a0a28e231ebeef"></p>
-<p>▷在网页上添加笔记</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibt3mdxbg30xc0h4dig.gif" alt="9808904-012f92c3f27acf22"></p>
-<p>▷复制高亮内容</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibt5uk23g30xc0h4goh.gif" alt="9808904-c69e2dced99ea28b"></p>
-<p>▷ diigo会自动将高亮过的网页存储在个人的DIigo里以供之后使用 可以添加标签tag以便以后整理使用 也可以删除（删除会自动删除所有高亮内容）</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibta9mdmg30xc0h4q77.gif" alt="9808904-e44a1749895b6fcc"></p>
-<p>▷ 删除笔记</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibtdx29hg30xc0h475a.gif" alt="9808904-42eb60e0dcf363ce"></p>
-<p>▷ 删除高亮</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibti1a45g30xc0h4q3u.gif" alt="9808904-1dd8c563005beaff"></p>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>chrome</tag>
-        <tag>小技巧</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>如何使用bibliometrix进行文献综述准备</title>
     <url>/2021/01/24/bibliometrix/</url>
     <content><![CDATA[<p>怎么快速了解一个科研领域写文献综述？听说可以用bibliometrix。</p>
@@ -162,75 +193,8 @@ whitelephant     14893   0.0  0.0  5286740   1076   ??  Ss    3:47下午   0:00.
         <category>鼓捣文献</category>
       </categories>
       <tags>
+        <tag>Research</tag>
         <tag>R</tag>
-        <tag>Research</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>如何将PubMed导出BibTex并导入Bibliometrix</title>
-    <url>/2021/01/24/PubMed-Bibliometrix/</url>
-    <content><![CDATA[<p>上期介绍了怎么用bibliometrix，但是我发现导师要求找的数据库是PubMed而新版的PubMed没有导出BibTex的功能，这可怎么办呢，我又求助万能的谷歌，鼓捣了半天，找到了两种方法～</p>
-<ul>
-<li><p>方法一：通过 Endnote 转换</p>
-</li>
-<li><p>方法二：通过 python 转换</p>
-</li>
-</ul>
-<p>这两种方法整体而言没有什么差别，只是看哪个用着更顺手而已，从bib文件就可以看出，由于PubMed本身的局限性，无论是哪种方法都没有办法做到Web of Science那种程度的信息量，WoS里面不仅会有每篇文章的基本信息，还会包括每篇参考文献、作者机构、国家等等，实际上只有这种等级的信息量才能够最大限度利用bibliometrix，因此还是推荐WoS进行分析。但既然都找到方法了，那就继续写完好啦，毕竟不然不就白瞎了嘛～</p>
-<h2 id="通过Endnote转换"><a href="#通过Endnote转换" class="headerlink" title="通过Endnote转换"></a>通过Endnote转换</h2><p>前提：</p>
-<ul>
-<li>安装最新版正版Endnote并新建一个Library</li>
-</ul>
-<p>方法：</p>
-<ol>
-<li><p>从PubMed找到所需文献</p>
-</li>
-<li><p>Send to - Citation Manager - All Results - Create Files</p>
-<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmylfvf5qrj32800sudkw.jpg"></p>
-</li>
-<li><p>点击下载完毕的文档，用相应的Library打开</p>
-</li>
-<li><p>成功加进Endnote后导出</p>
-<p>File - Export - TXT - BibTex</p>
-<p>如果这里没有BibTex的选项，则需要手动添加——</p>
-<ol>
-<li><p>Tools - Output Styles - open style manager </p>
-</li>
-<li><p>找到 BibTex 并勾选</p>
-</li>
-<li><p>如果没有 BibTex 的选项，则点击 Get more on Web 并在弹出的网页搜索 BibTex</p>
-<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmymdojgqpj31qs0u0du5.jpg"></p>
-</li>
-<li><p>点击 Download 下载并将下载好的文件放到 Endnote - Styles 文件夹里就有啦</p>
-</li>
-</ol>
-</li>
-</ol>
-<h2 id="通过-python-转换"><a href="#通过-python-转换" class="headerlink" title="通过 python 转换"></a>通过 python 转换</h2><p>前提：</p>
-<ul>
-<li>已有Python3和相应编程软件如Visual Code Studio</li>
-</ul>
-<p>方法：</p>
-<ol>
-<li><p>从PubMed下载所需文献的PMID导出</p>
-<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmymee9oq6j320v0u0te1.jpg"></p>
-</li>
-<li><p>打开 terminal 用 pip 下载 <a href="https://pypi.org/project/pubmed-bibtex/">pubmed_bibtex</a> 这个库可以将PMID转换为对应的BibTex信息</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">python3 -m pip install pubmed-bibtex</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>新建python文件，读取下载的文档、转换并写入 bibtex</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> pubmed_bibtex <span class="keyword">import</span> bibtex_entry_from_pmid</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打开文件</span></span><br><span class="line">inputFile = open(<span class="string">&quot;pmid-physicalac-set.txt&quot;</span>, <span class="string">&quot;r&quot;</span>) <span class="comment">#只有将下载的PMID文档放入python文件同一个文件夹才可以用相对路径 否则用绝对路径</span></span><br><span class="line">outputFile = open(<span class="string">&quot;output.txt&quot;</span>, <span class="string">&quot;w&quot;</span>)            <span class="comment">#新建输出文档</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> inputFile.readlines():                          <span class="comment">#依次读取每行  </span></span><br><span class="line">    line = line.strip()                             <span class="comment">#去掉每行头尾空白  </span></span><br><span class="line">    <span class="keyword">print</span> (<span class="string">&quot;读取的数据为: %s&quot;</span> % (line))							</span><br><span class="line">    bibMes = bibtex_entry_from_pmid(int(line))</span><br><span class="line">    print(bibMes)</span><br><span class="line">    outputFile.write(bibMes)                       <span class="comment">#写入输出文档</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭文件</span></span><br><span class="line">inputFile.close()</span><br><span class="line">outputFile.close()</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>这个时候python文件所在文件夹里就应该有一个名为 output.txt 的文档，里面就是相对应的信息啦，把后缀改为.bib就可以放入 biblioshiny里啦。</p>
-<p>P.S. 只是因为这个库依托的是TexMed，所以转换速度会慢一些，如果量大的话可能得等一阵。</p>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>鼓捣文献</category>
-      </categories>
-      <tags>
-        <tag>Research</tag>
       </tags>
   </entry>
   <entry>
@@ -260,8 +224,44 @@ whitelephant     14893   0.0  0.0  5286740   1076   ??  Ss    3:47下午   0:00.
         <category>鼓捣电脑</category>
       </categories>
       <tags>
-        <tag>小技巧</tag>
         <tag>pages</tag>
+        <tag>小技巧</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>如何直接在浏览器网页上高亮文本内容？(DIIGO)</title>
+    <url>/2020/09/07/chrome-highlight-2/</url>
+    <content><![CDATA[<p>之前我介绍了我比较喜欢的MarkUp 但后来发现Diigo功能更齐全 于是就想也写个Diigo版的 就酱 开始啦～</p>
+<p>Diigo是一款chrome插件 可以在网页上高亮文本、进行笔记整理等。</p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>点击Diigo拓展进行安装 然后进行注册/登陆</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibsq61mzg30xc0h4dzp.gif" alt="9808904-89a822a3a30c9b9f"></p>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><p>▷高亮 方法1：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibsqzou2g30xc0h4wg3.gif" alt="9808904-ab84e97db37bf854"></p>
+<p>▷整理高亮内容：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibsucnb9g30xc0h4q7j.gif" alt="9808904-caaf8c575a8b6e02"></p>
+<p>▷视频截图&amp;整理</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibsyhai9g30xc0h4qv5.gif" alt="9808904-ac873d03b137beb8"></p>
+<p>▷高亮 方法2</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibsyyf0ag30xc0h4wg3.gif" alt="9808904-6714a76c289b63ae"></p>
+<p>▷在文本旁添加笔记</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibt0xaiwg30xc0h475h.gif" alt="9808904-75a0a28e231ebeef"></p>
+<p>▷在网页上添加笔记</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibt3mdxbg30xc0h4dig.gif" alt="9808904-012f92c3f27acf22"></p>
+<p>▷复制高亮内容</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibt5uk23g30xc0h4goh.gif" alt="9808904-c69e2dced99ea28b"></p>
+<p>▷ diigo会自动将高亮过的网页存储在个人的DIigo里以供之后使用 可以添加标签tag以便以后整理使用 也可以删除（删除会自动删除所有高亮内容）</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibta9mdmg30xc0h4q77.gif" alt="9808904-e44a1749895b6fcc"></p>
+<p>▷ 删除笔记</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibtdx29hg30xc0h475a.gif" alt="9808904-42eb60e0dcf363ce"></p>
+<p>▷ 删除高亮</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibti1a45g30xc0h4q3u.gif" alt="9808904-1dd8c563005beaff"></p>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>小技巧</tag>
+        <tag>chrome</tag>
       </tags>
   </entry>
   <entry>
@@ -269,214 +269,6 @@ whitelephant     14893   0.0  0.0  5286740   1076   ??  Ss    3:47下午   0:00.
     <url>/2020/09/05/hello-world/</url>
     <content><![CDATA[<p>作为一个只学过一点python的小白，终于！经过两天的倒腾，终于搞定了这个个人网页！呱唧呱唧喜大普奔！</p>
 ]]></content>
-  </entry>
-  <entry>
-    <title>Hexo 优化 II</title>
-    <url>/2020/09/07/hexo-2/</url>
-    <content><![CDATA[<h1 id="标签页"><a href="#标签页" class="headerlink" title="标签页"></a>标签页</h1><p>我来打脸了，用了两天突然发现 tags 还是挺实用的，所以又来设置标签页了……</p>
-<p>增加标签页面，会生成一个 source/tags/index.md 文件。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo new page tags</span><br></pre></td></tr></table></figure>
-
-<p>打开后在title下面增加两行。</p>
-<pre><code>type: tags
-comments: false</code></pre>
-<p>然后在主题的 _config.yml 文件里，在menu里打开tags就可以啦。</p>
-<pre><code>tags: /tags/ || fa fa-tags</code></pre>
-<h1 id="阅读全文"><a href="#阅读全文" class="headerlink" title="阅读全文"></a>阅读全文</h1><p>原来 Next 的老版本中能够自动节选文章开头作为摘录放到首页，然后有点击阅读更多的按钮，但是在最新版本中 Hexo 的开发者们把这个功能去掉了，所以现在如果想节选摘录的话主要有两种方法。</p>
-<h2 id="1-手动分割"><a href="#1-手动分割" class="headerlink" title="1. 手动分割"></a>1. 手动分割</h2><p>这是 Hexo 内置的方式，在每篇文章想要截取的位置写入一下代码，之后首页就会自动截取。</p>
-<pre><code>&lt;!-- more --&gt;</code></pre>
-<h2 id="2-安装插件"><a href="#2-安装插件" class="headerlink" title="2. 安装插件"></a>2. 安装插件</h2><p>向我这种懒人，实在是懒得每篇都加，写着写着很可能忘了不说，看着自己写的我总是拿不准要在哪里截比较好，好像哪里都怪怪的，还是觉着这种事交给机器做比较好。</p>
-<p>安装插件。</p>
-<pre><code>npm install hexo-excerpt --save    </code></pre>
-<p>然后就可以了，不过我自己觉着默认的摘录还是内容有点多，想改一下设置，就去 Hexo Program 的_config.yml 里加了两行。</p>
-<pre><code>excerpt:
-  depth: 5 #截取的数量 默认是10
-  excerpt_excludes: []
-  more_excludes: []
-  hideWholePostExcerpts: true</code></pre>
-<h1 id="更改字体"><a href="#更改字体" class="headerlink" title="更改字体"></a>更改字体</h1><p>更改字体</p>
-<p>Hexo Next 毕竟是以英文为主进行开发的，对中文字体的挑选肯定就没有英文那么好，所以我就想自己修改一下字体。</p>
-<p>进入主题的_config.yml 配置文件，找到 fonts 部分把字体部分功能打开。</p>
-<pre><code>font:
-  enable: true</code></pre>
-<p>进行修改，可以自己在 Google Fonts 里找到喜欢的字体，然后加到想改的部分（标题、正文、全局……）</p>
-<pre><code>global: #修改全局字体
-  external: true
-  family: Noto Serif SC
-  size:
-
-title: #修改标题字体
-  external: true
-  family: 
-  size:
-
-headings: #修改文章里的小标题字体
-  external: true
-  family: Noto Serif SC
-  size:
-
-posts: #修改文章内容
-  external: true
-  family:
-
-codes: #修改代码块字体
-  external: true
-  family:</code></pre>
-<h1 id="添加阅读量统计和评论功能"><a href="#添加阅读量统计和评论功能" class="headerlink" title="添加阅读量统计和评论功能"></a>添加阅读量统计和评论功能</h1><p>Next 里提供了两种阅读量统计的功能——valine 和 LeanCloud，但是实际上两个都是依托于 LeanCloud，所以我们首先需要注册 <a href="https://www.leancloud.cn/">LeanCloud</a> 账户，注册后创建应用，</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gii9htwgh2j31fe0sm0xj.jpg" alt="valine-01"></p>
-<p>创建应用后进入应用，分别创建名为 Comment 和 Counter 的两个 class。</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gii9xd5e83j319w0u0do5.jpg" alt="valine-02"></p>
-<p>创建后，进入 设置-应用Keys，记下来 AppID 和 APPKey，填入主题的_config.yml 相应的位置。</p>
-<pre><code>valine:
-  enable: true #打开
-  appid: # 填入appid
-  appkey: # 填入appkey
-  placeholder: Just go go #默认评论栏里是什么字
-  language: zh-cn # 设置一下语言
-  visitor: true # 打开
-  comment_count: true #打开阅读次数技术</code></pre>
-<p>打开 <a href="https://www.jsdelivr.com/package/npm/valine">valine</a> 网页，找到最新版的地址。</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gii9pzkjkaj31pb0u0n4x.jpg" alt="valine-03"></p>
-<p>填写进主题的_config.yml 相应位置。</p>
-<pre><code># Valine
-  # valine: //cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js
-  # valine: //cdnjs.cloudflare.com/ajax/libs/valine/1.3.10/Valine.min.js
-  valine: https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js</code></pre>
-<p>进入 Hexo 的_config.yml ，URL一栏填入你的网站地址。</p>
-<pre><code># URL
-## If your site is put in a subdirectory, set url as &#39;http://example.com/child&#39; and root as &#39;/child/&#39;
-url: #填这里</code></pre>
-<p>现在已经基本大功告成啦，但是现在评论那里显示的是「valine:0」而不是「评论数：0」，需要我们手动更改一下。</p>
-<p>进入 themes/next/languages/zh-CN.yml，在post下面添加一行：</p>
-<pre><code>comments.valine: 评论数</code></pre>
-<p>就可以啦。</p>
-<p>对了，开启评论之后默认的是所有文章都会开启，想不开启的话（比如分类页和标签页的index）要在文章最开头写title的那里写上。</p>
-<pre><code>comments: false</code></pre>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hexo-Academia 配置</title>
-    <url>/2020/09/07/hexo-academia/</url>
-    <content><![CDATA[<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><ul>
-<li><p>一个已经搭建在Github Pages上的Hexo网站</p>
-<p>如果没有的话可以按照<a href="https://whitelephantee.github.io/2020/09/05/hexo-building/">这个链接</a>里进行搭建。</p>
-</li>
-<li><p>git 和 npm</p>
-</li>
-</ul>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>下载配置文件。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/PhosphorW/hexo-theme-academia.git themes/Academia</span><br></pre></td></tr></table></figure>
-
-<p>下载需要的插件。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install hexo-renderer-pug hexo-renderer-stylus</span><br></pre></td></tr></table></figure>
-
-<p>在项目的 _config.yml 中找到 theme 一栏并进行更改。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install hexo-renderer-pug hexo-renderer-stylus</span><br></pre></td></tr></table></figure>
-
-<p>##主题配置</p>
-<p>打开 themes 的 _config.yml（注意不是 hexo project 的 _config.yml ）</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">open _config.yml</span><br></pre></td></tr></table></figure>
-
-<p>个人信息配置。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">author: <span class="comment">#个人姓名</span></span><br><span class="line">author_bio: <span class="comment">#个人简介</span></span><br><span class="line">avatar: /img/avatar.jpg <span class="comment">#个人头像 默认是小灰人 可以通过在/themes/Academia/source/img/avatar.jpg 替换添加</span></span><br><span class="line"><span class="comment"># if author sets in hexo_config, this string doesn&#x27;t work</span></span><br></pre></td></tr></table></figure>
-
-<p>顶部菜单栏设置，默认提供 Publications，About 和 Blog，可以页内跳转也可以添加外链</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">menu:</span><br><span class="line">  Publications: /<span class="comment">#Publications #页内跳转</span></span><br><span class="line">  About: /</span><br><span class="line">  Blog: https://phower.me <span class="comment">#添加外链</span></span><br></pre></td></tr></table></figure>
-
-<p>添加社交信息，附带小图标，不需要的或不想展示的可以注释掉，或者直接关掉。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">social:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span> <span class="comment">#不想展示可以关掉</span></span><br><span class="line">social_links:</span><br><span class="line">  fab fa-twitter: /</span><br><span class="line">  fab fa-facebook-square: /</span><br><span class="line">  fab fa-github: /</span><br><span class="line">  fab fa-stack-overflow: /</span><br><span class="line">  fab fa-linkedin: /</span><br><span class="line">  fab fa-weibo: /</span><br><span class="line">  fab fa-weixin: /</span><br><span class="line">  fab fa-qq: /</span><br><span class="line">  fas fa-envelope: / <span class="comment">#E-mail</span></span><br><span class="line">  fas fa-rss: /  <span class="comment">#rss</span></span><br><span class="line">  </span><br><span class="line">e_social:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span> <span class="comment">#额外社交链接</span></span><br><span class="line">e_social_links:</span><br><span class="line">  Google Scholar: / || fas fa-graduation-cap</span><br><span class="line">  ORCID: / || fab fa-orcid</span><br></pre></td></tr></table></figure>
-
-<p>可以添加个人简历，可以通过在/themes/Academia/source/attaches/CV.pdf 替换添加。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cv_dl:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span></span><br><span class="line">  dir: /attaches/CV.pdf</span><br><span class="line">  description: My Detail CV.</span><br></pre></td></tr></table></figure>
-
-<h1 id="编辑主页"><a href="#编辑主页" class="headerlink" title="编辑主页"></a>编辑主页</h1><p>新建文章。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo n post <span class="string">&quot;any title&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>去到 hexo project 的/source/_posts 中就能找到名称相同的 markdown 文档，里面有几行内容。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: Public <span class="comment">#标题</span></span><br><span class="line">date: 2020-09-07 15:45:51 <span class="comment">#创建日期</span></span><br><span class="line">tags: <span class="comment">#标签 在 Academia 风格下不提供标签 所以无效</span></span><br><span class="line">---</span><br></pre></td></tr></table></figure>
-
-<p>在文首加上 academia: true，才会被 academia 显示出来。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: Public <span class="comment">#标题</span></span><br><span class="line">date: 2020-09-07 15:45:51 <span class="comment">#创建日期</span></span><br><span class="line">tags: <span class="comment">#标签 在 Academia 风格下不提供标签 所以无效</span></span><br><span class="line">academia: <span class="literal">true</span></span><br><span class="line">---</span><br></pre></td></tr></table></figure>
-
-<p>然后就可以在上面写想写的内容啦。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: Public <span class="comment">#标题</span></span><br><span class="line">date: 2020-09-07 15:45:51 <span class="comment">#创建日期</span></span><br><span class="line">tags: <span class="comment">#标签 在 Academia 风格下不提供标签 所以无效</span></span><br><span class="line">academia: <span class="literal">true</span></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">在这里用 markdown 语法写任意想写的内容。</span><br></pre></td></tr></table></figure>
-
-<h1 id="编辑其他页"><a href="#编辑其他页" class="headerlink" title="编辑其他页"></a>编辑其他页</h1><p>我这里以 Publications 页为例。现在只在标题栏中有  Publications，但是实际后段文档中并没有，所以我们需要先添加一下。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo n post <span class="string">&quot;Publications&quot;</span>  </span><br></pre></td></tr></table></figure>
-
-<p>然后系统就会在/source 里新增一个同名文件夹，同时文件夹里有一个 index.md. 直接打开然后和之前一样编辑就好啦。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /<span class="built_in">source</span>/Publications</span><br><span class="line">open index.md</span><br></pre></td></tr></table></figure>
-
-<p>编辑完成之后要在 Academia 的  _config.yml 文件中链接一下。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">menu:</span><br><span class="line">  Publications: /Publications</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mac访达Finder中文件绝对路径怎么找</title>
-    <url>/2020/09/07/mac-path/</url>
-    <content><![CDATA[<p>最方便快捷的方式就是直接点击想知道路径的文件，然后按 option-command-c 就能自动复制到剪贴板啦，超easy！</p>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>mac</tag>
-        <tag>小技巧</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mac图片大小调整</title>
-    <url>/2020/09/08/mac-photo-sizing/</url>
-    <content><![CDATA[<p>有时某些网站会限制上传照片的大小（50K变到10K），或者需要调整照片的大小（2寸照片变成1寸），这些当然可以通过phtooshop简单做到，但是mac预览本身也提供了非常简单的方法可以进行修改。</p>
-<p>预览-工具-调整大小。</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gijgkcz6yuj30zq0m44pj.jpg" alt="mac-photo-01"></p>
-<p>调到合适大小就可以啦，分辨率越低、图片大小越小，所占的Size也就越小啦。</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gijgof6ohaj30zk0mc4qp.jpg" alt="mac-photo-02"></p>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>mac</tag>
-        <tag>小技巧</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mac pip 用法</title>
-    <url>/2020/10/19/mac-pip/</url>
-    <content><![CDATA[<p>mac系统更新后，pip以前的命令似乎都不能用了。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pip install requests</span><br><span class="line"></span><br><span class="line">Traceback (most recent call last):</span><br><span class="line"></span><br><span class="line"> File <span class="string">&quot;/usr/local/bin/pip&quot;</span>, line 6, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line"></span><br><span class="line">  from pip._internal.cli.main import main</span><br><span class="line"></span><br><span class="line">ModuleNotFoundError: No module named <span class="string">&#x27;pip._internal.cli.main&#x27;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>我查阅了资料后发现，现在pip在mac上的用法更改了。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">python3 -m pip install requests</span><br></pre></td></tr></table></figure>
-
-<p>这样就可以啦！</p>
-<p>然后pip更新的话是——</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;usr&#x2F;local&#x2F;opt&#x2F;python&#x2F;bin&#x2F;python3.7 -m pip install --upgrade pip</span><br></pre></td></tr></table></figure>
-
-<p>附上更多用法清单</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Usage:   </span><br><span class="line">  /usr/<span class="built_in">local</span>/opt/python/bin/python3.7 -m pip &lt;<span class="built_in">command</span>&gt; [options]</span><br><span class="line"></span><br><span class="line">Commands:</span><br><span class="line">  install                     Install packages.</span><br><span class="line">  download                    Download packages.</span><br><span class="line">  uninstall                   Uninstall packages.</span><br><span class="line">  freeze                      Output installed packages <span class="keyword">in</span> requirements format.</span><br><span class="line">  list                        List installed packages.</span><br><span class="line">  show                        Show information about installed packages.</span><br><span class="line">  check                       Verify installed packages have compatible dependencies.</span><br><span class="line">  config                      Manage <span class="built_in">local</span> and global configuration.</span><br><span class="line">  search                      Search PyPI <span class="keyword">for</span> packages.</span><br><span class="line">  cache                       Inspect and manage pip<span class="string">&#x27;s wheel cache.</span></span><br><span class="line"><span class="string">  wheel                       Build wheels from your requirements.</span></span><br><span class="line"><span class="string">  hash                        Compute hashes of package archives.</span></span><br><span class="line"><span class="string">  completion                  A helper command used for command completion.</span></span><br><span class="line"><span class="string">  debug                       Show information useful for debugging.</span></span><br><span class="line"><span class="string">  help                        Show help for commands.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">General Options:</span></span><br><span class="line"><span class="string">  -h, --help                  Show help.</span></span><br><span class="line"><span class="string">  --isolated                  Run pip in an isolated mode, ignoring environment variables and user configuration.</span></span><br><span class="line"><span class="string">  -v, --verbose               Give more output. Option is additive, and can be used up to 3 times.</span></span><br><span class="line"><span class="string">  -V, --version               Show version and exit.</span></span><br><span class="line"><span class="string">  -q, --quiet                 Give less output. Option is additive, and can be used up to 3 times (corresponding to WARNING, ERROR, and CRITICAL logging levels).</span></span><br><span class="line"><span class="string">  --log &lt;path&gt;                Path to a verbose appending log.</span></span><br><span class="line"><span class="string">  --proxy &lt;proxy&gt;             Specify a proxy in the form [user:passwd@]proxy.server:port.</span></span><br><span class="line"><span class="string">  --retries &lt;retries&gt;         Maximum number of retries each connection should attempt (default 5 times).</span></span><br><span class="line"><span class="string">  --timeout &lt;sec&gt;             Set the socket timeout (default 15 seconds).</span></span><br><span class="line"><span class="string">  --exists-action &lt;action&gt;    Default action when a path already exists: (s)witch, (i)gnore, (w)ipe, (b)ackup, (a)bort.</span></span><br><span class="line"><span class="string">  --trusted-host &lt;hostname&gt;   Mark this host or host:port pair as trusted, even though it does not have valid or any HTTPS.</span></span><br><span class="line"><span class="string">  --cert &lt;path&gt;               Path to alternate CA bundle.</span></span><br><span class="line"><span class="string">  --client-cert &lt;path&gt;        Path to SSL client certificate, a single file containing the private key and the certificate in PEM format.</span></span><br><span class="line"><span class="string">  --cache-dir &lt;dir&gt;           Store the cache data in &lt;dir&gt;.</span></span><br><span class="line"><span class="string">  --no-cache-dir              Disable the cache.</span></span><br><span class="line"><span class="string">  --disable-pip-version-check</span></span><br><span class="line"><span class="string">                              Don&#x27;</span>t periodically check PyPI to determine whether a new version of pip is available <span class="keyword">for</span> download. Implied with --no-index.</span><br><span class="line">  --no-color                  Suppress colored output</span><br><span class="line">  --no-python-version-warning</span><br><span class="line">                              Silence deprecation warnings <span class="keyword">for</span> upcoming unsupported Pythons.</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>mac</tag>
-      </tags>
   </entry>
   <entry>
     <title>Hexo + Github Pages 搭建个人网站</title>
@@ -697,6 +489,214 @@ chmod 755 deploy.sh
       </tags>
   </entry>
   <entry>
+    <title>Hexo-Academia 配置</title>
+    <url>/2020/09/07/hexo-academia/</url>
+    <content><![CDATA[<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><ul>
+<li><p>一个已经搭建在Github Pages上的Hexo网站</p>
+<p>如果没有的话可以按照<a href="https://whitelephantee.github.io/2020/09/05/hexo-building/">这个链接</a>里进行搭建。</p>
+</li>
+<li><p>git 和 npm</p>
+</li>
+</ul>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>下载配置文件。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/PhosphorW/hexo-theme-academia.git themes/Academia</span><br></pre></td></tr></table></figure>
+
+<p>下载需要的插件。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install hexo-renderer-pug hexo-renderer-stylus</span><br></pre></td></tr></table></figure>
+
+<p>在项目的 _config.yml 中找到 theme 一栏并进行更改。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install hexo-renderer-pug hexo-renderer-stylus</span><br></pre></td></tr></table></figure>
+
+<p>##主题配置</p>
+<p>打开 themes 的 _config.yml（注意不是 hexo project 的 _config.yml ）</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">open _config.yml</span><br></pre></td></tr></table></figure>
+
+<p>个人信息配置。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">author: <span class="comment">#个人姓名</span></span><br><span class="line">author_bio: <span class="comment">#个人简介</span></span><br><span class="line">avatar: /img/avatar.jpg <span class="comment">#个人头像 默认是小灰人 可以通过在/themes/Academia/source/img/avatar.jpg 替换添加</span></span><br><span class="line"><span class="comment"># if author sets in hexo_config, this string doesn&#x27;t work</span></span><br></pre></td></tr></table></figure>
+
+<p>顶部菜单栏设置，默认提供 Publications，About 和 Blog，可以页内跳转也可以添加外链</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">menu:</span><br><span class="line">  Publications: /<span class="comment">#Publications #页内跳转</span></span><br><span class="line">  About: /</span><br><span class="line">  Blog: https://phower.me <span class="comment">#添加外链</span></span><br></pre></td></tr></table></figure>
+
+<p>添加社交信息，附带小图标，不需要的或不想展示的可以注释掉，或者直接关掉。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">social:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span> <span class="comment">#不想展示可以关掉</span></span><br><span class="line">social_links:</span><br><span class="line">  fab fa-twitter: /</span><br><span class="line">  fab fa-facebook-square: /</span><br><span class="line">  fab fa-github: /</span><br><span class="line">  fab fa-stack-overflow: /</span><br><span class="line">  fab fa-linkedin: /</span><br><span class="line">  fab fa-weibo: /</span><br><span class="line">  fab fa-weixin: /</span><br><span class="line">  fab fa-qq: /</span><br><span class="line">  fas fa-envelope: / <span class="comment">#E-mail</span></span><br><span class="line">  fas fa-rss: /  <span class="comment">#rss</span></span><br><span class="line">  </span><br><span class="line">e_social:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span> <span class="comment">#额外社交链接</span></span><br><span class="line">e_social_links:</span><br><span class="line">  Google Scholar: / || fas fa-graduation-cap</span><br><span class="line">  ORCID: / || fab fa-orcid</span><br></pre></td></tr></table></figure>
+
+<p>可以添加个人简历，可以通过在/themes/Academia/source/attaches/CV.pdf 替换添加。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cv_dl:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span></span><br><span class="line">  dir: /attaches/CV.pdf</span><br><span class="line">  description: My Detail CV.</span><br></pre></td></tr></table></figure>
+
+<h1 id="编辑主页"><a href="#编辑主页" class="headerlink" title="编辑主页"></a>编辑主页</h1><p>新建文章。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo n post <span class="string">&quot;any title&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>去到 hexo project 的/source/_posts 中就能找到名称相同的 markdown 文档，里面有几行内容。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: Public <span class="comment">#标题</span></span><br><span class="line">date: 2020-09-07 15:45:51 <span class="comment">#创建日期</span></span><br><span class="line">tags: <span class="comment">#标签 在 Academia 风格下不提供标签 所以无效</span></span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+
+<p>在文首加上 academia: true，才会被 academia 显示出来。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: Public <span class="comment">#标题</span></span><br><span class="line">date: 2020-09-07 15:45:51 <span class="comment">#创建日期</span></span><br><span class="line">tags: <span class="comment">#标签 在 Academia 风格下不提供标签 所以无效</span></span><br><span class="line">academia: <span class="literal">true</span></span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+
+<p>然后就可以在上面写想写的内容啦。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: Public <span class="comment">#标题</span></span><br><span class="line">date: 2020-09-07 15:45:51 <span class="comment">#创建日期</span></span><br><span class="line">tags: <span class="comment">#标签 在 Academia 风格下不提供标签 所以无效</span></span><br><span class="line">academia: <span class="literal">true</span></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">在这里用 markdown 语法写任意想写的内容。</span><br></pre></td></tr></table></figure>
+
+<h1 id="编辑其他页"><a href="#编辑其他页" class="headerlink" title="编辑其他页"></a>编辑其他页</h1><p>我这里以 Publications 页为例。现在只在标题栏中有  Publications，但是实际后段文档中并没有，所以我们需要先添加一下。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo n post <span class="string">&quot;Publications&quot;</span>  </span><br></pre></td></tr></table></figure>
+
+<p>然后系统就会在/source 里新增一个同名文件夹，同时文件夹里有一个 index.md. 直接打开然后和之前一样编辑就好啦。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /<span class="built_in">source</span>/Publications</span><br><span class="line">open index.md</span><br></pre></td></tr></table></figure>
+
+<p>编辑完成之后要在 Academia 的  _config.yml 文件中链接一下。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">menu:</span><br><span class="line">  Publications: /Publications</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hexo 优化 II</title>
+    <url>/2020/09/07/hexo-2/</url>
+    <content><![CDATA[<h1 id="标签页"><a href="#标签页" class="headerlink" title="标签页"></a>标签页</h1><p>我来打脸了，用了两天突然发现 tags 还是挺实用的，所以又来设置标签页了……</p>
+<p>增加标签页面，会生成一个 source/tags/index.md 文件。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo new page tags</span><br></pre></td></tr></table></figure>
+
+<p>打开后在title下面增加两行。</p>
+<pre><code>type: tags
+comments: false</code></pre>
+<p>然后在主题的 _config.yml 文件里，在menu里打开tags就可以啦。</p>
+<pre><code>tags: /tags/ || fa fa-tags</code></pre>
+<h1 id="阅读全文"><a href="#阅读全文" class="headerlink" title="阅读全文"></a>阅读全文</h1><p>原来 Next 的老版本中能够自动节选文章开头作为摘录放到首页，然后有点击阅读更多的按钮，但是在最新版本中 Hexo 的开发者们把这个功能去掉了，所以现在如果想节选摘录的话主要有两种方法。</p>
+<h2 id="1-手动分割"><a href="#1-手动分割" class="headerlink" title="1. 手动分割"></a>1. 手动分割</h2><p>这是 Hexo 内置的方式，在每篇文章想要截取的位置写入一下代码，之后首页就会自动截取。</p>
+<pre><code>&lt;!-- more --&gt;</code></pre>
+<h2 id="2-安装插件"><a href="#2-安装插件" class="headerlink" title="2. 安装插件"></a>2. 安装插件</h2><p>向我这种懒人，实在是懒得每篇都加，写着写着很可能忘了不说，看着自己写的我总是拿不准要在哪里截比较好，好像哪里都怪怪的，还是觉着这种事交给机器做比较好。</p>
+<p>安装插件。</p>
+<pre><code>npm install hexo-excerpt --save    </code></pre>
+<p>然后就可以了，不过我自己觉着默认的摘录还是内容有点多，想改一下设置，就去 Hexo Program 的_config.yml 里加了两行。</p>
+<pre><code>excerpt:
+  depth: 5 #截取的数量 默认是10
+  excerpt_excludes: []
+  more_excludes: []
+  hideWholePostExcerpts: true</code></pre>
+<h1 id="更改字体"><a href="#更改字体" class="headerlink" title="更改字体"></a>更改字体</h1><p>更改字体</p>
+<p>Hexo Next 毕竟是以英文为主进行开发的，对中文字体的挑选肯定就没有英文那么好，所以我就想自己修改一下字体。</p>
+<p>进入主题的_config.yml 配置文件，找到 fonts 部分把字体部分功能打开。</p>
+<pre><code>font:
+  enable: true</code></pre>
+<p>进行修改，可以自己在 Google Fonts 里找到喜欢的字体，然后加到想改的部分（标题、正文、全局……）</p>
+<pre><code>global: #修改全局字体
+  external: true
+  family: Noto Serif SC
+  size:
+
+title: #修改标题字体
+  external: true
+  family: 
+  size:
+
+headings: #修改文章里的小标题字体
+  external: true
+  family: Noto Serif SC
+  size:
+
+posts: #修改文章内容
+  external: true
+  family:
+
+codes: #修改代码块字体
+  external: true
+  family:</code></pre>
+<h1 id="添加阅读量统计和评论功能"><a href="#添加阅读量统计和评论功能" class="headerlink" title="添加阅读量统计和评论功能"></a>添加阅读量统计和评论功能</h1><p>Next 里提供了两种阅读量统计的功能——valine 和 LeanCloud，但是实际上两个都是依托于 LeanCloud，所以我们首先需要注册 <a href="https://www.leancloud.cn/">LeanCloud</a> 账户，注册后创建应用，</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gii9htwgh2j31fe0sm0xj.jpg" alt="valine-01"></p>
+<p>创建应用后进入应用，分别创建名为 Comment 和 Counter 的两个 class。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gii9xd5e83j319w0u0do5.jpg" alt="valine-02"></p>
+<p>创建后，进入 设置-应用Keys，记下来 AppID 和 APPKey，填入主题的_config.yml 相应的位置。</p>
+<pre><code>valine:
+  enable: true #打开
+  appid: # 填入appid
+  appkey: # 填入appkey
+  placeholder: Just go go #默认评论栏里是什么字
+  language: zh-cn # 设置一下语言
+  visitor: true # 打开
+  comment_count: true #打开阅读次数技术</code></pre>
+<p>打开 <a href="https://www.jsdelivr.com/package/npm/valine">valine</a> 网页，找到最新版的地址。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gii9pzkjkaj31pb0u0n4x.jpg" alt="valine-03"></p>
+<p>填写进主题的_config.yml 相应位置。</p>
+<pre><code># Valine
+  # valine: //cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js
+  # valine: //cdnjs.cloudflare.com/ajax/libs/valine/1.3.10/Valine.min.js
+  valine: https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js</code></pre>
+<p>进入 Hexo 的_config.yml ，URL一栏填入你的网站地址。</p>
+<pre><code># URL
+## If your site is put in a subdirectory, set url as &#39;http://example.com/child&#39; and root as &#39;/child/&#39;
+url: #填这里</code></pre>
+<p>现在已经基本大功告成啦，但是现在评论那里显示的是「valine:0」而不是「评论数：0」，需要我们手动更改一下。</p>
+<p>进入 themes/next/languages/zh-CN.yml，在post下面添加一行：</p>
+<pre><code>comments.valine: 评论数</code></pre>
+<p>就可以啦。</p>
+<p>对了，开启评论之后默认的是所有文章都会开启，想不开启的话（比如分类页和标签页的index）要在文章最开头写title的那里写上。</p>
+<pre><code>comments: false</code></pre>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mac访达Finder中文件绝对路径怎么找</title>
+    <url>/2020/09/07/mac-path/</url>
+    <content><![CDATA[<p>最方便快捷的方式就是直接点击想知道路径的文件，然后按 option-command-c 就能自动复制到剪贴板啦，超easy！</p>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>mac</tag>
+        <tag>小技巧</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mac图片大小调整</title>
+    <url>/2020/09/08/mac-photo-sizing/</url>
+    <content><![CDATA[<p>有时某些网站会限制上传照片的大小（50K变到10K），或者需要调整照片的大小（2寸照片变成1寸），这些当然可以通过phtooshop简单做到，但是mac预览本身也提供了非常简单的方法可以进行修改。</p>
+<p>预览-工具-调整大小。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gijgkcz6yuj30zq0m44pj.jpg" alt="mac-photo-01"></p>
+<p>调到合适大小就可以啦，分辨率越低、图片大小越小，所占的Size也就越小啦。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gijgof6ohaj30zk0mc4qp.jpg" alt="mac-photo-02"></p>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>mac</tag>
+        <tag>小技巧</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mac pip 用法</title>
+    <url>/2020/10/19/mac-pip/</url>
+    <content><![CDATA[<p>mac系统更新后，pip以前的命令似乎都不能用了。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pip install requests</span><br><span class="line"></span><br><span class="line">Traceback (most recent call last):</span><br><span class="line"></span><br><span class="line"> File <span class="string">&quot;/usr/local/bin/pip&quot;</span>, line 6, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line"></span><br><span class="line">  from pip._internal.cli.main import main</span><br><span class="line"></span><br><span class="line">ModuleNotFoundError: No module named <span class="string">&#x27;pip._internal.cli.main&#x27;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>我查阅了资料后发现，现在pip在mac上的用法更改了。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">python3 -m pip install requests</span><br></pre></td></tr></table></figure>
+
+<p>这样就可以啦！</p>
+<p>然后pip更新的话是——</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;usr&#x2F;local&#x2F;opt&#x2F;python&#x2F;bin&#x2F;python3.7 -m pip install --upgrade pip</span><br></pre></td></tr></table></figure>
+
+<p>附上更多用法清单</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Usage:   </span><br><span class="line">  /usr/<span class="built_in">local</span>/opt/python/bin/python3.7 -m pip &lt;<span class="built_in">command</span>&gt; [options]</span><br><span class="line"></span><br><span class="line">Commands:</span><br><span class="line">  install                     Install packages.</span><br><span class="line">  download                    Download packages.</span><br><span class="line">  uninstall                   Uninstall packages.</span><br><span class="line">  freeze                      Output installed packages <span class="keyword">in</span> requirements format.</span><br><span class="line">  list                        List installed packages.</span><br><span class="line">  show                        Show information about installed packages.</span><br><span class="line">  check                       Verify installed packages have compatible dependencies.</span><br><span class="line">  config                      Manage <span class="built_in">local</span> and global configuration.</span><br><span class="line">  search                      Search PyPI <span class="keyword">for</span> packages.</span><br><span class="line">  cache                       Inspect and manage pip<span class="string">&#x27;s wheel cache.</span></span><br><span class="line"><span class="string">  wheel                       Build wheels from your requirements.</span></span><br><span class="line"><span class="string">  hash                        Compute hashes of package archives.</span></span><br><span class="line"><span class="string">  completion                  A helper command used for command completion.</span></span><br><span class="line"><span class="string">  debug                       Show information useful for debugging.</span></span><br><span class="line"><span class="string">  help                        Show help for commands.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">General Options:</span></span><br><span class="line"><span class="string">  -h, --help                  Show help.</span></span><br><span class="line"><span class="string">  --isolated                  Run pip in an isolated mode, ignoring environment variables and user configuration.</span></span><br><span class="line"><span class="string">  -v, --verbose               Give more output. Option is additive, and can be used up to 3 times.</span></span><br><span class="line"><span class="string">  -V, --version               Show version and exit.</span></span><br><span class="line"><span class="string">  -q, --quiet                 Give less output. Option is additive, and can be used up to 3 times (corresponding to WARNING, ERROR, and CRITICAL logging levels).</span></span><br><span class="line"><span class="string">  --log &lt;path&gt;                Path to a verbose appending log.</span></span><br><span class="line"><span class="string">  --proxy &lt;proxy&gt;             Specify a proxy in the form [user:passwd@]proxy.server:port.</span></span><br><span class="line"><span class="string">  --retries &lt;retries&gt;         Maximum number of retries each connection should attempt (default 5 times).</span></span><br><span class="line"><span class="string">  --timeout &lt;sec&gt;             Set the socket timeout (default 15 seconds).</span></span><br><span class="line"><span class="string">  --exists-action &lt;action&gt;    Default action when a path already exists: (s)witch, (i)gnore, (w)ipe, (b)ackup, (a)bort.</span></span><br><span class="line"><span class="string">  --trusted-host &lt;hostname&gt;   Mark this host or host:port pair as trusted, even though it does not have valid or any HTTPS.</span></span><br><span class="line"><span class="string">  --cert &lt;path&gt;               Path to alternate CA bundle.</span></span><br><span class="line"><span class="string">  --client-cert &lt;path&gt;        Path to SSL client certificate, a single file containing the private key and the certificate in PEM format.</span></span><br><span class="line"><span class="string">  --cache-dir &lt;dir&gt;           Store the cache data in &lt;dir&gt;.</span></span><br><span class="line"><span class="string">  --no-cache-dir              Disable the cache.</span></span><br><span class="line"><span class="string">  --disable-pip-version-check</span></span><br><span class="line"><span class="string">                              Don&#x27;</span>t periodically check PyPI to determine whether a new version of pip is available <span class="keyword">for</span> download. Implied with --no-index.</span><br><span class="line">  --no-color                  Suppress colored output</span><br><span class="line">  --no-python-version-warning</span><br><span class="line">                              Silence deprecation warnings <span class="keyword">for</span> upcoming unsupported Pythons.</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>mac</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>mac一些有用的快捷键（随时更新）</title>
     <url>/2020/09/08/mac-shortcut/</url>
     <content><![CDATA[<p>command+i | 访达 | 显示简介<br>command+shift+c | 访达 ｜ 复制路径</p>
@@ -732,32 +732,6 @@ chmod 755 deploy.sh
       </tags>
   </entry>
   <entry>
-    <title>如何在 pages 里快速复制格式/格式刷？</title>
-    <url>/2020/09/07/pages-formatting/</url>
-    <content><![CDATA[<h1 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h1><p>快捷键：</p>
-<ul>
-<li><p>opt+command+c 复制格式</p>
-</li>
-<li><p>opt+command+v 粘贴格式</p>
-</li>
-</ul>
-<p>常规方法：</p>
-<ul>
-<li>pages标签栏-格式-拷贝样式/粘贴样式</li>
-</ul>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiao3q6cvj30ti0m40tz.jpg" alt="9808904-778c5800c618cf4c"></p>
-<h1 id="小栗子"><a href="#小栗子" class="headerlink" title="小栗子"></a>小栗子</h1><p>1.0版：<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiaoc2qskg30sf0kbwhv.gif" alt="9808904-d6799f3140157c59"></p>
-<p>2.0版<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiaovee63g30sf0kbabl.gif" alt="9808904-4812c80c61f8814c"></p>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>小技巧</tag>
-        <tag>pages</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Pages如何快速无格式粘贴粘贴</title>
     <url>/2020/09/07/pages-paste/</url>
     <content><![CDATA[<p>很多时候我们复制的文本都是带有格式的 可我们又不需要 粘贴过来再要改又好麻烦 那怎么破呢？</p>
@@ -775,8 +749,8 @@ chmod 755 deploy.sh
         <category>鼓捣电脑</category>
       </categories>
       <tags>
-        <tag>小技巧</tag>
         <tag>pages</tag>
+        <tag>小技巧</tag>
       </tags>
   </entry>
   <entry>
@@ -866,6 +840,89 @@ chmod 755 deploy.sh
 <hr>
 <p>一次性多行注释：cmd+/</p>
 <p>不要再忘啦喂！</p>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>如何在 pages 里快速复制格式/格式刷？</title>
+    <url>/2020/09/07/pages-formatting/</url>
+    <content><![CDATA[<h1 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h1><p>快捷键：</p>
+<ul>
+<li><p>opt+command+c 复制格式</p>
+</li>
+<li><p>opt+command+v 粘贴格式</p>
+</li>
+</ul>
+<p>常规方法：</p>
+<ul>
+<li>pages标签栏-格式-拷贝样式/粘贴样式</li>
+</ul>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiao3q6cvj30ti0m40tz.jpg" alt="9808904-778c5800c618cf4c"></p>
+<h1 id="小栗子"><a href="#小栗子" class="headerlink" title="小栗子"></a>小栗子</h1><p>1.0版：<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiaoc2qskg30sf0kbwhv.gif" alt="9808904-d6799f3140157c59"></p>
+<p>2.0版<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiaovee63g30sf0kbabl.gif" alt="9808904-4812c80c61f8814c"></p>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>pages</tag>
+        <tag>小技巧</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python小菜鸟备忘录：用python写入word</title>
+    <url>/2021/02/13/python%20-%20word/</url>
+    <content><![CDATA[<p>我又突发奇想，想直接用python写入word，嘻嘻。</p>
+<hr>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>好像brew安不了，只能用 pip。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">python3 -m pip install python-docx</span><br></pre></td></tr></table></figure>
+
+<h2 id="新建与保存"><a href="#新建与保存" class="headerlink" title="新建与保存"></a>新建与保存</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> docx </span><br><span class="line"></span><br><span class="line">doc = docx.Document() <span class="comment">#新建文档</span></span><br><span class="line">...</span><br><span class="line">doc.save(<span class="string">&#x27;xxx.docx&#x27;</span>) <span class="comment">#保存文档</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="写入"><a href="#写入" class="headerlink" title="写入"></a>写入</h2><h3 id="写入一段话（Paragraph）"><a href="#写入一段话（Paragraph）" class="headerlink" title="写入一段话（Paragraph）"></a>写入一段话（Paragraph）</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">paragraph = document.add_paragraph(<span class="string">&#x27;Lorem ipsum dolor sit amet.&#x27;</span>) <span class="comment">#写入</span></span><br><span class="line">prior_paragraph = paragraph.insert_paragraph_before(<span class="string">&#x27;Lorem ipsum&#x27;</span>) <span class="comment">#在paragraph这段话之前插入一段话</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#调整整体格式</span></span><br><span class="line">document.add_paragraph(<span class="string">&#x27;Lorem ipsum dolor sit amet.&#x27;</span>, style=<span class="string">&#x27;ListBullet&#x27;</span>) <span class="comment">#有序列表 style名称和word一样</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#调整整体格式方法2</span></span><br><span class="line">paragraph = document.add_paragraph(<span class="string">&#x27;Lorem ipsum dolor sit amet.&#x27;</span>)</span><br><span class="line">paragraph.style = <span class="string">&#x27;List Bullet&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#加缩进</span></span><br><span class="line"><span class="keyword">from</span> docx.shared <span class="keyword">import</span> Inches</span><br><span class="line">paragraph = document.add_paragraph(<span class="string">&#x27;Lorem ipsum dolor sit amet.&#x27;</span>)</span><br><span class="line">paragraph_format = paragraph.paragraph_format</span><br><span class="line">paragraph_format.left_indent = Inches(<span class="number">0.5</span>) <span class="comment">#这个是缩进数值</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#右边缩进</span></span><br><span class="line">paragraph_format.right_indent = Pt(<span class="number">24</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#首行缩进</span></span><br><span class="line">paragraph_format.first_line_indent = Inches(<span class="number">-0.25</span>) <span class="comment">#正号是缩进 负值则是第一行冒出去</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#设置字体</span></span><br><span class="line"><span class="keyword">from</span> docx.shared <span class="keyword">import</span> Pt</span><br><span class="line"><span class="keyword">from</span> docx.shared <span class="keyword">import</span> RGBColor</span><br><span class="line"><span class="keyword">from</span> docx.oxml.ns <span class="keyword">import</span> qn</span><br><span class="line"></span><br><span class="line">pa = paragraphs[<span class="number">10</span>].add_run(<span class="string">&quot;XXX&quot;</span>) <span class="comment">#设置run</span></span><br><span class="line">pa.font.size = Pt(<span class="number">10</span>) <span class="comment">#设置字号</span></span><br><span class="line">pa.font.bold = <span class="literal">True</span> <span class="comment">#设置粗体</span></span><br><span class="line">pa.font.color.rgb = RGBColor(<span class="number">255</span>, <span class="number">0</span>, <span class="number">0</span>) <span class="comment">#设置颜色</span></span><br><span class="line">pa.font.name = <span class="string">&quot;Times New Roman&quot;</span> <span class="comment">#设置英文字体 </span></span><br><span class="line"></span><br><span class="line"><span class="comment">#设置中文字体</span></span><br><span class="line">pa.font.name = <span class="string">u&#x27;微软雅黑&#x27;</span></span><br><span class="line">pa._element.rPr.rFonts.set(qn(<span class="string">&#x27;w:eastAsia&#x27;</span>), <span class="string">u&#x27;微软雅黑&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>添加标题（headings)</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">document.add_heading(<span class="string">&#x27;The REAL meaning of the universe&#x27;</span>) <span class="comment">#添加一级标题（在word里对应‘Heading 1’</span></span><br><span class="line">document.add_heading(<span class="string">&#x27;The role of dolphins&#x27;</span>, level=<span class="number">2</span>) <span class="comment">#添加小标题，可以包括1-9</span></span><br><span class="line">document.add_heading(<span class="string">&#x27;The role of dolphins&#x27;</span>, level=<span class="number">0</span>) <span class="comment">#添加title</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="插入表格"><a href="#插入表格" class="headerlink" title="插入表格"></a>插入表格</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">table = document.add_table(rows=<span class="number">2</span>, cols=<span class="number">2</span>) <span class="comment">#插入表格</span></span><br><span class="line">cell = table.cell(<span class="number">0</span>, <span class="number">1</span>) <span class="comment">#按照行-列access每个cell，注意从0开始计数</span></span><br><span class="line">cell.text = <span class="string">&#x27;parrot, possibly dead&#x27;</span> <span class="comment">#写入cell</span></span><br><span class="line"></span><br><span class="line">row1 = table.rows[<span class="number">1</span>] <span class="comment">#第2行，每个table可以.rows，每个row可以.cells</span></span><br><span class="line">row.cells[<span class="number">0</span>].text = <span class="string">&#x27;Foo bar to you.&#x27;</span> <span class="comment">#第2行第一列</span></span><br><span class="line">row.cells[<span class="number">1</span>].text = <span class="string">&#x27;And a hearty foo bar to you too sir!&#x27;</span> </span><br><span class="line"></span><br><span class="line"><span class="comment">#遍历每一个cell</span></span><br><span class="line"><span class="keyword">for</span> row <span class="keyword">in</span> table.rows:</span><br><span class="line">    <span class="keyword">for</span> cell <span class="keyword">in</span> row.cells:</span><br><span class="line">        print(cell.text)</span><br><span class="line">        </span><br><span class="line"><span class="comment">#添加行</span></span><br><span class="line">row = table.add_row()</span><br><span class="line"></span><br><span class="line"><span class="comment">#get行数和列数</span></span><br><span class="line">row_count = len(table.rows)</span><br><span class="line">col_count = len(table.columns)</span><br><span class="line"></span><br><span class="line"><span class="comment">#使用word内置的表格style，只要在word里找到想要的style，把空格去掉再写到这里就可以了</span></span><br><span class="line">table.style = <span class="string">&#x27;LightShading-Accent1&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#批量写入栗子</span></span><br><span class="line"><span class="comment"># get table data -------------</span></span><br><span class="line">items = (</span><br><span class="line">    (<span class="number">7</span>, <span class="string">&#x27;1024&#x27;</span>, <span class="string">&#x27;Plush kittens&#x27;</span>),</span><br><span class="line">    (<span class="number">3</span>, <span class="string">&#x27;2042&#x27;</span>, <span class="string">&#x27;Furbees&#x27;</span>),</span><br><span class="line">    (<span class="number">1</span>, <span class="string">&#x27;1288&#x27;</span>, <span class="string">&#x27;French Poodle Collars, Deluxe&#x27;</span>),</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment"># add table ------------------</span></span><br><span class="line">table = document.add_table(<span class="number">1</span>, <span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># populate header row --------</span></span><br><span class="line">heading_cells = table.rows[<span class="number">0</span>].cells</span><br><span class="line">heading_cells[<span class="number">0</span>].text = <span class="string">&#x27;Qty&#x27;</span></span><br><span class="line">heading_cells[<span class="number">1</span>].text = <span class="string">&#x27;SKU&#x27;</span></span><br><span class="line">heading_cells[<span class="number">2</span>].text = <span class="string">&#x27;Description&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># add a data row for each item</span></span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> items:</span><br><span class="line">    cells = table.add_row().cells</span><br><span class="line">    cells[<span class="number">0</span>].text = str(item.qty)</span><br><span class="line">    cells[<span class="number">1</span>].text = item.sku</span><br><span class="line">    cells[<span class="number">2</span>].text = item.desc</span><br><span class="line">    </span><br><span class="line"><span class="comment">#设置表格属性</span></span><br><span class="line"><span class="keyword">from</span> docx.enum.text <span class="keyword">import</span> WD_ALIGN_PARAGRAPH</span><br><span class="line"><span class="keyword">from</span> docx.enum.table <span class="keyword">import</span> WD_ALIGN_VERTICAL</span><br><span class="line"></span><br><span class="line">tables[<span class="number">0</span>].cell(<span class="number">0</span>,<span class="number">0</span>).width = Cm(<span class="number">3</span>)    <span class="comment">#每列必须相同，不相同取最大值</span></span><br><span class="line">tables[<span class="number">0</span>].rows[<span class="number">0</span>].height = Cm(<span class="number">0.7</span>)</span><br><span class="line">tables[<span class="number">0</span>].cell(<span class="number">0</span>,<span class="number">0</span>).paragraphs[<span class="number">0</span>].paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER   <span class="comment">#水平对齐</span></span><br><span class="line">tables[<span class="number">0</span>].cell(<span class="number">0</span>,<span class="number">0</span>).vertical_alignment = WD_ALIGN_VERTICAL.CENTER     <span class="comment">#垂直对齐</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="插入图片"><a href="#插入图片" class="headerlink" title="插入图片"></a>插入图片</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">document.add_picture(<span class="string">&#x27;image-filename.png&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#设置图片大小</span></span><br><span class="line"><span class="keyword">from</span> docx.shared <span class="keyword">import</span> Inches</span><br><span class="line">document.add_picture(<span class="string">&#x27;image-filename.png&#x27;</span>, width=Inches(<span class="number">1.0</span>))</span><br></pre></td></tr></table></figure>
+
+<h3 id="粗体-斜体"><a href="#粗体-斜体" class="headerlink" title="粗体/斜体"></a>粗体/斜体</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#粗体和斜体只能在run（字节）上添加</span></span><br><span class="line">paragraph = document.add_paragraph(<span class="string">&#x27;Lorem ipsum &#x27;</span>)</span><br><span class="line">run = paragraph.add_run(<span class="string">&#x27;dolor&#x27;</span>)</span><br><span class="line">run.bold = <span class="literal">True</span></span><br><span class="line">run.italic = <span class="literal">True</span></span><br><span class="line">paragraph.add_run(<span class="string">&#x27; sit amet.&#x27;</span>).bold = <span class="literal">True</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#paragraph也可以不添加任何内容</span></span><br><span class="line">paragraph = document.add_paragraph()</span><br><span class="line">paragraph.add_run(<span class="string">&#x27;Lorem ipsum &#x27;</span>)</span><br><span class="line">paragraph.add_run(<span class="string">&#x27;dolor&#x27;</span>).bold = <span class="literal">True</span></span><br><span class="line">paragraph.add_run(<span class="string">&#x27; sit amet.&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="加入分页符"><a href="#加入分页符" class="headerlink" title="加入分页符"></a>加入分页符</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">document.add_page_break()</span><br></pre></td></tr></table></figure>
+
+<h2 id="改变已有文件"><a href="#改变已有文件" class="headerlink" title="改变已有文件"></a>改变已有文件</h2><h3 id="打开文档"><a href="#打开文档" class="headerlink" title="打开文档"></a>打开文档</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#打开文件</span></span><br><span class="line">document = Document(<span class="string">&#x27;existing-document-file.docx&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#另存为（注意如果和已有文件名字一样会覆盖）</span></span><br><span class="line">document.save(<span class="string">&#x27;new-file-name.docx&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="读取文档"><a href="#读取文档" class="headerlink" title="读取文档"></a>读取文档</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">paragraphs = document.paragraphs</span><br><span class="line">print(paragraphs[<span class="number">10</span>].text)</span><br><span class="line">type(paragraphs[<span class="number">10</span>].text)</span><br></pre></td></tr></table></figure>
+
+<h3 id="插入文字"><a href="#插入文字" class="headerlink" title="插入文字"></a>插入文字</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">aragraphs[<span class="number">10</span>].add_run(<span class="string">&quot;XXX&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#另外一种方式 通过for循环paragraphs列表，判断某段落中是否有你的标注信息（定位信息），有的话，就在该段落后面加上文字</span></span><br><span class="line"><span class="keyword">for</span> par <span class="keyword">in</span> document.paragraphs:</span><br><span class="line">    <span class="keyword">if</span> <span class="string">&quot;[sign]&quot;</span> <span class="keyword">in</span> par.text:</span><br><span class="line">        par.add_run(<span class="string">&quot;XXX&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="插入图片-1"><a href="#插入图片-1" class="headerlink" title="插入图片"></a>插入图片</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">run = paragraphs[<span class="number">10</span>].add_run()</span><br><span class="line">run.add_picture(<span class="string">&quot;xxx.png&quot;</span>, width = Inches(<span class="number">4.5</span>))</span><br></pre></td></tr></table></figure>
+
+<h2 id="栗子：按模版生成固定文件"><a href="#栗子：按模版生成固定文件" class="headerlink" title="栗子：按模版生成固定文件"></a>栗子：按模版生成固定文件</h2><h3 id="文档准备"><a href="#文档准备" class="headerlink" title="文档准备"></a>文档准备</h3><p>首先准备好一个模版文档</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gnm0tn3lsnj30vg0j2dh9.jpg"></p>
+<p>哦对，在这个过程中，我还发现mac 的word如果是末尾加空白的下划线有时候加不上（我做模版的时候一直加不上超生气，好不容易找到方法加上了，想单独录一个视频结果却总成功加上，真是玄学。</p>
+<p>比如：</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gnm0pebhu8g30lv0ezq6n.gif"></p>
+<p>解决方法：Option+shift+空格</p>
+<h3 id="准备批量生产代码"><a href="#准备批量生产代码" class="headerlink" title="准备批量生产代码"></a>准备批量生产代码</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> docx <span class="keyword">import</span> Document</span><br><span class="line"></span><br><span class="line"><span class="comment">#准备写入内容</span></span><br><span class="line">name=<span class="string">&quot;张三&quot;</span></span><br><span class="line">id_code=<span class="string">&quot;104111199009103531&quot;</span></span><br><span class="line">career=<span class="string">&quot;工程师&quot;</span></span><br><span class="line">working_years=<span class="string">&quot;10&quot;</span></span><br><span class="line">contact=<span class="string">&quot;李四&quot;</span></span><br><span class="line">company=<span class="string">&quot;格物厚德股份有限公司&quot;</span></span><br><span class="line">address=<span class="string">&quot;珠海市横琴新区宝华路6号105室-67425&quot;</span></span><br><span class="line">tel=<span class="string">&quot;0756-8627528&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#准备工作</span></span><br><span class="line">textlist=[name,id_code,career,working_years,company,address,contact,tel]</span><br><span class="line">doc = Document(<span class="string">&quot;证明.docx&quot;</span>)</span><br><span class="line">count=<span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#写入</span></span><br><span class="line"><span class="keyword">for</span> p <span class="keyword">in</span> doc.paragraphs:</span><br><span class="line">    print(p.text)</span><br><span class="line">    <span class="keyword">if</span> <span class="string">&#x27;XXX&#x27;</span> <span class="keyword">in</span> p.text:</span><br><span class="line">        inline = p.runs</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(inline)):</span><br><span class="line">            print(i)</span><br><span class="line">            <span class="keyword">if</span> <span class="string">&#x27;XXX&#x27;</span> <span class="keyword">in</span> inline[i].text:</span><br><span class="line">                text = inline[i].text.replace(<span class="string">&#x27;XXX&#x27;</span>, textlist[count])</span><br><span class="line">                inline[i].text = text</span><br><span class="line">                count+=<span class="number">1</span></span><br><span class="line">                print(count)</span><br><span class="line">doc.save(<span class="string">&quot;%s_证明.docx&quot;</span>%name)</span><br></pre></td></tr></table></figure>
+
+<p>成功啦！</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gnm1eks39oj30t40emgnb.jpg"></p>
+<h3 id="通过excel批量写入"><a href="#通过excel批量写入" class="headerlink" title="通过excel批量写入"></a>通过excel批量写入</h3><p>建立excel表</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gnm1jza83tj318q0ak76n.jpg"></p>
+<p>调整代码</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> docx <span class="keyword">import</span> Document</span><br><span class="line"><span class="comment">#准备写入内容</span></span><br><span class="line"><span class="keyword">import</span> xlrd</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="comment"># 当前时间元组</span></span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line">nt=datetime.now()</span><br><span class="line"><span class="comment"># 可以输入中文年月日</span></span><br><span class="line">datestr=nt.strftime(<span class="string">&#x27;%Y&#123;y&#125;%m&#123;m&#125;%d&#123;d&#125;&#x27;</span>).format(y=<span class="string">&#x27;年&#x27;</span>, m=<span class="string">&#x27;月&#x27;</span>, d=<span class="string">&#x27;日&#x27;</span>)</span><br><span class="line"></span><br><span class="line">xlsx=xlrd.open_workbook(<span class="string">&#x27;test.xlsx&#x27;</span>)</span><br><span class="line">sheet=xlsx.sheet_by_index(<span class="number">0</span>)</span><br><span class="line"><span class="keyword">for</span> row <span class="keyword">in</span> range(<span class="number">1</span>,sheet.nrows):</span><br><span class="line">    doc = Document(<span class="string">&quot;证明.docx&quot;</span>)</span><br><span class="line">    count=<span class="number">0</span></span><br><span class="line">    textlist=[]</span><br><span class="line">    <span class="keyword">for</span> col <span class="keyword">in</span> range(<span class="number">0</span>,sheet.ncols):</span><br><span class="line">        textlist.append(str(sheet.cell_value(row, col)))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> p <span class="keyword">in</span> doc.paragraphs:</span><br><span class="line">            <span class="keyword">if</span> <span class="string">&#x27;XXX&#x27;</span> <span class="keyword">in</span> p.text:</span><br><span class="line">                inline = p.runs</span><br><span class="line">                <span class="keyword">for</span> i <span class="keyword">in</span> range(len(inline)):</span><br><span class="line">                    <span class="keyword">if</span> <span class="string">&#x27;XXX&#x27;</span> <span class="keyword">in</span> inline[i].text:</span><br><span class="line">                        text = inline[i].text.replace(<span class="string">&#x27;XXX&#x27;</span>, textlist[count])</span><br><span class="line">                        inline[i].text = text</span><br><span class="line">                        count+=<span class="number">1</span></span><br><span class="line">            <span class="keyword">if</span> <span class="string">&#x27;X 年   X 月  X 日&#x27;</span> <span class="keyword">in</span> p.text:</span><br><span class="line">                inline = p.runs</span><br><span class="line">                <span class="keyword">for</span> i <span class="keyword">in</span> range(len(inline)):</span><br><span class="line">                    <span class="keyword">if</span> <span class="string">&#x27;X 年   X 月  X 日&#x27;</span> <span class="keyword">in</span> inline[i].text:</span><br><span class="line">                        text = inline[i].text.replace(<span class="string">&#x27;X 年   X 月  X 日&#x27;</span>, datestr)</span><br><span class="line">                        inline[i].text = text</span><br><span class="line"></span><br><span class="line">    doc.save(<span class="string">&quot;%s_证明.docx&quot;</span>%textlist[<span class="number">0</span>])</span><br></pre></td></tr></table></figure>
+
+<p>然后就成功啦！呱唧呱唧！</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://zhuanlan.zhihu.com/p/90992109">【极简Python 自动化办公】Python写入Word文档</a></p>
+<p><a href="https://juejin.cn/post/6844903929348636685">说说如何使用 python-docx 写入 word 文档</a></p>
 ]]></content>
       <categories>
         <category>鼓捣电脑</category>
