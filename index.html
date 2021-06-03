@@ -187,6 +187,99 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://github.com/whitelephantee/whitelephantee.github.io/2021/06/03/python%20-%20excel/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.JPG">
+      <meta itemprop="name" content="whitelephantee">
+      <meta itemprop="description" content="一只喜欢鼓捣各种新鲜玩意的小白象">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小白象">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/06/03/python%20-%20excel/" class="post-title-link" itemprop="url">python小菜鸟备忘录：用python读取/写入excel</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-06-03 16:38:55 / 修改时间：17:56:19" itemprop="dateCreated datePublished" datetime="2021-06-03T16:38:55+08:00">2021-06-03</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%BC%93%E6%8D%A3%E7%94%B5%E8%84%91/" itemprop="url" rel="index"><span itemprop="name">鼓捣电脑</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>最近要做数据分析，总要跟excel打交道，我好懒，于是打算用python搞搞excel</p>
+<h2 id="读取"><a href="#读取" class="headerlink" title="读取"></a>读取</h2><p>使用的库是xlrd，基本操作</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> xlrd</span><br><span class="line"><span class="keyword">with</span> xlrd.open_workbook(<span class="string">&#x27;x.xlsx&#x27;</span>) <span class="keyword">as</span> workbook: <span class="comment">#打开文档</span></span><br><span class="line">    worksheet=workbook.sheet_by_name(<span class="string">&#x27;Sheet1&#x27;</span>) <span class="comment">#读取工作表</span></span><br><span class="line">    <span class="keyword">for</span> row_index <span class="keyword">in</span> range(worksheet.nrows): <span class="comment">#对于每一行</span></span><br><span class="line">        content = worksheet.cell_value(row_index, <span class="number">0</span>) <span class="comment">#获取某个格的内容</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#或者另外一种方法读取excel</span></span><br><span class="line">data_excel=xlrd.open_workbook(<span class="string">&#x27;data/dataset.xlsx&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取所有sheet名称</span></span><br><span class="line">names=data_excel.sheet_names()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取book中的sheet工作表的三种方法,返回一个xlrd.sheet.Sheet()对象</span></span><br><span class="line">table=data_excel.sheets()[<span class="number">0</span>]  <span class="comment"># 通过索引顺序获取sheet</span></span><br><span class="line">table=data_excel.sheet_by_index(sheetx=<span class="number">0</span>) <span class="comment"># 通过索引顺序获取sheet</span></span><br><span class="line">table=data_excel.sheet_by_name(sheet_name=<span class="string">&#x27;Sheet1&#x27;</span>) <span class="comment"># 通过名称获取</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># excel工作表的行列操作</span></span><br><span class="line">n_rows=table.nrows  <span class="comment"># 获取该sheet中的有效行数</span></span><br><span class="line">n_cols=table.ncols  <span class="comment"># 获取该sheet中的有效列数</span></span><br><span class="line">row_list=table.row(rowx=<span class="number">0</span>)  <span class="comment"># 返回某行中所有的单元格对象组成的列表</span></span><br><span class="line">cols_list=table.col(colx=<span class="number">0</span>) <span class="comment"># 返回某列中所有的单元格对象组成的列表</span></span><br><span class="line">content_list = worksheet.row_values(<span class="number">0</span>) <span class="comment">#获取某行中所有的单元格内容组成的列表</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 返回某行中所有单元格的数据组成的列表</span></span><br><span class="line">row_data=table.row_values(<span class="number">0</span>,start_colx=<span class="number">0</span>,end_colx=<span class="literal">None</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 返回某列中所有单元格的数据组成的列表</span></span><br><span class="line">cols_data=table.col_values(<span class="number">0</span>,start_rowx=<span class="number">0</span>,end_rowx=<span class="literal">None</span>)</span><br><span class="line">row_lenth=table.row_len(<span class="number">0</span>)  <span class="comment"># 返回某行的有效单元格长度</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="写入"><a href="#写入" class="headerlink" title="写入"></a>写入</h2>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/06/03/python%20-%20excel/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://github.com/whitelephantee/whitelephantee.github.io/2021/05/23/python%20-%20wordread/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1029,88 +1122,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://github.com/whitelephantee/whitelephantee.github.io/2020/09/08/mac-shortcut/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.JPG">
-      <meta itemprop="name" content="whitelephantee">
-      <meta itemprop="description" content="一只喜欢鼓捣各种新鲜玩意的小白象">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小白象">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/09/08/mac-shortcut/" class="post-title-link" itemprop="url">mac一些有用的快捷键（随时更新）</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-09-08 22:36:19 / 修改时间：22:37:00" itemprop="dateCreated datePublished" datetime="2020-09-08T22:36:19+08:00">2020-09-08</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%BC%93%E6%8D%A3%E7%94%B5%E8%84%91/" itemprop="url" rel="index"><span itemprop="name">鼓捣电脑</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>40</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>command+i | 访达 | 显示简介<br>command+shift+c | 访达 ｜ 复制路径</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1182,7 +1193,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-count">25</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1231,12 +1242,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">34k</span>
+    <span title="站点总字数">38k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:03</span>
+    <span title="站点阅读时长">1:09</span>
 </div>
 
         

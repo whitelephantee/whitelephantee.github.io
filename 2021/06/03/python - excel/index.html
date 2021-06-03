@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"github.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="最近要做数据分析，总要跟excel打交道，我好懒，于是打算用python搞搞excel 读取使用的库是xlrd，基本操作 1234567891011121314151617181920212223242526272829303132import xlrdwith xlrd.open_workbook(&amp;#x27;x.xlsx&amp;#x27;) as workbook: #打开文档    workshe">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python小菜鸟备忘录：用python读取&#x2F;写入excel">
+<meta property="og:url" content="https://github.com/whitelephantee/whitelephantee.github.io/2021/06/03/python%20-%20excel/index.html">
+<meta property="og:site_name" content="小白象">
+<meta property="og:description" content="最近要做数据分析，总要跟excel打交道，我好懒，于是打算用python搞搞excel 读取使用的库是xlrd，基本操作 1234567891011121314151617181920212223242526272829303132import xlrdwith xlrd.open_workbook(&amp;#x27;x.xlsx&amp;#x27;) as workbook: #打开文档    workshe">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-06-03T08:38:55.000Z">
+<meta property="article:modified_time" content="2021-06-03T09:56:19.498Z">
+<meta property="article:author" content="whitelephantee">
+<meta property="article:tag" content="python">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://github.com/whitelephantee/whitelephantee.github.io/2021/06/03/python%20-%20excel/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>python小菜鸟备忘录：用python读取/写入excel | 小白象</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">小白象</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">whitelephantee</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://github.com/whitelephantee/whitelephantee.github.io/2021/06/03/python%20-%20excel/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.JPG">
+      <meta itemprop="name" content="whitelephantee">
+      <meta itemprop="description" content="一只喜欢鼓捣各种新鲜玩意的小白象">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小白象">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          python小菜鸟备忘录：用python读取/写入excel
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-06-03 16:38:55 / 修改时间：17:56:19" itemprop="dateCreated datePublished" datetime="2021-06-03T16:38:55+08:00">2021-06-03</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%BC%93%E6%8D%A3%E7%94%B5%E8%84%91/" itemprop="url" rel="index"><span itemprop="name">鼓捣电脑</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>最近要做数据分析，总要跟excel打交道，我好懒，于是打算用python搞搞excel</p>
+<h2 id="读取"><a href="#读取" class="headerlink" title="读取"></a>读取</h2><p>使用的库是xlrd，基本操作</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> xlrd</span><br><span class="line"><span class="keyword">with</span> xlrd.open_workbook(<span class="string">&#x27;x.xlsx&#x27;</span>) <span class="keyword">as</span> workbook: <span class="comment">#打开文档</span></span><br><span class="line">    worksheet=workbook.sheet_by_name(<span class="string">&#x27;Sheet1&#x27;</span>) <span class="comment">#读取工作表</span></span><br><span class="line">    <span class="keyword">for</span> row_index <span class="keyword">in</span> range(worksheet.nrows): <span class="comment">#对于每一行</span></span><br><span class="line">        content = worksheet.cell_value(row_index, <span class="number">0</span>) <span class="comment">#获取某个格的内容</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#或者另外一种方法读取excel</span></span><br><span class="line">data_excel=xlrd.open_workbook(<span class="string">&#x27;data/dataset.xlsx&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取所有sheet名称</span></span><br><span class="line">names=data_excel.sheet_names()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取book中的sheet工作表的三种方法,返回一个xlrd.sheet.Sheet()对象</span></span><br><span class="line">table=data_excel.sheets()[<span class="number">0</span>]  <span class="comment"># 通过索引顺序获取sheet</span></span><br><span class="line">table=data_excel.sheet_by_index(sheetx=<span class="number">0</span>) <span class="comment"># 通过索引顺序获取sheet</span></span><br><span class="line">table=data_excel.sheet_by_name(sheet_name=<span class="string">&#x27;Sheet1&#x27;</span>) <span class="comment"># 通过名称获取</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># excel工作表的行列操作</span></span><br><span class="line">n_rows=table.nrows  <span class="comment"># 获取该sheet中的有效行数</span></span><br><span class="line">n_cols=table.ncols  <span class="comment"># 获取该sheet中的有效列数</span></span><br><span class="line">row_list=table.row(rowx=<span class="number">0</span>)  <span class="comment"># 返回某行中所有的单元格对象组成的列表</span></span><br><span class="line">cols_list=table.col(colx=<span class="number">0</span>) <span class="comment"># 返回某列中所有的单元格对象组成的列表</span></span><br><span class="line">content_list = worksheet.row_values(<span class="number">0</span>) <span class="comment">#获取某行中所有的单元格内容组成的列表</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 返回某行中所有单元格的数据组成的列表</span></span><br><span class="line">row_data=table.row_values(<span class="number">0</span>,start_colx=<span class="number">0</span>,end_colx=<span class="literal">None</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 返回某列中所有单元格的数据组成的列表</span></span><br><span class="line">cols_data=table.col_values(<span class="number">0</span>,start_rowx=<span class="number">0</span>,end_rowx=<span class="literal">None</span>)</span><br><span class="line">row_lenth=table.row_len(<span class="number">0</span>)  <span class="comment"># 返回某行的有效单元格长度</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="写入"><a href="#写入" class="headerlink" title="写入"></a>写入</h2><p>写入的库是 xlwt</p>
+<p>```python</p>
+<h1 id="创建一个workbook-设置编码"><a href="#创建一个workbook-设置编码" class="headerlink" title="创建一个workbook 设置编码"></a>创建一个workbook 设置编码</h1><p>workbook = xlwt.Workbook(encoding=’utf-8’)</p>
+<h1 id="创建一个worksheet"><a href="#创建一个worksheet" class="headerlink" title="创建一个worksheet"></a>创建一个worksheet</h1><p>worksheet = workbook.add_sheet(‘Sheet1’)</p>
+<p>#字体样式设置<br>style = xlwt.XFStyle()  # 初始化样式<br>font = xlwt.Font()  # 为样式创建字体<br>font.name = ‘Times New Roman’<br>font.height = 20 * 11  # 字体大小，11为字号，20为衡量单位<br>font.bold = True  # 黑体<br>font.underline = True  # 下划线<br>font.italic = True  # 斜体字<br>style.font = font  # 设定样式</p>
+<h1 id="数据写入excel-参数对应-行-列-值"><a href="#数据写入excel-参数对应-行-列-值" class="headerlink" title="数据写入excel,参数对应 行, 列, 值"></a>数据写入excel,参数对应 行, 列, 值</h1><p>worksheet.write(0, 0, ‘test_data’)  # 不带样式的写入<br>worksheet.write(1, 0, ‘test_data’, style)  # 带字体样式的写入</p>
+<h1 id="设置单元格宽度"><a href="#设置单元格宽度" class="headerlink" title="设置单元格宽度"></a>设置单元格宽度</h1><p>worksheet.col(0).width = 3333</p>
+<p>#设置单元格背景颜色<br>pattern = xlwt.Pattern()<br>pattern.pattern = xlwt.Pattern.SOLID_PATTERN<br>pattern.pattern_fore_colour = 13<br>style = xlwt.XFStyle()  # Create the Pattern<br>style.pattern = pattern  # Add Pattern to Style<br>worksheet.write(2, 0, ‘colour’, style)</p>
+<p>#给单元格添加边框方法一<br>borders = xlwt.Borders()  # Create Borders<br>borders.left = xlwt.Borders.DASHED   #DASHED虚线，NO_LINE没有，THIN实线<br>borders.right = xlwt.Borders.DASHED  #borders.right=1 表示实线<br>borders.top = xlwt.Borders.DASHED<br>borders.bottom = xlwt.Borders.DASHED<br>borders.left_colour=0x40<br>borders.right_colour = 0x40<br>borders.top_colour = 0x40<br>borders.bottom_colour = 0x40<br>style = xlwt.XFStyle()  # Create Style<br>style.borders = borders  # Add Borders to Style<br>worksheet.write(3,0 , ‘border1’, style)</p>
+<p>#给单元格添加边框方法二</p>
+<h1 id="细实线-1，小粗实线-2，细虚线-3，中细虚线-4，大粗实线-5，双线-6，细点虚线-7，大粗虚线-8，细点划线-9，粗点划线-10，细双点划线-11，粗双点划线-12，斜点划线-13"><a href="#细实线-1，小粗实线-2，细虚线-3，中细虚线-4，大粗实线-5，双线-6，细点虚线-7，大粗虚线-8，细点划线-9，粗点划线-10，细双点划线-11，粗双点划线-12，斜点划线-13" class="headerlink" title="细实线:1，小粗实线:2，细虚线:3，中细虚线:4，大粗实线:5，双线:6，细点虚线:7，大粗虚线:8，细点划线:9，粗点划线:10，细双点划线:11，粗双点划线:12，斜点划线:13"></a>细实线:1，小粗实线:2，细虚线:3，中细虚线:4，大粗实线:5，双线:6，细点虚线:7，大粗虚线:8，细点划线:9，粗点划线:10，细双点划线:11，粗双点划线:12，斜点划线:13</h1><p>borders = xlwt.Borders()<br>borders.left = 1    #设置为细实线<br>borders.right = 1<br>borders.top = 1<br>borders.bottom = 1<br>borders.left_colour = 2  #颜色设置为红色<br>borders.right_colour = 2<br>borders.top_colour = 2<br>borders.bottom_colour = 2<br>style = xlwt.XFStyle()  # Create Style<br>style.borders = borders  # Add Borders to Style<br>worksheet.write(4, 0, ‘border2’, style)</p>
+<p>#单元格添加计算公式<br>worksheet.write(0, 1, 2)  # Outputs 2<br>worksheet.write(0, 2, 3)  # Outputs 3<br>worksheet.write(1, 1, xlwt.Formula(‘B1*C1’))  # Should output “6” (B1[2] * B2[6])<br>worksheet.write(1, 2, xlwt.Formula(‘SUM(B1,C1)’))  # Should output “5” (B1[2] + C1[3])</p>
+<p>#向单元格添加一个超链接<br>worksheet.write(0, 3, xlwt.Formula(‘HYPERLINK(“<a target="_blank" rel="noopener" href="http://www.baidu.com&quot;;&quot;baidu&quot;)&/#39;">http://www.baidu.com&quot;;&quot;baidu&quot;)&#39;</a>))  # Outputs the text “baidu” linking to <a target="_blank" rel="noopener" href="http://www.baidu.com/">http://www.baidu.com</a></p>
+<p>#单元格合并<br>worksheet.write_merge(0, 0, 4, 5, ‘First Merge’)   #合并0行的4到5列<br>worksheet.write_merge(1, 2, 4, 5, ‘Second Merge’)  #合并1和2行的4到5列</p>
+<p>#设置单元格内容的对其方式<br>alignment=xlwt.Alignment()  ## Create Alignment<br>alignment.horz=xlwt.Alignment.HORZ_CENTER<br>alignment.vert=xlwt.Alignment.VERT_CENTER<br>style=xlwt.XFStyle()<br>style.alignment=alignment   # Add Alignment to Style<br>worksheet.write(0, 6, ‘alignment’, style)</p>
+<h1 id="保存文件"><a href="#保存文件" class="headerlink" title="保存文件"></a>保存文件</h1><p>workbook.save(‘data_test.xls’)</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/asialee_bird/article/details/105497121">Python3读取和写入excel表格数据</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/python/" rel="tag"># python</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/05/23/python%20-%20wordread/" rel="prev" title="python小菜鸟备忘录：用python读取word">
+      <i class="fa fa-chevron-left"></i> python小菜鸟备忘录：用python读取word
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%BB%E5%8F%96"><span class="nav-number">1.</span> <span class="nav-text">读取</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%99%E5%85%A5"><span class="nav-number">2.</span> <span class="nav-text">写入</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AAworkbook-%E8%AE%BE%E7%BD%AE%E7%BC%96%E7%A0%81"><span class="nav-number"></span> <span class="nav-text">创建一个workbook 设置编码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AAworksheet"><span class="nav-number"></span> <span class="nav-text">创建一个worksheet</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%86%99%E5%85%A5excel-%E5%8F%82%E6%95%B0%E5%AF%B9%E5%BA%94-%E8%A1%8C-%E5%88%97-%E5%80%BC"><span class="nav-number"></span> <span class="nav-text">数据写入excel,参数对应 行, 列, 值</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E5%8D%95%E5%85%83%E6%A0%BC%E5%AE%BD%E5%BA%A6"><span class="nav-number"></span> <span class="nav-text">设置单元格宽度</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%86%E5%AE%9E%E7%BA%BF-1%EF%BC%8C%E5%B0%8F%E7%B2%97%E5%AE%9E%E7%BA%BF-2%EF%BC%8C%E7%BB%86%E8%99%9A%E7%BA%BF-3%EF%BC%8C%E4%B8%AD%E7%BB%86%E8%99%9A%E7%BA%BF-4%EF%BC%8C%E5%A4%A7%E7%B2%97%E5%AE%9E%E7%BA%BF-5%EF%BC%8C%E5%8F%8C%E7%BA%BF-6%EF%BC%8C%E7%BB%86%E7%82%B9%E8%99%9A%E7%BA%BF-7%EF%BC%8C%E5%A4%A7%E7%B2%97%E8%99%9A%E7%BA%BF-8%EF%BC%8C%E7%BB%86%E7%82%B9%E5%88%92%E7%BA%BF-9%EF%BC%8C%E7%B2%97%E7%82%B9%E5%88%92%E7%BA%BF-10%EF%BC%8C%E7%BB%86%E5%8F%8C%E7%82%B9%E5%88%92%E7%BA%BF-11%EF%BC%8C%E7%B2%97%E5%8F%8C%E7%82%B9%E5%88%92%E7%BA%BF-12%EF%BC%8C%E6%96%9C%E7%82%B9%E5%88%92%E7%BA%BF-13"><span class="nav-number"></span> <span class="nav-text">细实线:1，小粗实线:2，细虚线:3，中细虚线:4，大粗实线:5，双线:6，细点虚线:7，大粗虚线:8，细点划线:9，粗点划线:10，细双点划线:11，粗双点划线:12，斜点划线:13</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BF%9D%E5%AD%98%E6%96%87%E4%BB%B6"><span class="nav-number"></span> <span class="nav-text">保存文件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Reference"><span class="nav-number">1.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="whitelephantee"
+      src="/images/avatar.JPG">
+  <p class="site-author-name" itemprop="name">whitelephantee</p>
+  <div class="site-description" itemprop="description">一只喜欢鼓捣各种新鲜玩意的小白象</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">25</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-elephant"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">whitelephantee</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">38k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">1:09</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='255,51,51' opacity='0.5' zIndex='-1' count='160' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,6 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>如何将PubMed导出BibTex并导入Bibliometrix</title>
+    <url>/2021/01/24/PubMed-Bibliometrix/</url>
+    <content><![CDATA[<p>上期介绍了怎么用bibliometrix，但是我发现导师要求找的数据库是PubMed而新版的PubMed没有导出BibTex的功能，这可怎么办呢，我又求助万能的谷歌，鼓捣了半天，找到了两种方法～</p>
+<ul>
+<li><p>方法一：通过 Endnote 转换</p>
+</li>
+<li><p>方法二：通过 python 转换</p>
+</li>
+</ul>
+<p>这两种方法整体而言没有什么差别，只是看哪个用着更顺手而已，从bib文件就可以看出，由于PubMed本身的局限性，无论是哪种方法都没有办法做到Web of Science那种程度的信息量，WoS里面不仅会有每篇文章的基本信息，还会包括每篇参考文献、作者机构、国家等等，实际上只有这种等级的信息量才能够最大限度利用bibliometrix，因此还是推荐WoS进行分析。但既然都找到方法了，那就继续写完好啦，毕竟不然不就白瞎了嘛～</p>
+<h2 id="通过Endnote转换"><a href="#通过Endnote转换" class="headerlink" title="通过Endnote转换"></a>通过Endnote转换</h2><p>前提：</p>
+<ul>
+<li>安装最新版正版Endnote并新建一个Library</li>
+</ul>
+<p>方法：</p>
+<ol>
+<li><p>从PubMed找到所需文献</p>
+</li>
+<li><p>Send to - Citation Manager - All Results - Create Files</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmylfvf5qrj32800sudkw.jpg"></p>
+</li>
+<li><p>点击下载完毕的文档，用相应的Library打开</p>
+</li>
+<li><p>成功加进Endnote后导出</p>
+<p>File - Export - TXT - BibTex</p>
+<p>如果这里没有BibTex的选项，则需要手动添加——</p>
+<ol>
+<li><p>Tools - Output Styles - open style manager </p>
+</li>
+<li><p>找到 BibTex 并勾选</p>
+</li>
+<li><p>如果没有 BibTex 的选项，则点击 Get more on Web 并在弹出的网页搜索 BibTex</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmymdojgqpj31qs0u0du5.jpg"></p>
+</li>
+<li><p>点击 Download 下载并将下载好的文件放到 Endnote - Styles 文件夹里就有啦</p>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="通过-python-转换"><a href="#通过-python-转换" class="headerlink" title="通过 python 转换"></a>通过 python 转换</h2><p>前提：</p>
+<ul>
+<li>已有Python3和相应编程软件如Visual Code Studio</li>
+</ul>
+<p>方法：</p>
+<ol>
+<li><p>从PubMed下载所需文献的PMID导出</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmymee9oq6j320v0u0te1.jpg"></p>
+</li>
+<li><p>打开 terminal 用 pip 下载 <a href="https://pypi.org/project/pubmed-bibtex/">pubmed_bibtex</a> 这个库可以将PMID转换为对应的BibTex信息</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">python3 -m pip install pubmed-bibtex</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>新建python文件，读取下载的文档、转换并写入 bibtex</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> pubmed_bibtex <span class="keyword">import</span> bibtex_entry_from_pmid</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打开文件</span></span><br><span class="line">inputFile = open(<span class="string">&quot;pmid-physicalac-set.txt&quot;</span>, <span class="string">&quot;r&quot;</span>) <span class="comment">#只有将下载的PMID文档放入python文件同一个文件夹才可以用相对路径 否则用绝对路径</span></span><br><span class="line">outputFile = open(<span class="string">&quot;output.txt&quot;</span>, <span class="string">&quot;w&quot;</span>)            <span class="comment">#新建输出文档</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> inputFile.readlines():                          <span class="comment">#依次读取每行  </span></span><br><span class="line">    line = line.strip()                             <span class="comment">#去掉每行头尾空白  </span></span><br><span class="line">    <span class="keyword">print</span> (<span class="string">&quot;读取的数据为: %s&quot;</span> % (line))							</span><br><span class="line">    bibMes = bibtex_entry_from_pmid(int(line))</span><br><span class="line">    print(bibMes)</span><br><span class="line">    outputFile.write(bibMes)                       <span class="comment">#写入输出文档</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭文件</span></span><br><span class="line">inputFile.close()</span><br><span class="line">outputFile.close()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>这个时候python文件所在文件夹里就应该有一个名为 output.txt 的文档，里面就是相对应的信息啦，把后缀改为.bib就可以放入 biblioshiny里啦。</p>
+<p>P.S. 只是因为这个库依托的是TexMed，所以转换速度会慢一些，如果量大的话可能得等一阵。</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>鼓捣文献</category>
+      </categories>
+      <tags>
+        <tag>Research</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>aria2安装+使用</title>
     <url>/2020/09/08/aria2/</url>
     <content><![CDATA[<p>好久之前下过 aria2, 不过很久没用，时间太久都已经忘了怎么用了，所以今天心血来潮又重新折腾了一番，</p>
@@ -73,73 +140,6 @@ whitelephant     14893   0.0  0.0  5286740   1076   ??  Ss    3:47下午   0:00.
       <tags>
         <tag>mac</tag>
         <tag>downloader</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>如何将PubMed导出BibTex并导入Bibliometrix</title>
-    <url>/2021/01/24/PubMed-Bibliometrix/</url>
-    <content><![CDATA[<p>上期介绍了怎么用bibliometrix，但是我发现导师要求找的数据库是PubMed而新版的PubMed没有导出BibTex的功能，这可怎么办呢，我又求助万能的谷歌，鼓捣了半天，找到了两种方法～</p>
-<ul>
-<li><p>方法一：通过 Endnote 转换</p>
-</li>
-<li><p>方法二：通过 python 转换</p>
-</li>
-</ul>
-<p>这两种方法整体而言没有什么差别，只是看哪个用着更顺手而已，从bib文件就可以看出，由于PubMed本身的局限性，无论是哪种方法都没有办法做到Web of Science那种程度的信息量，WoS里面不仅会有每篇文章的基本信息，还会包括每篇参考文献、作者机构、国家等等，实际上只有这种等级的信息量才能够最大限度利用bibliometrix，因此还是推荐WoS进行分析。但既然都找到方法了，那就继续写完好啦，毕竟不然不就白瞎了嘛～</p>
-<h2 id="通过Endnote转换"><a href="#通过Endnote转换" class="headerlink" title="通过Endnote转换"></a>通过Endnote转换</h2><p>前提：</p>
-<ul>
-<li>安装最新版正版Endnote并新建一个Library</li>
-</ul>
-<p>方法：</p>
-<ol>
-<li><p>从PubMed找到所需文献</p>
-</li>
-<li><p>Send to - Citation Manager - All Results - Create Files</p>
-<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmylfvf5qrj32800sudkw.jpg"></p>
-</li>
-<li><p>点击下载完毕的文档，用相应的Library打开</p>
-</li>
-<li><p>成功加进Endnote后导出</p>
-<p>File - Export - TXT - BibTex</p>
-<p>如果这里没有BibTex的选项，则需要手动添加——</p>
-<ol>
-<li><p>Tools - Output Styles - open style manager </p>
-</li>
-<li><p>找到 BibTex 并勾选</p>
-</li>
-<li><p>如果没有 BibTex 的选项，则点击 Get more on Web 并在弹出的网页搜索 BibTex</p>
-<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmymdojgqpj31qs0u0du5.jpg"></p>
-</li>
-<li><p>点击 Download 下载并将下载好的文件放到 Endnote - Styles 文件夹里就有啦</p>
-</li>
-</ol>
-</li>
-</ol>
-<h2 id="通过-python-转换"><a href="#通过-python-转换" class="headerlink" title="通过 python 转换"></a>通过 python 转换</h2><p>前提：</p>
-<ul>
-<li>已有Python3和相应编程软件如Visual Code Studio</li>
-</ul>
-<p>方法：</p>
-<ol>
-<li><p>从PubMed下载所需文献的PMID导出</p>
-<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmymee9oq6j320v0u0te1.jpg"></p>
-</li>
-<li><p>打开 terminal 用 pip 下载 <a href="https://pypi.org/project/pubmed-bibtex/">pubmed_bibtex</a> 这个库可以将PMID转换为对应的BibTex信息</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">python3 -m pip install pubmed-bibtex</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>新建python文件，读取下载的文档、转换并写入 bibtex</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> pubmed_bibtex <span class="keyword">import</span> bibtex_entry_from_pmid</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打开文件</span></span><br><span class="line">inputFile = open(<span class="string">&quot;pmid-physicalac-set.txt&quot;</span>, <span class="string">&quot;r&quot;</span>) <span class="comment">#只有将下载的PMID文档放入python文件同一个文件夹才可以用相对路径 否则用绝对路径</span></span><br><span class="line">outputFile = open(<span class="string">&quot;output.txt&quot;</span>, <span class="string">&quot;w&quot;</span>)            <span class="comment">#新建输出文档</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> inputFile.readlines():                          <span class="comment">#依次读取每行  </span></span><br><span class="line">    line = line.strip()                             <span class="comment">#去掉每行头尾空白  </span></span><br><span class="line">    <span class="keyword">print</span> (<span class="string">&quot;读取的数据为: %s&quot;</span> % (line))							</span><br><span class="line">    bibMes = bibtex_entry_from_pmid(int(line))</span><br><span class="line">    print(bibMes)</span><br><span class="line">    outputFile.write(bibMes)                       <span class="comment">#写入输出文档</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭文件</span></span><br><span class="line">inputFile.close()</span><br><span class="line">outputFile.close()</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>这个时候python文件所在文件夹里就应该有一个名为 output.txt 的文档，里面就是相对应的信息啦，把后缀改为.bib就可以放入 biblioshiny里啦。</p>
-<p>P.S. 只是因为这个库依托的是TexMed，所以转换速度会慢一些，如果量大的话可能得等一阵。</p>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>鼓捣文献</category>
-      </categories>
-      <tags>
-        <tag>Research</tag>
       </tags>
   </entry>
   <entry>
@@ -361,6 +361,83 @@ url: #填这里</code></pre>
       </tags>
   </entry>
   <entry>
+    <title>Hexo-Academia 配置</title>
+    <url>/2020/09/07/hexo-academia/</url>
+    <content><![CDATA[<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><ul>
+<li><p>一个已经搭建在Github Pages上的Hexo网站</p>
+<p>如果没有的话可以按照<a href="https://whitelephantee.github.io/2020/09/05/hexo-building/">这个链接</a>里进行搭建。</p>
+</li>
+<li><p>git 和 npm</p>
+</li>
+</ul>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>下载配置文件。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/PhosphorW/hexo-theme-academia.git themes/Academia</span><br></pre></td></tr></table></figure>
+
+<p>下载需要的插件。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install hexo-renderer-pug hexo-renderer-stylus</span><br></pre></td></tr></table></figure>
+
+<p>在项目的 _config.yml 中找到 theme 一栏并进行更改。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install hexo-renderer-pug hexo-renderer-stylus</span><br></pre></td></tr></table></figure>
+
+<p>##主题配置</p>
+<p>打开 themes 的 _config.yml（注意不是 hexo project 的 _config.yml ）</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">open _config.yml</span><br></pre></td></tr></table></figure>
+
+<p>个人信息配置。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">author: <span class="comment">#个人姓名</span></span><br><span class="line">author_bio: <span class="comment">#个人简介</span></span><br><span class="line">avatar: /img/avatar.jpg <span class="comment">#个人头像 默认是小灰人 可以通过在/themes/Academia/source/img/avatar.jpg 替换添加</span></span><br><span class="line"><span class="comment"># if author sets in hexo_config, this string doesn&#x27;t work</span></span><br></pre></td></tr></table></figure>
+
+<p>顶部菜单栏设置，默认提供 Publications，About 和 Blog，可以页内跳转也可以添加外链</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">menu:</span><br><span class="line">  Publications: /<span class="comment">#Publications #页内跳转</span></span><br><span class="line">  About: /</span><br><span class="line">  Blog: https://phower.me <span class="comment">#添加外链</span></span><br></pre></td></tr></table></figure>
+
+<p>添加社交信息，附带小图标，不需要的或不想展示的可以注释掉，或者直接关掉。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">social:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span> <span class="comment">#不想展示可以关掉</span></span><br><span class="line">social_links:</span><br><span class="line">  fab fa-twitter: /</span><br><span class="line">  fab fa-facebook-square: /</span><br><span class="line">  fab fa-github: /</span><br><span class="line">  fab fa-stack-overflow: /</span><br><span class="line">  fab fa-linkedin: /</span><br><span class="line">  fab fa-weibo: /</span><br><span class="line">  fab fa-weixin: /</span><br><span class="line">  fab fa-qq: /</span><br><span class="line">  fas fa-envelope: / <span class="comment">#E-mail</span></span><br><span class="line">  fas fa-rss: /  <span class="comment">#rss</span></span><br><span class="line">  </span><br><span class="line">e_social:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span> <span class="comment">#额外社交链接</span></span><br><span class="line">e_social_links:</span><br><span class="line">  Google Scholar: / || fas fa-graduation-cap</span><br><span class="line">  ORCID: / || fab fa-orcid</span><br></pre></td></tr></table></figure>
+
+<p>可以添加个人简历，可以通过在/themes/Academia/source/attaches/CV.pdf 替换添加。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cv_dl:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span></span><br><span class="line">  dir: /attaches/CV.pdf</span><br><span class="line">  description: My Detail CV.</span><br></pre></td></tr></table></figure>
+
+<h1 id="编辑主页"><a href="#编辑主页" class="headerlink" title="编辑主页"></a>编辑主页</h1><p>新建文章。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo n post <span class="string">&quot;any title&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>去到 hexo project 的/source/_posts 中就能找到名称相同的 markdown 文档，里面有几行内容。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: Public <span class="comment">#标题</span></span><br><span class="line">date: 2020-09-07 15:45:51 <span class="comment">#创建日期</span></span><br><span class="line">tags: <span class="comment">#标签 在 Academia 风格下不提供标签 所以无效</span></span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+
+<p>在文首加上 academia: true，才会被 academia 显示出来。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: Public <span class="comment">#标题</span></span><br><span class="line">date: 2020-09-07 15:45:51 <span class="comment">#创建日期</span></span><br><span class="line">tags: <span class="comment">#标签 在 Academia 风格下不提供标签 所以无效</span></span><br><span class="line">academia: <span class="literal">true</span></span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+
+<p>然后就可以在上面写想写的内容啦。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: Public <span class="comment">#标题</span></span><br><span class="line">date: 2020-09-07 15:45:51 <span class="comment">#创建日期</span></span><br><span class="line">tags: <span class="comment">#标签 在 Academia 风格下不提供标签 所以无效</span></span><br><span class="line">academia: <span class="literal">true</span></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">在这里用 markdown 语法写任意想写的内容。</span><br></pre></td></tr></table></figure>
+
+<h1 id="编辑其他页"><a href="#编辑其他页" class="headerlink" title="编辑其他页"></a>编辑其他页</h1><p>我这里以 Publications 页为例。现在只在标题栏中有  Publications，但是实际后段文档中并没有，所以我们需要先添加一下。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo n post <span class="string">&quot;Publications&quot;</span>  </span><br></pre></td></tr></table></figure>
+
+<p>然后系统就会在/source 里新增一个同名文件夹，同时文件夹里有一个 index.md. 直接打开然后和之前一样编辑就好啦。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /<span class="built_in">source</span>/Publications</span><br><span class="line">open index.md</span><br></pre></td></tr></table></figure>
+
+<p>编辑完成之后要在 Academia 的  _config.yml 文件中链接一下。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">menu:</span><br><span class="line">  Publications: /Publications</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mac访达Finder中文件绝对路径怎么找</title>
+    <url>/2020/09/07/mac-path/</url>
+    <content><![CDATA[<p>最方便快捷的方式就是直接点击想知道路径的文件，然后按 option-command-c 就能自动复制到剪贴板啦，超easy！</p>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>mac</tag>
+        <tag>小技巧</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hexo + Github Pages 搭建个人网站</title>
     <url>/2020/09/05/hexo-building/</url>
     <content><![CDATA[<p>作为一名基本不会编程只学了一阵python的真·小白，记录一下探索的过程～</p>
@@ -579,83 +656,6 @@ chmod 755 deploy.sh
       </tags>
   </entry>
   <entry>
-    <title>Hexo-Academia 配置</title>
-    <url>/2020/09/07/hexo-academia/</url>
-    <content><![CDATA[<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><ul>
-<li><p>一个已经搭建在Github Pages上的Hexo网站</p>
-<p>如果没有的话可以按照<a href="https://whitelephantee.github.io/2020/09/05/hexo-building/">这个链接</a>里进行搭建。</p>
-</li>
-<li><p>git 和 npm</p>
-</li>
-</ul>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>下载配置文件。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/PhosphorW/hexo-theme-academia.git themes/Academia</span><br></pre></td></tr></table></figure>
-
-<p>下载需要的插件。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install hexo-renderer-pug hexo-renderer-stylus</span><br></pre></td></tr></table></figure>
-
-<p>在项目的 _config.yml 中找到 theme 一栏并进行更改。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install hexo-renderer-pug hexo-renderer-stylus</span><br></pre></td></tr></table></figure>
-
-<p>##主题配置</p>
-<p>打开 themes 的 _config.yml（注意不是 hexo project 的 _config.yml ）</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">open _config.yml</span><br></pre></td></tr></table></figure>
-
-<p>个人信息配置。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">author: <span class="comment">#个人姓名</span></span><br><span class="line">author_bio: <span class="comment">#个人简介</span></span><br><span class="line">avatar: /img/avatar.jpg <span class="comment">#个人头像 默认是小灰人 可以通过在/themes/Academia/source/img/avatar.jpg 替换添加</span></span><br><span class="line"><span class="comment"># if author sets in hexo_config, this string doesn&#x27;t work</span></span><br></pre></td></tr></table></figure>
-
-<p>顶部菜单栏设置，默认提供 Publications，About 和 Blog，可以页内跳转也可以添加外链</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">menu:</span><br><span class="line">  Publications: /<span class="comment">#Publications #页内跳转</span></span><br><span class="line">  About: /</span><br><span class="line">  Blog: https://phower.me <span class="comment">#添加外链</span></span><br></pre></td></tr></table></figure>
-
-<p>添加社交信息，附带小图标，不需要的或不想展示的可以注释掉，或者直接关掉。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">social:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span> <span class="comment">#不想展示可以关掉</span></span><br><span class="line">social_links:</span><br><span class="line">  fab fa-twitter: /</span><br><span class="line">  fab fa-facebook-square: /</span><br><span class="line">  fab fa-github: /</span><br><span class="line">  fab fa-stack-overflow: /</span><br><span class="line">  fab fa-linkedin: /</span><br><span class="line">  fab fa-weibo: /</span><br><span class="line">  fab fa-weixin: /</span><br><span class="line">  fab fa-qq: /</span><br><span class="line">  fas fa-envelope: / <span class="comment">#E-mail</span></span><br><span class="line">  fas fa-rss: /  <span class="comment">#rss</span></span><br><span class="line">  </span><br><span class="line">e_social:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span> <span class="comment">#额外社交链接</span></span><br><span class="line">e_social_links:</span><br><span class="line">  Google Scholar: / || fas fa-graduation-cap</span><br><span class="line">  ORCID: / || fab fa-orcid</span><br></pre></td></tr></table></figure>
-
-<p>可以添加个人简历，可以通过在/themes/Academia/source/attaches/CV.pdf 替换添加。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cv_dl:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span></span><br><span class="line">  dir: /attaches/CV.pdf</span><br><span class="line">  description: My Detail CV.</span><br></pre></td></tr></table></figure>
-
-<h1 id="编辑主页"><a href="#编辑主页" class="headerlink" title="编辑主页"></a>编辑主页</h1><p>新建文章。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo n post <span class="string">&quot;any title&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>去到 hexo project 的/source/_posts 中就能找到名称相同的 markdown 文档，里面有几行内容。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: Public <span class="comment">#标题</span></span><br><span class="line">date: 2020-09-07 15:45:51 <span class="comment">#创建日期</span></span><br><span class="line">tags: <span class="comment">#标签 在 Academia 风格下不提供标签 所以无效</span></span><br><span class="line">---</span><br></pre></td></tr></table></figure>
-
-<p>在文首加上 academia: true，才会被 academia 显示出来。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: Public <span class="comment">#标题</span></span><br><span class="line">date: 2020-09-07 15:45:51 <span class="comment">#创建日期</span></span><br><span class="line">tags: <span class="comment">#标签 在 Academia 风格下不提供标签 所以无效</span></span><br><span class="line">academia: <span class="literal">true</span></span><br><span class="line">---</span><br></pre></td></tr></table></figure>
-
-<p>然后就可以在上面写想写的内容啦。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: Public <span class="comment">#标题</span></span><br><span class="line">date: 2020-09-07 15:45:51 <span class="comment">#创建日期</span></span><br><span class="line">tags: <span class="comment">#标签 在 Academia 风格下不提供标签 所以无效</span></span><br><span class="line">academia: <span class="literal">true</span></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">在这里用 markdown 语法写任意想写的内容。</span><br></pre></td></tr></table></figure>
-
-<h1 id="编辑其他页"><a href="#编辑其他页" class="headerlink" title="编辑其他页"></a>编辑其他页</h1><p>我这里以 Publications 页为例。现在只在标题栏中有  Publications，但是实际后段文档中并没有，所以我们需要先添加一下。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo n post <span class="string">&quot;Publications&quot;</span>  </span><br></pre></td></tr></table></figure>
-
-<p>然后系统就会在/source 里新增一个同名文件夹，同时文件夹里有一个 index.md. 直接打开然后和之前一样编辑就好啦。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /<span class="built_in">source</span>/Publications</span><br><span class="line">open index.md</span><br></pre></td></tr></table></figure>
-
-<p>编辑完成之后要在 Academia 的  _config.yml 文件中链接一下。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">menu:</span><br><span class="line">  Publications: /Publications</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mac访达Finder中文件绝对路径怎么找</title>
-    <url>/2020/09/07/mac-path/</url>
-    <content><![CDATA[<p>最方便快捷的方式就是直接点击想知道路径的文件，然后按 option-command-c 就能自动复制到剪贴板啦，超easy！</p>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>mac</tag>
-        <tag>小技巧</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>mac图片大小调整</title>
     <url>/2020/09/08/mac-photo-sizing/</url>
     <content><![CDATA[<p>有时某些网站会限制上传照片的大小（50K变到10K），或者需要调整照片的大小（2寸照片变成1寸），这些当然可以通过phtooshop简单做到，但是mac预览本身也提供了非常简单的方法可以进行修改。</p>
@@ -697,6 +697,19 @@ chmod 755 deploy.sh
       </tags>
   </entry>
   <entry>
+    <title>mac一些有用的快捷键（随时更新）</title>
+    <url>/2020/09/08/mac-shortcut/</url>
+    <content><![CDATA[<p>command+i | 访达 | 显示简介<br>command+shift+c | 访达 ｜ 复制路径</p>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>mac</tag>
+        <tag>小技巧</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>如何在 numbers 单元格内换行？</title>
     <url>/2020/09/07/numbers-return/</url>
     <content><![CDATA[<p>通常我们都习惯在写文本的时候按回车（Enter）换行，但在numbers里，按了回车是会自动跳到下一格的，那么如何解决这个问题？</p>
@@ -716,19 +729,6 @@ chmod 755 deploy.sh
       <tags>
         <tag>小技巧</tag>
         <tag>numbers</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mac一些有用的快捷键（随时更新）</title>
-    <url>/2020/09/08/mac-shortcut/</url>
-    <content><![CDATA[<p>command+i | 访达 | 显示简介<br>command+shift+c | 访达 ｜ 复制路径</p>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>mac</tag>
-        <tag>小技巧</tag>
       </tags>
   </entry>
   <entry>
@@ -795,6 +795,38 @@ chmod 755 deploy.sh
       <tags>
         <tag>python</tag>
         <tag>anki</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python小菜鸟备忘录：用python读取/写入excel</title>
+    <url>/2021/06/03/python%20-%20excel/</url>
+    <content><![CDATA[<p>最近要做数据分析，总要跟excel打交道，我好懒，于是打算用python搞搞excel</p>
+<h2 id="读取"><a href="#读取" class="headerlink" title="读取"></a>读取</h2><p>使用的库是xlrd，基本操作</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> xlrd</span><br><span class="line"><span class="keyword">with</span> xlrd.open_workbook(<span class="string">&#x27;x.xlsx&#x27;</span>) <span class="keyword">as</span> workbook: <span class="comment">#打开文档</span></span><br><span class="line">    worksheet=workbook.sheet_by_name(<span class="string">&#x27;Sheet1&#x27;</span>) <span class="comment">#读取工作表</span></span><br><span class="line">    <span class="keyword">for</span> row_index <span class="keyword">in</span> range(worksheet.nrows): <span class="comment">#对于每一行</span></span><br><span class="line">        content = worksheet.cell_value(row_index, <span class="number">0</span>) <span class="comment">#获取某个格的内容</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#或者另外一种方法读取excel</span></span><br><span class="line">data_excel=xlrd.open_workbook(<span class="string">&#x27;data/dataset.xlsx&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取所有sheet名称</span></span><br><span class="line">names=data_excel.sheet_names()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取book中的sheet工作表的三种方法,返回一个xlrd.sheet.Sheet()对象</span></span><br><span class="line">table=data_excel.sheets()[<span class="number">0</span>]  <span class="comment"># 通过索引顺序获取sheet</span></span><br><span class="line">table=data_excel.sheet_by_index(sheetx=<span class="number">0</span>) <span class="comment"># 通过索引顺序获取sheet</span></span><br><span class="line">table=data_excel.sheet_by_name(sheet_name=<span class="string">&#x27;Sheet1&#x27;</span>) <span class="comment"># 通过名称获取</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># excel工作表的行列操作</span></span><br><span class="line">n_rows=table.nrows  <span class="comment"># 获取该sheet中的有效行数</span></span><br><span class="line">n_cols=table.ncols  <span class="comment"># 获取该sheet中的有效列数</span></span><br><span class="line">row_list=table.row(rowx=<span class="number">0</span>)  <span class="comment"># 返回某行中所有的单元格对象组成的列表</span></span><br><span class="line">cols_list=table.col(colx=<span class="number">0</span>) <span class="comment"># 返回某列中所有的单元格对象组成的列表</span></span><br><span class="line">content_list = worksheet.row_values(<span class="number">0</span>) <span class="comment">#获取某行中所有的单元格内容组成的列表</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 返回某行中所有单元格的数据组成的列表</span></span><br><span class="line">row_data=table.row_values(<span class="number">0</span>,start_colx=<span class="number">0</span>,end_colx=<span class="literal">None</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 返回某列中所有单元格的数据组成的列表</span></span><br><span class="line">cols_data=table.col_values(<span class="number">0</span>,start_rowx=<span class="number">0</span>,end_rowx=<span class="literal">None</span>)</span><br><span class="line">row_lenth=table.row_len(<span class="number">0</span>)  <span class="comment"># 返回某行的有效单元格长度</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="写入"><a href="#写入" class="headerlink" title="写入"></a>写入</h2><p>写入的库是 xlwt</p>
+<p>```python</p>
+<h1 id="创建一个workbook-设置编码"><a href="#创建一个workbook-设置编码" class="headerlink" title="创建一个workbook 设置编码"></a>创建一个workbook 设置编码</h1><p>workbook = xlwt.Workbook(encoding=’utf-8’)</p>
+<h1 id="创建一个worksheet"><a href="#创建一个worksheet" class="headerlink" title="创建一个worksheet"></a>创建一个worksheet</h1><p>worksheet = workbook.add_sheet(‘Sheet1’)</p>
+<p>#字体样式设置<br>style = xlwt.XFStyle()  # 初始化样式<br>font = xlwt.Font()  # 为样式创建字体<br>font.name = ‘Times New Roman’<br>font.height = 20 * 11  # 字体大小，11为字号，20为衡量单位<br>font.bold = True  # 黑体<br>font.underline = True  # 下划线<br>font.italic = True  # 斜体字<br>style.font = font  # 设定样式</p>
+<h1 id="数据写入excel-参数对应-行-列-值"><a href="#数据写入excel-参数对应-行-列-值" class="headerlink" title="数据写入excel,参数对应 行, 列, 值"></a>数据写入excel,参数对应 行, 列, 值</h1><p>worksheet.write(0, 0, ‘test_data’)  # 不带样式的写入<br>worksheet.write(1, 0, ‘test_data’, style)  # 带字体样式的写入</p>
+<h1 id="设置单元格宽度"><a href="#设置单元格宽度" class="headerlink" title="设置单元格宽度"></a>设置单元格宽度</h1><p>worksheet.col(0).width = 3333</p>
+<p>#设置单元格背景颜色<br>pattern = xlwt.Pattern()<br>pattern.pattern = xlwt.Pattern.SOLID_PATTERN<br>pattern.pattern_fore_colour = 13<br>style = xlwt.XFStyle()  # Create the Pattern<br>style.pattern = pattern  # Add Pattern to Style<br>worksheet.write(2, 0, ‘colour’, style)</p>
+<p>#给单元格添加边框方法一<br>borders = xlwt.Borders()  # Create Borders<br>borders.left = xlwt.Borders.DASHED   #DASHED虚线，NO_LINE没有，THIN实线<br>borders.right = xlwt.Borders.DASHED  #borders.right=1 表示实线<br>borders.top = xlwt.Borders.DASHED<br>borders.bottom = xlwt.Borders.DASHED<br>borders.left_colour=0x40<br>borders.right_colour = 0x40<br>borders.top_colour = 0x40<br>borders.bottom_colour = 0x40<br>style = xlwt.XFStyle()  # Create Style<br>style.borders = borders  # Add Borders to Style<br>worksheet.write(3,0 , ‘border1’, style)</p>
+<p>#给单元格添加边框方法二</p>
+<h1 id="细实线-1，小粗实线-2，细虚线-3，中细虚线-4，大粗实线-5，双线-6，细点虚线-7，大粗虚线-8，细点划线-9，粗点划线-10，细双点划线-11，粗双点划线-12，斜点划线-13"><a href="#细实线-1，小粗实线-2，细虚线-3，中细虚线-4，大粗实线-5，双线-6，细点虚线-7，大粗虚线-8，细点划线-9，粗点划线-10，细双点划线-11，粗双点划线-12，斜点划线-13" class="headerlink" title="细实线:1，小粗实线:2，细虚线:3，中细虚线:4，大粗实线:5，双线:6，细点虚线:7，大粗虚线:8，细点划线:9，粗点划线:10，细双点划线:11，粗双点划线:12，斜点划线:13"></a>细实线:1，小粗实线:2，细虚线:3，中细虚线:4，大粗实线:5，双线:6，细点虚线:7，大粗虚线:8，细点划线:9，粗点划线:10，细双点划线:11，粗双点划线:12，斜点划线:13</h1><p>borders = xlwt.Borders()<br>borders.left = 1    #设置为细实线<br>borders.right = 1<br>borders.top = 1<br>borders.bottom = 1<br>borders.left_colour = 2  #颜色设置为红色<br>borders.right_colour = 2<br>borders.top_colour = 2<br>borders.bottom_colour = 2<br>style = xlwt.XFStyle()  # Create Style<br>style.borders = borders  # Add Borders to Style<br>worksheet.write(4, 0, ‘border2’, style)</p>
+<p>#单元格添加计算公式<br>worksheet.write(0, 1, 2)  # Outputs 2<br>worksheet.write(0, 2, 3)  # Outputs 3<br>worksheet.write(1, 1, xlwt.Formula(‘B1*C1’))  # Should output “6” (B1[2] * B2[6])<br>worksheet.write(1, 2, xlwt.Formula(‘SUM(B1,C1)’))  # Should output “5” (B1[2] + C1[3])</p>
+<p>#向单元格添加一个超链接<br>worksheet.write(0, 3, xlwt.Formula(‘HYPERLINK(“<a href="http://www.baidu.com&quot;;&quot;baidu&quot;)&/#39;">http://www.baidu.com&quot;;&quot;baidu&quot;)&#39;</a>))  # Outputs the text “baidu” linking to <a href="http://www.baidu.com/">http://www.baidu.com</a></p>
+<p>#单元格合并<br>worksheet.write_merge(0, 0, 4, 5, ‘First Merge’)   #合并0行的4到5列<br>worksheet.write_merge(1, 2, 4, 5, ‘Second Merge’)  #合并1和2行的4到5列</p>
+<p>#设置单元格内容的对其方式<br>alignment=xlwt.Alignment()  ## Create Alignment<br>alignment.horz=xlwt.Alignment.HORZ_CENTER<br>alignment.vert=xlwt.Alignment.VERT_CENTER<br>style=xlwt.XFStyle()<br>style.alignment=alignment   # Add Alignment to Style<br>worksheet.write(0, 6, ‘alignment’, style)</p>
+<h1 id="保存文件"><a href="#保存文件" class="headerlink" title="保存文件"></a>保存文件</h1><p>workbook.save(‘data_test.xls’)</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://blog.csdn.net/asialee_bird/article/details/105497121">Python3读取和写入excel表格数据</a></p>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
       </tags>
   </entry>
   <entry>
