@@ -1,73 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>如何将PubMed导出BibTex并导入Bibliometrix</title>
-    <url>/2021/01/24/PubMed-Bibliometrix/</url>
-    <content><![CDATA[<p>上期介绍了怎么用bibliometrix，但是我发现导师要求找的数据库是PubMed而新版的PubMed没有导出BibTex的功能，这可怎么办呢，我又求助万能的谷歌，鼓捣了半天，找到了两种方法～</p>
-<ul>
-<li><p>方法一：通过 Endnote 转换</p>
-</li>
-<li><p>方法二：通过 python 转换</p>
-</li>
-</ul>
-<p>这两种方法整体而言没有什么差别，只是看哪个用着更顺手而已，从bib文件就可以看出，由于PubMed本身的局限性，无论是哪种方法都没有办法做到Web of Science那种程度的信息量，WoS里面不仅会有每篇文章的基本信息，还会包括每篇参考文献、作者机构、国家等等，实际上只有这种等级的信息量才能够最大限度利用bibliometrix，因此还是推荐WoS进行分析。但既然都找到方法了，那就继续写完好啦，毕竟不然不就白瞎了嘛～</p>
-<h2 id="通过Endnote转换"><a href="#通过Endnote转换" class="headerlink" title="通过Endnote转换"></a>通过Endnote转换</h2><p>前提：</p>
-<ul>
-<li>安装最新版正版Endnote并新建一个Library</li>
-</ul>
-<p>方法：</p>
-<ol>
-<li><p>从PubMed找到所需文献</p>
-</li>
-<li><p>Send to - Citation Manager - All Results - Create Files</p>
-<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmylfvf5qrj32800sudkw.jpg"></p>
-</li>
-<li><p>点击下载完毕的文档，用相应的Library打开</p>
-</li>
-<li><p>成功加进Endnote后导出</p>
-<p>File - Export - TXT - BibTex</p>
-<p>如果这里没有BibTex的选项，则需要手动添加——</p>
-<ol>
-<li><p>Tools - Output Styles - open style manager </p>
-</li>
-<li><p>找到 BibTex 并勾选</p>
-</li>
-<li><p>如果没有 BibTex 的选项，则点击 Get more on Web 并在弹出的网页搜索 BibTex</p>
-<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmymdojgqpj31qs0u0du5.jpg"></p>
-</li>
-<li><p>点击 Download 下载并将下载好的文件放到 Endnote - Styles 文件夹里就有啦</p>
-</li>
-</ol>
-</li>
-</ol>
-<h2 id="通过-python-转换"><a href="#通过-python-转换" class="headerlink" title="通过 python 转换"></a>通过 python 转换</h2><p>前提：</p>
-<ul>
-<li>已有Python3和相应编程软件如Visual Code Studio</li>
-</ul>
-<p>方法：</p>
-<ol>
-<li><p>从PubMed下载所需文献的PMID导出</p>
-<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmymee9oq6j320v0u0te1.jpg"></p>
-</li>
-<li><p>打开 terminal 用 pip 下载 <a href="https://pypi.org/project/pubmed-bibtex/">pubmed_bibtex</a> 这个库可以将PMID转换为对应的BibTex信息</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">python3 -m pip install pubmed-bibtex</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>新建python文件，读取下载的文档、转换并写入 bibtex</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> pubmed_bibtex <span class="keyword">import</span> bibtex_entry_from_pmid</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打开文件</span></span><br><span class="line">inputFile = open(<span class="string">&quot;pmid-physicalac-set.txt&quot;</span>, <span class="string">&quot;r&quot;</span>) <span class="comment">#只有将下载的PMID文档放入python文件同一个文件夹才可以用相对路径 否则用绝对路径</span></span><br><span class="line">outputFile = open(<span class="string">&quot;output.txt&quot;</span>, <span class="string">&quot;w&quot;</span>)            <span class="comment">#新建输出文档</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> inputFile.readlines():                          <span class="comment">#依次读取每行  </span></span><br><span class="line">    line = line.strip()                             <span class="comment">#去掉每行头尾空白  </span></span><br><span class="line">    <span class="keyword">print</span> (<span class="string">&quot;读取的数据为: %s&quot;</span> % (line))							</span><br><span class="line">    bibMes = bibtex_entry_from_pmid(int(line))</span><br><span class="line">    print(bibMes)</span><br><span class="line">    outputFile.write(bibMes)                       <span class="comment">#写入输出文档</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭文件</span></span><br><span class="line">inputFile.close()</span><br><span class="line">outputFile.close()</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>这个时候python文件所在文件夹里就应该有一个名为 output.txt 的文档，里面就是相对应的信息啦，把后缀改为.bib就可以放入 biblioshiny里啦。</p>
-<p>P.S. 只是因为这个库依托的是TexMed，所以转换速度会慢一些，如果量大的话可能得等一阵。</p>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>鼓捣文献</category>
-      </categories>
-      <tags>
-        <tag>Research</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>aria2安装+使用</title>
     <url>/2020/09/08/aria2/</url>
     <content><![CDATA[<p>好久之前下过 aria2, 不过很久没用，时间太久都已经忘了怎么用了，所以今天心血来潮又重新折腾了一番，</p>
@@ -193,8 +126,8 @@ whitelephant     14893   0.0  0.0  5286740   1076   ??  Ss    3:47下午   0:00.
         <category>鼓捣文献</category>
       </categories>
       <tags>
-        <tag>Research</tag>
         <tag>R</tag>
+        <tag>Research</tag>
       </tags>
   </entry>
   <entry>
@@ -234,41 +167,71 @@ whitelephant     14893   0.0  0.0  5286740   1076   ??  Ss    3:47下午   0:00.
       </tags>
   </entry>
   <entry>
-    <title>如何直接在chrome浏览器网页上高亮文本内容？</title>
-    <url>/2020/09/07/chrome-highlight/</url>
-    <content><![CDATA[<p>写东西的时候经常会在网页上看到一些有用的内容 但通常会打开好几个标签页好几千字 竟然在开始动笔的时候就找不到需要的那段话去哪儿了 经过一番寻找和对比（主要是对比Diigo和CollaMark），最终发现了 <a href="https://link.jianshu.com/?t=https://chrome.google.com/webstore/detail/pdf-markup-my-web-markups/cbjngbfjehiofmihfpodinolkcokdojp">Markup</a> 拓展是我想要的那一款！</p>
-<p>优势：</p>
+    <title>如何将PubMed导出BibTex并导入Bibliometrix</title>
+    <url>/2021/01/24/PubMed-Bibliometrix/</url>
+    <content><![CDATA[<p>上期介绍了怎么用bibliometrix，但是我发现导师要求找的数据库是PubMed而新版的PubMed没有导出BibTex的功能，这可怎么办呢，我又求助万能的谷歌，鼓捣了半天，找到了两种方法～</p>
 <ul>
-<li><p>标注后网页高亮</p>
+<li><p>方法一：通过 Endnote 转换</p>
 </li>
-<li><p>页面旁同时也有一个个内容标签</p>
+<li><p>方法二：通过 python 转换</p>
 </li>
-<li><p>主页里留有标注的出处网址</p>
-</li>
+</ul>
+<p>这两种方法整体而言没有什么差别，只是看哪个用着更顺手而已，从bib文件就可以看出，由于PubMed本身的局限性，无论是哪种方法都没有办法做到Web of Science那种程度的信息量，WoS里面不仅会有每篇文章的基本信息，还会包括每篇参考文献、作者机构、国家等等，实际上只有这种等级的信息量才能够最大限度利用bibliometrix，因此还是推荐WoS进行分析。但既然都找到方法了，那就继续写完好啦，毕竟不然不就白瞎了嘛～</p>
+<h2 id="通过Endnote转换"><a href="#通过Endnote转换" class="headerlink" title="通过Endnote转换"></a>通过Endnote转换</h2><p>前提：</p>
+<ul>
+<li>安装最新版正版Endnote并新建一个Library</li>
 </ul>
 <p>方法：</p>
 <ol>
-<li><p>点击上面的链接 将markup加载自己的拓展里<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiaxny04yg30xc0h44nr.gif" alt="9808904-e43e1bdaa2048e9d"></p>
+<li><p>从PubMed找到所需文献</p>
 </li>
-<li><p>进入markup官网注册<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiaxtbs4wg30xc0h4n1g.gif" alt="9808904-10285bc0ed9fae83"></p>
+<li><p>Send to - Citation Manager - All Results - Create Files</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmylfvf5qrj32800sudkw.jpg"></p>
 </li>
-<li><p>注册之后进入 看到的这些内容都是其他人标注的内容 不用管这些 把它关掉 就可以愉快的开始标注啦<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiay0r90rg30xc0h4dm6.gif" alt="9808904-879b9225b7c3256e"></p>
+<li><p>点击下载完毕的文档，用相应的Library打开</p>
+</li>
+<li><p>成功加进Endnote后导出</p>
+<p>File - Export - TXT - BibTex</p>
+<p>如果这里没有BibTex的选项，则需要手动添加——</p>
+<ol>
+<li><p>Tools - Output Styles - open style manager </p>
+</li>
+<li><p>找到 BibTex 并勾选</p>
+</li>
+<li><p>如果没有 BibTex 的选项，则点击 Get more on Web 并在弹出的网页搜索 BibTex</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmymdojgqpj31qs0u0du5.jpg"></p>
+</li>
+<li><p>点击 Download 下载并将下载好的文件放到 Endnote - Styles 文件夹里就有啦</p>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="通过-python-转换"><a href="#通过-python-转换" class="headerlink" title="通过 python 转换"></a>通过 python 转换</h2><p>前提：</p>
+<ul>
+<li>已有Python3和相应编程软件如Visual Code Studio</li>
+</ul>
+<p>方法：</p>
+<ol>
+<li><p>从PubMed下载所需文献的PMID导出</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmymee9oq6j320v0u0te1.jpg"></p>
+</li>
+<li><p>打开 terminal 用 pip 下载 <a href="https://pypi.org/project/pubmed-bibtex/">pubmed_bibtex</a> 这个库可以将PMID转换为对应的BibTex信息</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">python3 -m pip install pubmed-bibtex</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>新建python文件，读取下载的文档、转换并写入 bibtex</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> pubmed_bibtex <span class="keyword">import</span> bibtex_entry_from_pmid</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打开文件</span></span><br><span class="line">inputFile = open(<span class="string">&quot;pmid-physicalac-set.txt&quot;</span>, <span class="string">&quot;r&quot;</span>) <span class="comment">#只有将下载的PMID文档放入python文件同一个文件夹才可以用相对路径 否则用绝对路径</span></span><br><span class="line">outputFile = open(<span class="string">&quot;output.txt&quot;</span>, <span class="string">&quot;w&quot;</span>)            <span class="comment">#新建输出文档</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> inputFile.readlines():                          <span class="comment">#依次读取每行  </span></span><br><span class="line">    line = line.strip()                             <span class="comment">#去掉每行头尾空白  </span></span><br><span class="line">    <span class="keyword">print</span> (<span class="string">&quot;读取的数据为: %s&quot;</span> % (line))							</span><br><span class="line">    bibMes = bibtex_entry_from_pmid(int(line))</span><br><span class="line">    print(bibMes)</span><br><span class="line">    outputFile.write(bibMes)                       <span class="comment">#写入输出文档</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭文件</span></span><br><span class="line">inputFile.close()</span><br><span class="line">outputFile.close()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>这个时候python文件所在文件夹里就应该有一个名为 output.txt 的文档，里面就是相对应的信息啦，把后缀改为.bib就可以放入 biblioshiny里啦。</p>
+<p>P.S. 只是因为这个库依托的是TexMed，所以转换速度会慢一些，如果量大的话可能得等一阵。</p>
 </li>
 </ol>
 ]]></content>
       <categories>
-        <category>鼓捣电脑</category>
+        <category>鼓捣文献</category>
       </categories>
       <tags>
-        <tag>小技巧</tag>
-        <tag>pages</tag>
+        <tag>Research</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/2020/09/05/hello-world/</url>
-    <content><![CDATA[<p>作为一个只学过一点python的小白，终于！经过两天的倒腾，终于搞定了这个个人网页！呱唧呱唧喜大普奔！</p>
-]]></content>
   </entry>
   <entry>
     <title>Hexo 优化 II</title>
@@ -358,6 +321,43 @@ url: #填这里</code></pre>
       </categories>
       <tags>
         <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2020/09/05/hello-world/</url>
+    <content><![CDATA[<p>作为一个只学过一点python的小白，终于！经过两天的倒腾，终于搞定了这个个人网页！呱唧呱唧喜大普奔！</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>如何直接在chrome浏览器网页上高亮文本内容？</title>
+    <url>/2020/09/07/chrome-highlight/</url>
+    <content><![CDATA[<p>写东西的时候经常会在网页上看到一些有用的内容 但通常会打开好几个标签页好几千字 竟然在开始动笔的时候就找不到需要的那段话去哪儿了 经过一番寻找和对比（主要是对比Diigo和CollaMark），最终发现了 <a href="https://link.jianshu.com/?t=https://chrome.google.com/webstore/detail/pdf-markup-my-web-markups/cbjngbfjehiofmihfpodinolkcokdojp">Markup</a> 拓展是我想要的那一款！</p>
+<p>优势：</p>
+<ul>
+<li><p>标注后网页高亮</p>
+</li>
+<li><p>页面旁同时也有一个个内容标签</p>
+</li>
+<li><p>主页里留有标注的出处网址</p>
+</li>
+</ul>
+<p>方法：</p>
+<ol>
+<li><p>点击上面的链接 将markup加载自己的拓展里<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiaxny04yg30xc0h44nr.gif" alt="9808904-e43e1bdaa2048e9d"></p>
+</li>
+<li><p>进入markup官网注册<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiaxtbs4wg30xc0h4n1g.gif" alt="9808904-10285bc0ed9fae83"></p>
+</li>
+<li><p>注册之后进入 看到的这些内容都是其他人标注的内容 不用管这些 把它关掉 就可以愉快的开始标注啦<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiay0r90rg30xc0h4dm6.gif" alt="9808904-879b9225b7c3256e"></p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>小技巧</tag>
+        <tag>pages</tag>
       </tags>
   </entry>
   <entry>
@@ -673,6 +673,19 @@ chmod 755 deploy.sh
       </tags>
   </entry>
   <entry>
+    <title>mac一些有用的快捷键（随时更新）</title>
+    <url>/2020/09/08/mac-shortcut/</url>
+    <content><![CDATA[<p>command+i | 访达 | 显示简介<br>command+shift+c | 访达 ｜ 复制路径</p>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>mac</tag>
+        <tag>小技巧</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>mac pip 用法</title>
     <url>/2020/10/19/mac-pip/</url>
     <content><![CDATA[<p>mac系统更新后，pip以前的命令似乎都不能用了。</p>
@@ -694,19 +707,6 @@ chmod 755 deploy.sh
       </categories>
       <tags>
         <tag>mac</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mac一些有用的快捷键（随时更新）</title>
-    <url>/2020/09/08/mac-shortcut/</url>
-    <content><![CDATA[<p>command+i | 访达 | 显示简介<br>command+shift+c | 访达 ｜ 复制路径</p>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>mac</tag>
-        <tag>小技巧</tag>
       </tags>
   </entry>
   <entry>
@@ -748,28 +748,6 @@ chmod 755 deploy.sh
 <p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiao3q6cvj30ti0m40tz.jpg" alt="9808904-778c5800c618cf4c"></p>
 <h1 id="小栗子"><a href="#小栗子" class="headerlink" title="小栗子"></a>小栗子</h1><p>1.0版：<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiaoc2qskg30sf0kbwhv.gif" alt="9808904-d6799f3140157c59"></p>
 <p>2.0版<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiaovee63g30sf0kbabl.gif" alt="9808904-4812c80c61f8814c"></p>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>小技巧</tag>
-        <tag>pages</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Pages如何快速无格式粘贴粘贴</title>
-    <url>/2020/09/07/pages-paste/</url>
-    <content><![CDATA[<p>很多时候我们复制的文本都是带有格式的 可我们又不需要 粘贴过来再要改又好麻烦 那怎么破呢？</p>
-<h1 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h1><ol>
-<li><p>标签栏-编辑-粘贴并匹配样式</p>
-</li>
-<li><p>快捷键：shift+option+command+v</p>
-</li>
-</ol>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giicesxtguj30xc0hqgmy.jpg" alt="9808904-d0bc2014ff4d9869"></p>
-<h1 id="小栗子"><a href="#小栗子" class="headerlink" title="小栗子"></a>小栗子</h1><p>1.0版：<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giicfqj6ljg30s90kcwht.gif" alt="9808904-c940fa8e6cf85b3d"></p>
-<p>2.0版：<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giicftx0p8g30s90kcta8.gif" alt="9808904-d0d98444cda8b3a1"></p>
 ]]></content>
       <categories>
         <category>鼓捣电脑</category>
@@ -827,6 +805,43 @@ chmod 755 deploy.sh
       </categories>
       <tags>
         <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python小菜鸟备忘录：怎么多行注释</title>
+    <url>/2021/02/12/python%20-%20notation/</url>
+    <content><![CDATA[<p>总是忘记怎么多行注释，每次都要谷歌一下，还是记在这里更靠谱一些！</p>
+<hr>
+<p>一次性多行注释：cmd+/</p>
+<p>不要再忘啦喂！</p>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Pages如何快速无格式粘贴粘贴</title>
+    <url>/2020/09/07/pages-paste/</url>
+    <content><![CDATA[<p>很多时候我们复制的文本都是带有格式的 可我们又不需要 粘贴过来再要改又好麻烦 那怎么破呢？</p>
+<h1 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h1><ol>
+<li><p>标签栏-编辑-粘贴并匹配样式</p>
+</li>
+<li><p>快捷键：shift+option+command+v</p>
+</li>
+</ol>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giicesxtguj30xc0hqgmy.jpg" alt="9808904-d0bc2014ff4d9869"></p>
+<h1 id="小栗子"><a href="#小栗子" class="headerlink" title="小栗子"></a>小栗子</h1><p>1.0版：<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giicfqj6ljg30s90kcwht.gif" alt="9808904-c940fa8e6cf85b3d"></p>
+<p>2.0版：<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giicftx0p8g30s90kcta8.gif" alt="9808904-d0d98444cda8b3a1"></p>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>小技巧</tag>
+        <tag>pages</tag>
       </tags>
   </entry>
   <entry>
@@ -901,43 +916,6 @@ chmod 755 deploy.sh
 <h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">f.name <span class="comment">#返回文件名</span></span><br><span class="line">f.truncate([size]) <span class="comment">#截断文件</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://www.runoob.com/python/file-methods.html">菜鸟教程</a></p>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>python小菜鸟备忘录：怎么多行注释</title>
-    <url>/2021/02/12/python%20-%20notation/</url>
-    <content><![CDATA[<p>总是忘记怎么多行注释，每次都要谷歌一下，还是记在这里更靠谱一些！</p>
-<hr>
-<p>一次性多行注释：cmd+/</p>
-<p>不要再忘啦喂！</p>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>python小菜鸟备忘录：用python读取word</title>
-    <url>/2021/05/23/python%20-%20wordread/</url>
-    <content><![CDATA[<p>突发奇想想将读取pdf做anki卡组，以为会很简单，没想到最后卡在读取word上，赶紧记在小本本上，下回读取word就不怕啦！</p>
-<hr>
-<p>还是用docx库，具体安装之前写过，直接跳过写怎么用啦。</p>
-<h2 id="读取文档对象"><a href="#读取文档对象" class="headerlink" title="读取文档对象"></a>读取文档对象</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> docx </span><br><span class="line"></span><br><span class="line">path = <span class="string">&quot;C:\test.docx&quot;</span> <span class="comment">#文件路径</span></span><br><span class="line"></span><br><span class="line">file = docx.Document(path) <span class="comment">#读取文档</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="读取文本"><a href="#读取文本" class="headerlink" title="读取文本"></a>读取文本</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">##获取所有内容</span></span><br><span class="line">content = file.paragraphs <span class="comment">#paragraphs基本上有所有信息 包括文本和后面要说到的属性</span></span><br><span class="line">print(content.text)</span><br><span class="line"></span><br><span class="line"><span class="comment">#循环读取文本</span></span><br><span class="line"><span class="keyword">for</span> f <span class="keyword">in</span> file.paragraphs:</span><br><span class="line">    print(f.text)</span><br></pre></td></tr></table></figure>
-
-<h2 id="获取属性"><a href="#获取属性" class="headerlink" title="获取属性"></a>获取属性</h2><p>以获取文本颜色为例</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> p <span class="keyword">in</span> file.paragraphs:</span><br><span class="line">    <span class="keyword">for</span> n <span class="keyword">in</span> p.runs: <span class="comment">#p.runs里有该段落每个字符（包括空格）的属性信息 也是list</span></span><br><span class="line">        color = str(n.font.color.rgb) <span class="comment">#获取每个字符的颜色（空格是字符串的None）</span></span><br><span class="line">  </span><br></pre></td></tr></table></figure>
-
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://blog.csdn.net/Pythoncxy/article/details/95339953">Python读取word文档识别字段颜色，解析字段</a></p>
 ]]></content>
       <categories>
         <category>鼓捣电脑</category>
@@ -1040,6 +1018,67 @@ chmod 755 deploy.sh
       <tags>
         <tag>小技巧</tag>
         <tag>视频</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python小菜鸟备忘录：用python做简易爬虫</title>
+    <url>/2021/07/02/python%20-%20%E7%88%AC%E8%99%AB/</url>
+    <content><![CDATA[<p>小菜鸟开始爬虫之旅了！记录一下！</p>
+<h2 id="安装库"><a href="#安装库" class="headerlink" title="安装库"></a>安装库</h2><p>安装 requests 库</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">python3 -m pip install requests</span><br></pre></td></tr></table></figure>
+
+<p>安装 beautifulsoup4</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">python3 -m pip install beautifulsoup4</span><br></pre></td></tr></table></figure>
+
+<h2 id="爬取网页"><a href="#爬取网页" class="headerlink" title="爬取网页"></a>爬取网页</h2><p>import库</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br></pre></td></tr></table></figure>
+
+<p>指定 url 并提取网页内容</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">url = <span class="string">&quot;https://……&quot;</span></span><br><span class="line">r = requests.get(url)  </span><br><span class="line">html_doc = r.text</span><br><span class="line"></span><br><span class="line"><span class="comment">#if 要加headers</span></span><br><span class="line">headers = &#123;<span class="string">&#x27;User-Agent&#x27;</span>: <span class="string">&#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36&#x27;</span>&#125;</span><br><span class="line">r = requests.get(res_url, headers=headers)</span><br><span class="line">html_doc = r.text</span><br></pre></td></tr></table></figure>
+
+<h2 id="处理网页内容"><a href="#处理网页内容" class="headerlink" title="处理网页内容"></a>处理网页内容</h2><p>初始化 beautifulsoup4</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Soup = BeautifulSoup(html_doc, <span class="string">&#x27;lxml&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>寻找需要的部分</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#网页里包含多个相同class的内容</span></span><br><span class="line">cols = Soup.find_all(<span class="string">&#x27;div&#x27;</span>, class_=<span class="string">&#x27;col2 articleDetailTeaser&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(cols)):</span><br><span class="line">    all_a = cols[i].find_all(<span class="string">&#x27;a&#x27;</span>) <span class="comment">#找到所有指定class底下的链接</span></span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(len(all_a)):</span><br><span class="line">        res_url = all_a[j][<span class="string">&#x27;href&#x27;</span>] <span class="comment">#[&#x27;href&#x27;]后就是真的链接</span></span><br><span class="line">        </span><br><span class="line"><span class="comment">#网页里只有一个相同class的内容</span></span><br><span class="line">links = Soup.find(<span class="string">&#x27;div&#x27;</span>, class_=<span class="string">&#x27;linkList download&#x27;</span>)</span><br><span class="line">link = links.find(<span class="string">&#x27;a&#x27;</span>)[<span class="string">&#x27;href&#x27;</span>]</span><br></pre></td></tr></table></figure>
+
+<h2 id="下载指定链接文件"><a href="#下载指定链接文件" class="headerlink" title="下载指定链接文件"></a>下载指定链接文件</h2><p>pdf</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">target_file = requests.get(url)</span><br><span class="line">fo = open(<span class="string">&#x27;name.pdf&#x27;</span>,<span class="string">&#x27;wb&#x27;</span>)</span><br><span class="line">fo.write(target_file.content)  </span><br><span class="line">fo.close()</span><br></pre></td></tr></table></figure>
+
+<p>mp3</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">target_file = requests.get(url,stream=<span class="literal">True</span>)</span><br><span class="line">fo = open(<span class="string">&#x27;name.mp3&#x27;</span>,<span class="string">&#x27;ab&#x27;</span>)</span><br><span class="line">fo.write(res.content)</span><br><span class="line">fo.flush()</span><br><span class="line">fo.close()</span><br></pre></td></tr></table></figure>
+
+<h2 id="其他处理"><a href="#其他处理" class="headerlink" title="其他处理"></a>其他处理</h2><p>速度减慢</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line">time.sleep(<span class="number">0.2</span>)</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python小菜鸟备忘录：用python读取word</title>
+    <url>/2021/05/23/python%20-%20wordread/</url>
+    <content><![CDATA[<p>突发奇想想将读取pdf做anki卡组，以为会很简单，没想到最后卡在读取word上，赶紧记在小本本上，下回读取word就不怕啦！</p>
+<hr>
+<p>还是用docx库，具体安装之前写过，直接跳过写怎么用啦。</p>
+<h2 id="读取文档对象"><a href="#读取文档对象" class="headerlink" title="读取文档对象"></a>读取文档对象</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> docx </span><br><span class="line"></span><br><span class="line">path = <span class="string">&quot;C:\test.docx&quot;</span> <span class="comment">#文件路径</span></span><br><span class="line"></span><br><span class="line">file = docx.Document(path) <span class="comment">#读取文档</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="读取文本"><a href="#读取文本" class="headerlink" title="读取文本"></a>读取文本</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">##获取所有内容</span></span><br><span class="line">content = file.paragraphs <span class="comment">#paragraphs基本上有所有信息 包括文本和后面要说到的属性</span></span><br><span class="line">print(content.text)</span><br><span class="line"></span><br><span class="line"><span class="comment">#循环读取文本</span></span><br><span class="line"><span class="keyword">for</span> f <span class="keyword">in</span> file.paragraphs:</span><br><span class="line">    print(f.text)</span><br></pre></td></tr></table></figure>
+
+<h2 id="获取属性"><a href="#获取属性" class="headerlink" title="获取属性"></a>获取属性</h2><p>以获取文本颜色为例</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> p <span class="keyword">in</span> file.paragraphs:</span><br><span class="line">    <span class="keyword">for</span> n <span class="keyword">in</span> p.runs: <span class="comment">#p.runs里有该段落每个字符（包括空格）的属性信息 也是list</span></span><br><span class="line">        color = str(n.font.color.rgb) <span class="comment">#获取每个字符的颜色（空格是字符串的None）</span></span><br><span class="line">  </span><br></pre></td></tr></table></figure>
+
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://blog.csdn.net/Pythoncxy/article/details/95339953">Python读取word文档识别字段颜色，解析字段</a></p>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
       </tags>
   </entry>
   <entry>
