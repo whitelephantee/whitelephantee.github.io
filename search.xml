@@ -1,24 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>如何将anki转成csv</title>
-    <url>/2021/07/06/anki-to-csv/</url>
-    <content><![CDATA[<h2 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h2><p>首先需要两个插件，分别是 <a href="https://ankiweb.net/shared/info/1967530655">csv converter</a> 和 <a href="https://ankiweb.net/shared/info/874215009">Advanced Browser</a></p>
-<p>安装过程：进入anki - 工具 - 插件 （快捷键 Shift+command+A）- 获取插件 - 输入代码 874215009 和 1967530655</p>
-<p>安装后重启就可以使用</p>
-<h3 id="找到需要导出的列"><a href="#找到需要导出的列" class="headerlink" title="找到需要导出的列"></a>找到需要导出的列</h3><p>anki 主页 - 浏览，找到所需要的牌组，在右边标题栏找到对应所需的列。</p>
-<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gs7nd6zmkej31fi0tgao4.jpg" alt="截屏2021-07-06 下午11.29.03"></p>
-<h3 id="导出"><a href="#导出" class="headerlink" title="导出"></a>导出</h3><p>都展示在浏览里后，选出需要导出的卡（通常是全选），然后点击标题栏 - Export selected - cards with column shown - to csv 就可以啦</p>
-<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gs7ngce13dj30ta0dwh36.jpg" alt="截屏2021-07-06 下午11.31.38"></p>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>anki</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>如何将PubMed导出BibTex并导入Bibliometrix</title>
     <url>/2021/01/24/PubMed-Bibliometrix/</url>
     <content><![CDATA[<p>上期介绍了怎么用bibliometrix，但是我发现导师要求找的数据库是PubMed而新版的PubMed没有导出BibTex的功能，这可怎么办呢，我又求助万能的谷歌，鼓捣了半天，找到了两种方法～</p>
@@ -83,6 +65,24 @@
       </categories>
       <tags>
         <tag>Research</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>如何将anki转成csv</title>
+    <url>/2021/07/06/anki-to-csv/</url>
+    <content><![CDATA[<h2 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h2><p>首先需要两个插件，分别是 <a href="https://ankiweb.net/shared/info/1967530655">csv converter</a> 和 <a href="https://ankiweb.net/shared/info/874215009">Advanced Browser</a></p>
+<p>安装过程：进入anki - 工具 - 插件 （快捷键 Shift+command+A）- 获取插件 - 输入代码 874215009 和 1967530655</p>
+<p>安装后重启就可以使用</p>
+<h3 id="找到需要导出的列"><a href="#找到需要导出的列" class="headerlink" title="找到需要导出的列"></a>找到需要导出的列</h3><p>anki 主页 - 浏览，找到所需要的牌组，在右边标题栏找到对应所需的列。</p>
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gs7nd6zmkej31fi0tgao4.jpg" alt="截屏2021-07-06 下午11.29.03"></p>
+<h3 id="导出"><a href="#导出" class="headerlink" title="导出"></a>导出</h3><p>都展示在浏览里后，选出需要导出的卡（通常是全选），然后点击标题栏 - Export selected - cards with column shown - to csv 就可以啦</p>
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gs7ngce13dj30ta0dwh36.jpg" alt="截屏2021-07-06 下午11.31.38"></p>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>anki</tag>
       </tags>
   </entry>
   <entry>
@@ -161,42 +161,6 @@ whitelephant     14893   0.0  0.0  5286740   1076   ??  Ss    3:47下午   0:00.
       </tags>
   </entry>
   <entry>
-    <title>如何直接在浏览器网页上高亮文本内容？(DIIGO)</title>
-    <url>/2020/09/07/chrome-highlight-2/</url>
-    <content><![CDATA[<p>之前我介绍了我比较喜欢的MarkUp 但后来发现Diigo功能更齐全 于是就想也写个Diigo版的 就酱 开始啦～</p>
-<p>Diigo是一款chrome插件 可以在网页上高亮文本、进行笔记整理等。</p>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>点击Diigo拓展进行安装 然后进行注册/登陆</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibsq61mzg30xc0h4dzp.gif" alt="9808904-89a822a3a30c9b9f"></p>
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><p>▷高亮 方法1：</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibsqzou2g30xc0h4wg3.gif" alt="9808904-ab84e97db37bf854"></p>
-<p>▷整理高亮内容：</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibsucnb9g30xc0h4q7j.gif" alt="9808904-caaf8c575a8b6e02"></p>
-<p>▷视频截图&amp;整理</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibsyhai9g30xc0h4qv5.gif" alt="9808904-ac873d03b137beb8"></p>
-<p>▷高亮 方法2</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibsyyf0ag30xc0h4wg3.gif" alt="9808904-6714a76c289b63ae"></p>
-<p>▷在文本旁添加笔记</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibt0xaiwg30xc0h475h.gif" alt="9808904-75a0a28e231ebeef"></p>
-<p>▷在网页上添加笔记</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibt3mdxbg30xc0h4dig.gif" alt="9808904-012f92c3f27acf22"></p>
-<p>▷复制高亮内容</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibt5uk23g30xc0h4goh.gif" alt="9808904-c69e2dced99ea28b"></p>
-<p>▷ diigo会自动将高亮过的网页存储在个人的DIigo里以供之后使用 可以添加标签tag以便以后整理使用 也可以删除（删除会自动删除所有高亮内容）</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibta9mdmg30xc0h4q77.gif" alt="9808904-e44a1749895b6fcc"></p>
-<p>▷ 删除笔记</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibtdx29hg30xc0h475a.gif" alt="9808904-42eb60e0dcf363ce"></p>
-<p>▷ 删除高亮</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibti1a45g30xc0h4q3u.gif" alt="9808904-1dd8c563005beaff"></p>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>chrome</tag>
-        <tag>小技巧</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>如何使用bibliometrix进行文献综述准备</title>
     <url>/2021/01/24/bibliometrix/</url>
     <content><![CDATA[<p>怎么快速了解一个科研领域写文献综述？听说可以用bibliometrix。</p>
@@ -252,6 +216,48 @@ whitelephant     14893   0.0  0.0  5286740   1076   ??  Ss    3:47下午   0:00.
       </tags>
   </entry>
   <entry>
+    <title>如何直接在浏览器网页上高亮文本内容？(DIIGO)</title>
+    <url>/2020/09/07/chrome-highlight-2/</url>
+    <content><![CDATA[<p>之前我介绍了我比较喜欢的MarkUp 但后来发现Diigo功能更齐全 于是就想也写个Diigo版的 就酱 开始啦～</p>
+<p>Diigo是一款chrome插件 可以在网页上高亮文本、进行笔记整理等。</p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>点击Diigo拓展进行安装 然后进行注册/登陆</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibsq61mzg30xc0h4dzp.gif" alt="9808904-89a822a3a30c9b9f"></p>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><p>▷高亮 方法1：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibsqzou2g30xc0h4wg3.gif" alt="9808904-ab84e97db37bf854"></p>
+<p>▷整理高亮内容：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibsucnb9g30xc0h4q7j.gif" alt="9808904-caaf8c575a8b6e02"></p>
+<p>▷视频截图&amp;整理</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibsyhai9g30xc0h4qv5.gif" alt="9808904-ac873d03b137beb8"></p>
+<p>▷高亮 方法2</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibsyyf0ag30xc0h4wg3.gif" alt="9808904-6714a76c289b63ae"></p>
+<p>▷在文本旁添加笔记</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibt0xaiwg30xc0h475h.gif" alt="9808904-75a0a28e231ebeef"></p>
+<p>▷在网页上添加笔记</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibt3mdxbg30xc0h4dig.gif" alt="9808904-012f92c3f27acf22"></p>
+<p>▷复制高亮内容</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibt5uk23g30xc0h4goh.gif" alt="9808904-c69e2dced99ea28b"></p>
+<p>▷ diigo会自动将高亮过的网页存储在个人的DIigo里以供之后使用 可以添加标签tag以便以后整理使用 也可以删除（删除会自动删除所有高亮内容）</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibta9mdmg30xc0h4q77.gif" alt="9808904-e44a1749895b6fcc"></p>
+<p>▷ 删除笔记</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibtdx29hg30xc0h475a.gif" alt="9808904-42eb60e0dcf363ce"></p>
+<p>▷ 删除高亮</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giibti1a45g30xc0h4q3u.gif" alt="9808904-1dd8c563005beaff"></p>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>chrome</tag>
+        <tag>小技巧</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2020/09/05/hello-world/</url>
+    <content><![CDATA[<p>作为一个只学过一点python的小白，终于！经过两天的倒腾，终于搞定了这个个人网页！呱唧呱唧喜大普奔！</p>
+]]></content>
+  </entry>
+  <entry>
     <title>如何直接在chrome浏览器网页上高亮文本内容？</title>
     <url>/2020/09/07/chrome-highlight/</url>
     <content><![CDATA[<p>写东西的时候经常会在网页上看到一些有用的内容 但通常会打开好几个标签页好几千字 竟然在开始动笔的时候就找不到需要的那段话去哪儿了 经过一番寻找和对比（主要是对比Diigo和CollaMark），最终发现了 <a href="https://link.jianshu.com/?t=https://chrome.google.com/webstore/detail/pdf-markup-my-web-markups/cbjngbfjehiofmihfpodinolkcokdojp">Markup</a> 拓展是我想要的那一款！</p>
@@ -281,12 +287,6 @@ whitelephant     14893   0.0  0.0  5286740   1076   ??  Ss    3:47下午   0:00.
         <tag>小技巧</tag>
         <tag>pages</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/2020/09/05/hello-world/</url>
-    <content><![CDATA[<p>作为一个只学过一点python的小白，终于！经过两天的倒腾，终于搞定了这个个人网页！呱唧呱唧喜大普奔！</p>
-]]></content>
   </entry>
   <entry>
     <title>Hexo 优化 II</title>
@@ -597,36 +597,6 @@ chmod 755 deploy.sh
       </tags>
   </entry>
   <entry>
-    <title>mac访达Finder中文件绝对路径怎么找</title>
-    <url>/2020/09/07/mac-path/</url>
-    <content><![CDATA[<p>最方便快捷的方式就是直接点击想知道路径的文件，然后按 option-command-c 就能自动复制到剪贴板啦，超easy！</p>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>mac</tag>
-        <tag>小技巧</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mac图片大小调整</title>
-    <url>/2020/09/08/mac-photo-sizing/</url>
-    <content><![CDATA[<p>有时某些网站会限制上传照片的大小（50K变到10K），或者需要调整照片的大小（2寸照片变成1寸），这些当然可以通过phtooshop简单做到，但是mac预览本身也提供了非常简单的方法可以进行修改。</p>
-<p>预览-工具-调整大小。</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gijgkcz6yuj30zq0m44pj.jpg" alt="mac-photo-01"></p>
-<p>调到合适大小就可以啦，分辨率越低、图片大小越小，所占的Size也就越小啦。</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gijgof6ohaj30zk0mc4qp.jpg" alt="mac-photo-02"></p>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>mac</tag>
-        <tag>小技巧</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Hexo-Academia 配置</title>
     <url>/2020/09/07/hexo-academia/</url>
     <content><![CDATA[<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><ul>
@@ -688,6 +658,36 @@ chmod 755 deploy.sh
       </categories>
       <tags>
         <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mac访达Finder中文件绝对路径怎么找</title>
+    <url>/2020/09/07/mac-path/</url>
+    <content><![CDATA[<p>最方便快捷的方式就是直接点击想知道路径的文件，然后按 option-command-c 就能自动复制到剪贴板啦，超easy！</p>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>mac</tag>
+        <tag>小技巧</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mac图片大小调整</title>
+    <url>/2020/09/08/mac-photo-sizing/</url>
+    <content><![CDATA[<p>有时某些网站会限制上传照片的大小（50K变到10K），或者需要调整照片的大小（2寸照片变成1寸），这些当然可以通过phtooshop简单做到，但是mac预览本身也提供了非常简单的方法可以进行修改。</p>
+<p>预览-工具-调整大小。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gijgkcz6yuj30zq0m44pj.jpg" alt="mac-photo-01"></p>
+<p>调到合适大小就可以啦，分辨率越低、图片大小越小，所占的Size也就越小啦。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gijgof6ohaj30zk0mc4qp.jpg" alt="mac-photo-02"></p>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>mac</tag>
+        <tag>小技巧</tag>
       </tags>
   </entry>
   <entry>
@@ -797,24 +797,6 @@ chmod 755 deploy.sh
       </tags>
   </entry>
   <entry>
-    <title>用python制作anki卡组</title>
-    <url>/2021/05/23/python%20-%20ankimaker/</url>
-    <content><![CDATA[<p>目标是读取pdf做anki卡组，记录一下鼓捣了一晚上的结果。</p>
-<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>pdf必须是文字版 扫描版目前的识别率还是太低 即使是用FineReader也还是得手动调整 工作量太大</p>
-<h2 id="pdf转word"><a href="#pdf转word" class="headerlink" title="pdf转word"></a>pdf转word</h2><p>因为word读取比较方便（可能只是因为我菜） 所以我先用 adobe acrobat 将pdf转成word</p>
-<h2 id="word转anki"><a href="#word转anki" class="headerlink" title="word转anki"></a>word转anki</h2><p>目标就是 读取正面内容 加tab 然后加背面内容 然后加回车<br>也正因为如此，背面如此是不能用回车换行的 如果需要换行就加 br 然后anki里勾选允许使用html</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#文件路径</span></span><br><span class="line">path = <span class="string">&quot;test.docx&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#读取文件对象</span></span><br><span class="line">file = docx.Document(path)</span><br><span class="line"></span><br><span class="line"><span class="comment">#写入文档</span></span><br><span class="line">outfile = open(<span class="string">&#x27;output.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#count</span></span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> file.paragraphs:</span><br><span class="line">    content = line.text <span class="comment">#读取内容</span></span><br><span class="line">    <span class="keyword">if</span> len(content) &gt; <span class="number">1</span>: <span class="comment">#空行或标题行（比如A）不要</span></span><br><span class="line">        <span class="keyword">if</span> str(line.runs[<span class="number">0</span>].font.color.rgb) == <span class="string">&#x27;0000FF&#x27;</span>: <span class="comment">#蓝色字是正面</span></span><br><span class="line">            wordlist = content.split( )</span><br><span class="line">            outfile.write(<span class="string">&#x27;\n&#x27;</span>) <span class="comment">#背面加回车（不过这样的问题是第一行也是空的 要输出后手动删去 不然放进anki会出错）</span></span><br><span class="line">            outfile.write(wordlist[<span class="number">0</span>]+<span class="string">&#x27;\t&#x27;</span>) <span class="comment">#正面+tab</span></span><br><span class="line">            i += <span class="number">1</span></span><br><span class="line">            <span class="keyword">for</span> otherword <span class="keyword">in</span> wordlist[<span class="number">1</span>:]:</span><br><span class="line">                <span class="keyword">if</span> len(otherword) &gt; <span class="number">5</span>:</span><br><span class="line">                    outfile.write(otherword+<span class="string">&#x27;&lt;br&gt;&#x27;</span>) <span class="comment">#背面写入 +换行 为了美观</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    outfile.write(otherword) <span class="comment">#背面不换行写入</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            outfile.write(content + <span class="string">&#x27;&lt;br&gt;&#x27;</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> i%<span class="number">5</span> == <span class="number">0</span>:</span><br><span class="line">            print(str(i)+<span class="string">&#x27; words completed&#x27;</span>)</span><br><span class="line"></span><br><span class="line">outfile.close()</span><br></pre></td></tr></table></figure>
-<h2 id="导入anki"><a href="#导入anki" class="headerlink" title="导入anki"></a>导入anki</h2><p>打开anki 导入输出的txt 选择html 看一下设置 就行啦<br><img src="https://tva1.sinaimg.cn/large/008i3skNgy1gqs9mwt8d0j30uy0rktcb.jpg"></p>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>anki</tag>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Pages如何快速无格式粘贴粘贴</title>
     <url>/2020/09/07/pages-paste/</url>
     <content><![CDATA[<p>很多时候我们复制的文本都是带有格式的 可我们又不需要 粘贴过来再要改又好麻烦 那怎么破呢？</p>
@@ -834,6 +816,24 @@ chmod 755 deploy.sh
       <tags>
         <tag>小技巧</tag>
         <tag>pages</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>用python制作anki卡组</title>
+    <url>/2021/05/23/python%20-%20ankimaker/</url>
+    <content><![CDATA[<p>目标是读取pdf做anki卡组，记录一下鼓捣了一晚上的结果。</p>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>pdf必须是文字版 扫描版目前的识别率还是太低 即使是用FineReader也还是得手动调整 工作量太大</p>
+<h2 id="pdf转word"><a href="#pdf转word" class="headerlink" title="pdf转word"></a>pdf转word</h2><p>因为word读取比较方便（可能只是因为我菜） 所以我先用 adobe acrobat 将pdf转成word</p>
+<h2 id="word转anki"><a href="#word转anki" class="headerlink" title="word转anki"></a>word转anki</h2><p>目标就是 读取正面内容 加tab 然后加背面内容 然后加回车<br>也正因为如此，背面如此是不能用回车换行的 如果需要换行就加 br 然后anki里勾选允许使用html</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#文件路径</span></span><br><span class="line">path = <span class="string">&quot;test.docx&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#读取文件对象</span></span><br><span class="line">file = docx.Document(path)</span><br><span class="line"></span><br><span class="line"><span class="comment">#写入文档</span></span><br><span class="line">outfile = open(<span class="string">&#x27;output.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#count</span></span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> file.paragraphs:</span><br><span class="line">    content = line.text <span class="comment">#读取内容</span></span><br><span class="line">    <span class="keyword">if</span> len(content) &gt; <span class="number">1</span>: <span class="comment">#空行或标题行（比如A）不要</span></span><br><span class="line">        <span class="keyword">if</span> str(line.runs[<span class="number">0</span>].font.color.rgb) == <span class="string">&#x27;0000FF&#x27;</span>: <span class="comment">#蓝色字是正面</span></span><br><span class="line">            wordlist = content.split( )</span><br><span class="line">            outfile.write(<span class="string">&#x27;\n&#x27;</span>) <span class="comment">#背面加回车（不过这样的问题是第一行也是空的 要输出后手动删去 不然放进anki会出错）</span></span><br><span class="line">            outfile.write(wordlist[<span class="number">0</span>]+<span class="string">&#x27;\t&#x27;</span>) <span class="comment">#正面+tab</span></span><br><span class="line">            i += <span class="number">1</span></span><br><span class="line">            <span class="keyword">for</span> otherword <span class="keyword">in</span> wordlist[<span class="number">1</span>:]:</span><br><span class="line">                <span class="keyword">if</span> len(otherword) &gt; <span class="number">5</span>:</span><br><span class="line">                    outfile.write(otherword+<span class="string">&#x27;&lt;br&gt;&#x27;</span>) <span class="comment">#背面写入 +换行 为了美观</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    outfile.write(otherword) <span class="comment">#背面不换行写入</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            outfile.write(content + <span class="string">&#x27;&lt;br&gt;&#x27;</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> i%<span class="number">5</span> == <span class="number">0</span>:</span><br><span class="line">            print(str(i)+<span class="string">&#x27; words completed&#x27;</span>)</span><br><span class="line"></span><br><span class="line">outfile.close()</span><br></pre></td></tr></table></figure>
+<h2 id="导入anki"><a href="#导入anki" class="headerlink" title="导入anki"></a>导入anki</h2><p>打开anki 导入输出的txt 选择html 看一下设置 就行啦<br><img src="https://tva1.sinaimg.cn/large/008i3skNgy1gqs9mwt8d0j30uy0rktcb.jpg"></p>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>anki</tag>
+        <tag>python</tag>
       </tags>
   </entry>
   <entry>
@@ -973,6 +973,45 @@ chmod 755 deploy.sh
       </tags>
   </entry>
   <entry>
+    <title>python小菜鸟备忘录：用python做简易爬虫</title>
+    <url>/2021/07/02/python%20-%20%E7%88%AC%E8%99%AB/</url>
+    <content><![CDATA[<p>小菜鸟开始爬虫之旅了！记录一下！</p>
+<h2 id="安装库"><a href="#安装库" class="headerlink" title="安装库"></a>安装库</h2><p>安装 requests 库</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">python3 -m pip install requests</span><br></pre></td></tr></table></figure>
+
+<p>安装 beautifulsoup4</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">python3 -m pip install beautifulsoup4</span><br></pre></td></tr></table></figure>
+
+<h2 id="爬取网页"><a href="#爬取网页" class="headerlink" title="爬取网页"></a>爬取网页</h2><p>import库</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br></pre></td></tr></table></figure>
+
+<p>指定 url 并提取网页内容</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">url = <span class="string">&quot;https://……&quot;</span></span><br><span class="line">r = requests.get(url)  </span><br><span class="line">html_doc = r.text</span><br><span class="line"></span><br><span class="line"><span class="comment">#if 要加headers</span></span><br><span class="line">headers = &#123;<span class="string">&#x27;User-Agent&#x27;</span>: <span class="string">&#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36&#x27;</span>&#125;</span><br><span class="line">r = requests.get(res_url, headers=headers)</span><br><span class="line">html_doc = r.text</span><br></pre></td></tr></table></figure>
+
+<h2 id="处理网页内容"><a href="#处理网页内容" class="headerlink" title="处理网页内容"></a>处理网页内容</h2><p>初始化 beautifulsoup4</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Soup = BeautifulSoup(html_doc, <span class="string">&#x27;lxml&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>寻找需要的部分</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#网页里包含多个相同class的内容</span></span><br><span class="line">cols = Soup.find_all(<span class="string">&#x27;div&#x27;</span>, class_=<span class="string">&#x27;col2 articleDetailTeaser&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(cols)):</span><br><span class="line">    all_a = cols[i].find_all(<span class="string">&#x27;a&#x27;</span>) <span class="comment">#找到所有指定class底下的链接</span></span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(len(all_a)):</span><br><span class="line">        res_url = all_a[j][<span class="string">&#x27;href&#x27;</span>] <span class="comment">#[&#x27;href&#x27;]后就是真的链接</span></span><br><span class="line">        </span><br><span class="line"><span class="comment">#网页里只有一个相同class的内容</span></span><br><span class="line">links = Soup.find(<span class="string">&#x27;div&#x27;</span>, class_=<span class="string">&#x27;linkList download&#x27;</span>)</span><br><span class="line">link = links.find(<span class="string">&#x27;a&#x27;</span>)[<span class="string">&#x27;href&#x27;</span>]</span><br></pre></td></tr></table></figure>
+
+<h2 id="下载指定链接文件"><a href="#下载指定链接文件" class="headerlink" title="下载指定链接文件"></a>下载指定链接文件</h2><p>pdf</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">target_file = requests.get(url)</span><br><span class="line">fo = open(<span class="string">&#x27;name.pdf&#x27;</span>,<span class="string">&#x27;wb&#x27;</span>)</span><br><span class="line">fo.write(target_file.content)  </span><br><span class="line">fo.close()</span><br></pre></td></tr></table></figure>
+
+<p>mp3</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">target_file = requests.get(url,stream=<span class="literal">True</span>)</span><br><span class="line">fo = open(<span class="string">&#x27;name.mp3&#x27;</span>,<span class="string">&#x27;ab&#x27;</span>)</span><br><span class="line">fo.write(res.content)</span><br><span class="line">fo.flush()</span><br><span class="line">fo.close()</span><br></pre></td></tr></table></figure>
+
+<h2 id="其他处理"><a href="#其他处理" class="headerlink" title="其他处理"></a>其他处理</h2><p>速度减慢</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line">time.sleep(<span class="number">0.2</span>)</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>python小菜鸟备忘录：用python写入word</title>
     <url>/2021/02/13/python%20-%20wordwrite/</url>
     <content><![CDATA[<p>我又突发奇想，想直接用python写入word，嘻嘻。</p>
@@ -1021,45 +1060,6 @@ chmod 755 deploy.sh
 <p>然后就成功啦！呱唧呱唧！</p>
 <h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://zhuanlan.zhihu.com/p/90992109">【极简Python 自动化办公】Python写入Word文档</a></p>
 <p><a href="https://juejin.cn/post/6844903929348636685">说说如何使用 python-docx 写入 word 文档</a></p>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>python小菜鸟备忘录：用python做简易爬虫</title>
-    <url>/2021/07/02/python%20-%20%E7%88%AC%E8%99%AB/</url>
-    <content><![CDATA[<p>小菜鸟开始爬虫之旅了！记录一下！</p>
-<h2 id="安装库"><a href="#安装库" class="headerlink" title="安装库"></a>安装库</h2><p>安装 requests 库</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">python3 -m pip install requests</span><br></pre></td></tr></table></figure>
-
-<p>安装 beautifulsoup4</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">python3 -m pip install beautifulsoup4</span><br></pre></td></tr></table></figure>
-
-<h2 id="爬取网页"><a href="#爬取网页" class="headerlink" title="爬取网页"></a>爬取网页</h2><p>import库</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br></pre></td></tr></table></figure>
-
-<p>指定 url 并提取网页内容</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">url = <span class="string">&quot;https://……&quot;</span></span><br><span class="line">r = requests.get(url)  </span><br><span class="line">html_doc = r.text</span><br><span class="line"></span><br><span class="line"><span class="comment">#if 要加headers</span></span><br><span class="line">headers = &#123;<span class="string">&#x27;User-Agent&#x27;</span>: <span class="string">&#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36&#x27;</span>&#125;</span><br><span class="line">r = requests.get(res_url, headers=headers)</span><br><span class="line">html_doc = r.text</span><br></pre></td></tr></table></figure>
-
-<h2 id="处理网页内容"><a href="#处理网页内容" class="headerlink" title="处理网页内容"></a>处理网页内容</h2><p>初始化 beautifulsoup4</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Soup = BeautifulSoup(html_doc, <span class="string">&#x27;lxml&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
-<p>寻找需要的部分</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#网页里包含多个相同class的内容</span></span><br><span class="line">cols = Soup.find_all(<span class="string">&#x27;div&#x27;</span>, class_=<span class="string">&#x27;col2 articleDetailTeaser&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(cols)):</span><br><span class="line">    all_a = cols[i].find_all(<span class="string">&#x27;a&#x27;</span>) <span class="comment">#找到所有指定class底下的链接</span></span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(len(all_a)):</span><br><span class="line">        res_url = all_a[j][<span class="string">&#x27;href&#x27;</span>] <span class="comment">#[&#x27;href&#x27;]后就是真的链接</span></span><br><span class="line">        </span><br><span class="line"><span class="comment">#网页里只有一个相同class的内容</span></span><br><span class="line">links = Soup.find(<span class="string">&#x27;div&#x27;</span>, class_=<span class="string">&#x27;linkList download&#x27;</span>)</span><br><span class="line">link = links.find(<span class="string">&#x27;a&#x27;</span>)[<span class="string">&#x27;href&#x27;</span>]</span><br></pre></td></tr></table></figure>
-
-<h2 id="下载指定链接文件"><a href="#下载指定链接文件" class="headerlink" title="下载指定链接文件"></a>下载指定链接文件</h2><p>pdf</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">target_file = requests.get(url)</span><br><span class="line">fo = open(<span class="string">&#x27;name.pdf&#x27;</span>,<span class="string">&#x27;wb&#x27;</span>)</span><br><span class="line">fo.write(target_file.content)  </span><br><span class="line">fo.close()</span><br></pre></td></tr></table></figure>
-
-<p>mp3</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">target_file = requests.get(url,stream=<span class="literal">True</span>)</span><br><span class="line">fo = open(<span class="string">&#x27;name.mp3&#x27;</span>,<span class="string">&#x27;ab&#x27;</span>)</span><br><span class="line">fo.write(res.content)</span><br><span class="line">fo.flush()</span><br><span class="line">fo.close()</span><br></pre></td></tr></table></figure>
-
-<h2 id="其他处理"><a href="#其他处理" class="headerlink" title="其他处理"></a>其他处理</h2><p>速度减慢</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line">time.sleep(<span class="number">0.2</span>)</span><br></pre></td></tr></table></figure>
-
 ]]></content>
       <categories>
         <category>鼓捣电脑</category>
@@ -1166,6 +1166,24 @@ chmod 755 deploy.sh
       </categories>
       <tags>
         <tag>mac</tag>
+        <tag>downloader</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>youtube-dl mac使用（2021更新）</title>
+    <url>/2021/10/18/youtube-dl-2/</url>
+    <content><![CDATA[<p>上次写过youtube-dl的<a href="https://whitelephantee.github.io/2020/09/08/youtube-dl/">一些基本使用方法</a>，但是实际上由于某些原因一直没有办法真正用上……</p>
+<p>今天突发奇想又折腾了一下，终于真的能下载东西了！</p>
+<p>记录一下一些有用的东西～</p>
+<p>最基本的下载方法（会下载到terminal当前的文件夹下）：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">youtube-dl <span class="string">&#x27;http://...&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>嗯，好像没什么需要补充的了，其他需要的原来的文章里都有，就是这样啦～</p>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
         <tag>downloader</tag>
       </tags>
   </entry>
