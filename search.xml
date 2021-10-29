@@ -1,73 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>如何将PubMed导出BibTex并导入Bibliometrix</title>
-    <url>/2021/01/24/PubMed-Bibliometrix/</url>
-    <content><![CDATA[<p>上期介绍了怎么用bibliometrix，但是我发现导师要求找的数据库是PubMed而新版的PubMed没有导出BibTex的功能，这可怎么办呢，我又求助万能的谷歌，鼓捣了半天，找到了两种方法～</p>
-<ul>
-<li><p>方法一：通过 Endnote 转换</p>
-</li>
-<li><p>方法二：通过 python 转换</p>
-</li>
-</ul>
-<p>这两种方法整体而言没有什么差别，只是看哪个用着更顺手而已，从bib文件就可以看出，由于PubMed本身的局限性，无论是哪种方法都没有办法做到Web of Science那种程度的信息量，WoS里面不仅会有每篇文章的基本信息，还会包括每篇参考文献、作者机构、国家等等，实际上只有这种等级的信息量才能够最大限度利用bibliometrix，因此还是推荐WoS进行分析。但既然都找到方法了，那就继续写完好啦，毕竟不然不就白瞎了嘛～</p>
-<h2 id="通过Endnote转换"><a href="#通过Endnote转换" class="headerlink" title="通过Endnote转换"></a>通过Endnote转换</h2><p>前提：</p>
-<ul>
-<li>安装最新版正版Endnote并新建一个Library</li>
-</ul>
-<p>方法：</p>
-<ol>
-<li><p>从PubMed找到所需文献</p>
-</li>
-<li><p>Send to - Citation Manager - All Results - Create Files</p>
-<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmylfvf5qrj32800sudkw.jpg"></p>
-</li>
-<li><p>点击下载完毕的文档，用相应的Library打开</p>
-</li>
-<li><p>成功加进Endnote后导出</p>
-<p>File - Export - TXT - BibTex</p>
-<p>如果这里没有BibTex的选项，则需要手动添加——</p>
-<ol>
-<li><p>Tools - Output Styles - open style manager </p>
-</li>
-<li><p>找到 BibTex 并勾选</p>
-</li>
-<li><p>如果没有 BibTex 的选项，则点击 Get more on Web 并在弹出的网页搜索 BibTex</p>
-<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmymdojgqpj31qs0u0du5.jpg"></p>
-</li>
-<li><p>点击 Download 下载并将下载好的文件放到 Endnote - Styles 文件夹里就有啦</p>
-</li>
-</ol>
-</li>
-</ol>
-<h2 id="通过-python-转换"><a href="#通过-python-转换" class="headerlink" title="通过 python 转换"></a>通过 python 转换</h2><p>前提：</p>
-<ul>
-<li>已有Python3和相应编程软件如Visual Code Studio</li>
-</ul>
-<p>方法：</p>
-<ol>
-<li><p>从PubMed下载所需文献的PMID导出</p>
-<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmymee9oq6j320v0u0te1.jpg"></p>
-</li>
-<li><p>打开 terminal 用 pip 下载 <a href="https://pypi.org/project/pubmed-bibtex/">pubmed_bibtex</a> 这个库可以将PMID转换为对应的BibTex信息</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">python3 -m pip install pubmed-bibtex</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>新建python文件，读取下载的文档、转换并写入 bibtex</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> pubmed_bibtex <span class="keyword">import</span> bibtex_entry_from_pmid</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打开文件</span></span><br><span class="line">inputFile = open(<span class="string">&quot;pmid-physicalac-set.txt&quot;</span>, <span class="string">&quot;r&quot;</span>) <span class="comment">#只有将下载的PMID文档放入python文件同一个文件夹才可以用相对路径 否则用绝对路径</span></span><br><span class="line">outputFile = open(<span class="string">&quot;output.txt&quot;</span>, <span class="string">&quot;w&quot;</span>)            <span class="comment">#新建输出文档</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> inputFile.readlines():                          <span class="comment">#依次读取每行  </span></span><br><span class="line">    line = line.strip()                             <span class="comment">#去掉每行头尾空白  </span></span><br><span class="line">    <span class="keyword">print</span> (<span class="string">&quot;读取的数据为: %s&quot;</span> % (line))							</span><br><span class="line">    bibMes = bibtex_entry_from_pmid(int(line))</span><br><span class="line">    print(bibMes)</span><br><span class="line">    outputFile.write(bibMes)                       <span class="comment">#写入输出文档</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭文件</span></span><br><span class="line">inputFile.close()</span><br><span class="line">outputFile.close()</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>这个时候python文件所在文件夹里就应该有一个名为 output.txt 的文档，里面就是相对应的信息啦，把后缀改为.bib就可以放入 biblioshiny里啦。</p>
-<p>P.S. 只是因为这个库依托的是TexMed，所以转换速度会慢一些，如果量大的话可能得等一阵。</p>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>鼓捣文献</category>
-      </categories>
-      <tags>
-        <tag>Research</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>如何将anki转成csv</title>
     <url>/2021/07/06/anki-to-csv/</url>
     <content><![CDATA[<h2 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h2><p>首先需要两个插件，分别是 <a href="https://ankiweb.net/shared/info/1967530655">csv converter</a> 和 <a href="https://ankiweb.net/shared/info/874215009">Advanced Browser</a></p>
@@ -161,6 +94,73 @@ whitelephant     14893   0.0  0.0  5286740   1076   ??  Ss    3:47下午   0:00.
       </tags>
   </entry>
   <entry>
+    <title>如何将PubMed导出BibTex并导入Bibliometrix</title>
+    <url>/2021/01/24/PubMed-Bibliometrix/</url>
+    <content><![CDATA[<p>上期介绍了怎么用bibliometrix，但是我发现导师要求找的数据库是PubMed而新版的PubMed没有导出BibTex的功能，这可怎么办呢，我又求助万能的谷歌，鼓捣了半天，找到了两种方法～</p>
+<ul>
+<li><p>方法一：通过 Endnote 转换</p>
+</li>
+<li><p>方法二：通过 python 转换</p>
+</li>
+</ul>
+<p>这两种方法整体而言没有什么差别，只是看哪个用着更顺手而已，从bib文件就可以看出，由于PubMed本身的局限性，无论是哪种方法都没有办法做到Web of Science那种程度的信息量，WoS里面不仅会有每篇文章的基本信息，还会包括每篇参考文献、作者机构、国家等等，实际上只有这种等级的信息量才能够最大限度利用bibliometrix，因此还是推荐WoS进行分析。但既然都找到方法了，那就继续写完好啦，毕竟不然不就白瞎了嘛～</p>
+<h2 id="通过Endnote转换"><a href="#通过Endnote转换" class="headerlink" title="通过Endnote转换"></a>通过Endnote转换</h2><p>前提：</p>
+<ul>
+<li>安装最新版正版Endnote并新建一个Library</li>
+</ul>
+<p>方法：</p>
+<ol>
+<li><p>从PubMed找到所需文献</p>
+</li>
+<li><p>Send to - Citation Manager - All Results - Create Files</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmylfvf5qrj32800sudkw.jpg"></p>
+</li>
+<li><p>点击下载完毕的文档，用相应的Library打开</p>
+</li>
+<li><p>成功加进Endnote后导出</p>
+<p>File - Export - TXT - BibTex</p>
+<p>如果这里没有BibTex的选项，则需要手动添加——</p>
+<ol>
+<li><p>Tools - Output Styles - open style manager </p>
+</li>
+<li><p>找到 BibTex 并勾选</p>
+</li>
+<li><p>如果没有 BibTex 的选项，则点击 Get more on Web 并在弹出的网页搜索 BibTex</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmymdojgqpj31qs0u0du5.jpg"></p>
+</li>
+<li><p>点击 Download 下载并将下载好的文件放到 Endnote - Styles 文件夹里就有啦</p>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="通过-python-转换"><a href="#通过-python-转换" class="headerlink" title="通过 python 转换"></a>通过 python 转换</h2><p>前提：</p>
+<ul>
+<li>已有Python3和相应编程软件如Visual Code Studio</li>
+</ul>
+<p>方法：</p>
+<ol>
+<li><p>从PubMed下载所需文献的PMID导出</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmymee9oq6j320v0u0te1.jpg"></p>
+</li>
+<li><p>打开 terminal 用 pip 下载 <a href="https://pypi.org/project/pubmed-bibtex/">pubmed_bibtex</a> 这个库可以将PMID转换为对应的BibTex信息</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">python3 -m pip install pubmed-bibtex</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>新建python文件，读取下载的文档、转换并写入 bibtex</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> pubmed_bibtex <span class="keyword">import</span> bibtex_entry_from_pmid</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打开文件</span></span><br><span class="line">inputFile = open(<span class="string">&quot;pmid-physicalac-set.txt&quot;</span>, <span class="string">&quot;r&quot;</span>) <span class="comment">#只有将下载的PMID文档放入python文件同一个文件夹才可以用相对路径 否则用绝对路径</span></span><br><span class="line">outputFile = open(<span class="string">&quot;output.txt&quot;</span>, <span class="string">&quot;w&quot;</span>)            <span class="comment">#新建输出文档</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> inputFile.readlines():                          <span class="comment">#依次读取每行  </span></span><br><span class="line">    line = line.strip()                             <span class="comment">#去掉每行头尾空白  </span></span><br><span class="line">    <span class="keyword">print</span> (<span class="string">&quot;读取的数据为: %s&quot;</span> % (line))							</span><br><span class="line">    bibMes = bibtex_entry_from_pmid(int(line))</span><br><span class="line">    print(bibMes)</span><br><span class="line">    outputFile.write(bibMes)                       <span class="comment">#写入输出文档</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭文件</span></span><br><span class="line">inputFile.close()</span><br><span class="line">outputFile.close()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>这个时候python文件所在文件夹里就应该有一个名为 output.txt 的文档，里面就是相对应的信息啦，把后缀改为.bib就可以放入 biblioshiny里啦。</p>
+<p>P.S. 只是因为这个库依托的是TexMed，所以转换速度会慢一些，如果量大的话可能得等一阵。</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>鼓捣文献</category>
+      </categories>
+      <tags>
+        <tag>Research</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>如何使用bibliometrix进行文献综述准备</title>
     <url>/2021/01/24/bibliometrix/</url>
     <content><![CDATA[<p>怎么快速了解一个科研领域写文献综述？听说可以用bibliometrix。</p>
@@ -216,43 +216,6 @@ whitelephant     14893   0.0  0.0  5286740   1076   ??  Ss    3:47下午   0:00.
       </tags>
   </entry>
   <entry>
-    <title>如何直接在chrome浏览器网页上高亮文本内容？</title>
-    <url>/2020/09/07/chrome-highlight/</url>
-    <content><![CDATA[<p>写东西的时候经常会在网页上看到一些有用的内容 但通常会打开好几个标签页好几千字 竟然在开始动笔的时候就找不到需要的那段话去哪儿了 经过一番寻找和对比（主要是对比Diigo和CollaMark），最终发现了 <a href="https://link.jianshu.com/?t=https://chrome.google.com/webstore/detail/pdf-markup-my-web-markups/cbjngbfjehiofmihfpodinolkcokdojp">Markup</a> 拓展是我想要的那一款！</p>
-<p>优势：</p>
-<ul>
-<li><p>标注后网页高亮</p>
-</li>
-<li><p>页面旁同时也有一个个内容标签</p>
-</li>
-<li><p>主页里留有标注的出处网址</p>
-</li>
-</ul>
-<p>方法：</p>
-<ol>
-<li><p>点击上面的链接 将markup加载自己的拓展里<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiaxny04yg30xc0h44nr.gif" alt="9808904-e43e1bdaa2048e9d"></p>
-</li>
-<li><p>进入markup官网注册<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiaxtbs4wg30xc0h4n1g.gif" alt="9808904-10285bc0ed9fae83"></p>
-</li>
-<li><p>注册之后进入 看到的这些内容都是其他人标注的内容 不用管这些 把它关掉 就可以愉快的开始标注啦<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiay0r90rg30xc0h4dm6.gif" alt="9808904-879b9225b7c3256e"></p>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>pages</tag>
-        <tag>小技巧</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/2020/09/05/hello-world/</url>
-    <content><![CDATA[<p>作为一个只学过一点python的小白，终于！经过两天的倒腾，终于搞定了这个个人网页！呱唧呱唧喜大普奔！</p>
-]]></content>
-  </entry>
-  <entry>
     <title>如何直接在浏览器网页上高亮文本内容？(DIIGO)</title>
     <url>/2020/09/07/chrome-highlight-2/</url>
     <content><![CDATA[<p>之前我介绍了我比较喜欢的MarkUp 但后来发现Diigo功能更齐全 于是就想也写个Diigo版的 就酱 开始啦～</p>
@@ -284,8 +247,109 @@ whitelephant     14893   0.0  0.0  5286740   1076   ??  Ss    3:47下午   0:00.
         <category>鼓捣电脑</category>
       </categories>
       <tags>
-        <tag>小技巧</tag>
         <tag>chrome</tag>
+        <tag>小技巧</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>如何直接在chrome浏览器网页上高亮文本内容？</title>
+    <url>/2020/09/07/chrome-highlight/</url>
+    <content><![CDATA[<p>写东西的时候经常会在网页上看到一些有用的内容 但通常会打开好几个标签页好几千字 竟然在开始动笔的时候就找不到需要的那段话去哪儿了 经过一番寻找和对比（主要是对比Diigo和CollaMark），最终发现了 <a href="https://link.jianshu.com/?t=https://chrome.google.com/webstore/detail/pdf-markup-my-web-markups/cbjngbfjehiofmihfpodinolkcokdojp">Markup</a> 拓展是我想要的那一款！</p>
+<p>优势：</p>
+<ul>
+<li><p>标注后网页高亮</p>
+</li>
+<li><p>页面旁同时也有一个个内容标签</p>
+</li>
+<li><p>主页里留有标注的出处网址</p>
+</li>
+</ul>
+<p>方法：</p>
+<ol>
+<li><p>点击上面的链接 将markup加载自己的拓展里<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiaxny04yg30xc0h44nr.gif" alt="9808904-e43e1bdaa2048e9d"></p>
+</li>
+<li><p>进入markup官网注册<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiaxtbs4wg30xc0h4n1g.gif" alt="9808904-10285bc0ed9fae83"></p>
+</li>
+<li><p>注册之后进入 看到的这些内容都是其他人标注的内容 不用管这些 把它关掉 就可以愉快的开始标注啦<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiay0r90rg30xc0h4dm6.gif" alt="9808904-879b9225b7c3256e"></p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>小技巧</tag>
+        <tag>pages</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2020/09/05/hello-world/</url>
+    <content><![CDATA[<p>作为一个只学过一点python的小白，终于！经过两天的倒腾，终于搞定了这个个人网页！呱唧呱唧喜大普奔！</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>Hexo-Academia 配置</title>
+    <url>/2020/09/07/hexo-academia/</url>
+    <content><![CDATA[<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><ul>
+<li><p>一个已经搭建在Github Pages上的Hexo网站</p>
+<p>如果没有的话可以按照<a href="https://whitelephantee.github.io/2020/09/05/hexo-building/">这个链接</a>里进行搭建。</p>
+</li>
+<li><p>git 和 npm</p>
+</li>
+</ul>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>下载配置文件。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/PhosphorW/hexo-theme-academia.git themes/Academia</span><br></pre></td></tr></table></figure>
+
+<p>下载需要的插件。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install hexo-renderer-pug hexo-renderer-stylus</span><br></pre></td></tr></table></figure>
+
+<p>在项目的 _config.yml 中找到 theme 一栏并进行更改。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install hexo-renderer-pug hexo-renderer-stylus</span><br></pre></td></tr></table></figure>
+
+<p>##主题配置</p>
+<p>打开 themes 的 _config.yml（注意不是 hexo project 的 _config.yml ）</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">open _config.yml</span><br></pre></td></tr></table></figure>
+
+<p>个人信息配置。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">author: <span class="comment">#个人姓名</span></span><br><span class="line">author_bio: <span class="comment">#个人简介</span></span><br><span class="line">avatar: /img/avatar.jpg <span class="comment">#个人头像 默认是小灰人 可以通过在/themes/Academia/source/img/avatar.jpg 替换添加</span></span><br><span class="line"><span class="comment"># if author sets in hexo_config, this string doesn&#x27;t work</span></span><br></pre></td></tr></table></figure>
+
+<p>顶部菜单栏设置，默认提供 Publications，About 和 Blog，可以页内跳转也可以添加外链</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">menu:</span><br><span class="line">  Publications: /<span class="comment">#Publications #页内跳转</span></span><br><span class="line">  About: /</span><br><span class="line">  Blog: https://phower.me <span class="comment">#添加外链</span></span><br></pre></td></tr></table></figure>
+
+<p>添加社交信息，附带小图标，不需要的或不想展示的可以注释掉，或者直接关掉。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">social:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span> <span class="comment">#不想展示可以关掉</span></span><br><span class="line">social_links:</span><br><span class="line">  fab fa-twitter: /</span><br><span class="line">  fab fa-facebook-square: /</span><br><span class="line">  fab fa-github: /</span><br><span class="line">  fab fa-stack-overflow: /</span><br><span class="line">  fab fa-linkedin: /</span><br><span class="line">  fab fa-weibo: /</span><br><span class="line">  fab fa-weixin: /</span><br><span class="line">  fab fa-qq: /</span><br><span class="line">  fas fa-envelope: / <span class="comment">#E-mail</span></span><br><span class="line">  fas fa-rss: /  <span class="comment">#rss</span></span><br><span class="line">  </span><br><span class="line">e_social:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span> <span class="comment">#额外社交链接</span></span><br><span class="line">e_social_links:</span><br><span class="line">  Google Scholar: / || fas fa-graduation-cap</span><br><span class="line">  ORCID: / || fab fa-orcid</span><br></pre></td></tr></table></figure>
+
+<p>可以添加个人简历，可以通过在/themes/Academia/source/attaches/CV.pdf 替换添加。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cv_dl:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span></span><br><span class="line">  dir: /attaches/CV.pdf</span><br><span class="line">  description: My Detail CV.</span><br></pre></td></tr></table></figure>
+
+<h1 id="编辑主页"><a href="#编辑主页" class="headerlink" title="编辑主页"></a>编辑主页</h1><p>新建文章。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo n post <span class="string">&quot;any title&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>去到 hexo project 的/source/_posts 中就能找到名称相同的 markdown 文档，里面有几行内容。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: Public <span class="comment">#标题</span></span><br><span class="line">date: 2020-09-07 15:45:51 <span class="comment">#创建日期</span></span><br><span class="line">tags: <span class="comment">#标签 在 Academia 风格下不提供标签 所以无效</span></span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+
+<p>在文首加上 academia: true，才会被 academia 显示出来。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: Public <span class="comment">#标题</span></span><br><span class="line">date: 2020-09-07 15:45:51 <span class="comment">#创建日期</span></span><br><span class="line">tags: <span class="comment">#标签 在 Academia 风格下不提供标签 所以无效</span></span><br><span class="line">academia: <span class="literal">true</span></span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+
+<p>然后就可以在上面写想写的内容啦。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: Public <span class="comment">#标题</span></span><br><span class="line">date: 2020-09-07 15:45:51 <span class="comment">#创建日期</span></span><br><span class="line">tags: <span class="comment">#标签 在 Academia 风格下不提供标签 所以无效</span></span><br><span class="line">academia: <span class="literal">true</span></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">在这里用 markdown 语法写任意想写的内容。</span><br></pre></td></tr></table></figure>
+
+<h1 id="编辑其他页"><a href="#编辑其他页" class="headerlink" title="编辑其他页"></a>编辑其他页</h1><p>我这里以 Publications 页为例。现在只在标题栏中有  Publications，但是实际后段文档中并没有，所以我们需要先添加一下。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo n post <span class="string">&quot;Publications&quot;</span>  </span><br></pre></td></tr></table></figure>
+
+<p>然后系统就会在/source 里新增一个同名文件夹，同时文件夹里有一个 index.md. 直接打开然后和之前一样编辑就好啦。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /<span class="built_in">source</span>/Publications</span><br><span class="line">open index.md</span><br></pre></td></tr></table></figure>
+
+<p>编辑完成之后要在 Academia 的  _config.yml 文件中链接一下。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">menu:</span><br><span class="line">  Publications: /Publications</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -370,70 +434,6 @@ url: #填这里</code></pre>
 <p>就可以啦。</p>
 <p>对了，开启评论之后默认的是所有文章都会开启，想不开启的话（比如分类页和标签页的index）要在文章最开头写title的那里写上。</p>
 <pre><code>comments: false</code></pre>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hexo-Academia 配置</title>
-    <url>/2020/09/07/hexo-academia/</url>
-    <content><![CDATA[<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><ul>
-<li><p>一个已经搭建在Github Pages上的Hexo网站</p>
-<p>如果没有的话可以按照<a href="https://whitelephantee.github.io/2020/09/05/hexo-building/">这个链接</a>里进行搭建。</p>
-</li>
-<li><p>git 和 npm</p>
-</li>
-</ul>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>下载配置文件。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/PhosphorW/hexo-theme-academia.git themes/Academia</span><br></pre></td></tr></table></figure>
-
-<p>下载需要的插件。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install hexo-renderer-pug hexo-renderer-stylus</span><br></pre></td></tr></table></figure>
-
-<p>在项目的 _config.yml 中找到 theme 一栏并进行更改。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install hexo-renderer-pug hexo-renderer-stylus</span><br></pre></td></tr></table></figure>
-
-<p>##主题配置</p>
-<p>打开 themes 的 _config.yml（注意不是 hexo project 的 _config.yml ）</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">open _config.yml</span><br></pre></td></tr></table></figure>
-
-<p>个人信息配置。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">author: <span class="comment">#个人姓名</span></span><br><span class="line">author_bio: <span class="comment">#个人简介</span></span><br><span class="line">avatar: /img/avatar.jpg <span class="comment">#个人头像 默认是小灰人 可以通过在/themes/Academia/source/img/avatar.jpg 替换添加</span></span><br><span class="line"><span class="comment"># if author sets in hexo_config, this string doesn&#x27;t work</span></span><br></pre></td></tr></table></figure>
-
-<p>顶部菜单栏设置，默认提供 Publications，About 和 Blog，可以页内跳转也可以添加外链</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">menu:</span><br><span class="line">  Publications: /<span class="comment">#Publications #页内跳转</span></span><br><span class="line">  About: /</span><br><span class="line">  Blog: https://phower.me <span class="comment">#添加外链</span></span><br></pre></td></tr></table></figure>
-
-<p>添加社交信息，附带小图标，不需要的或不想展示的可以注释掉，或者直接关掉。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">social:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span> <span class="comment">#不想展示可以关掉</span></span><br><span class="line">social_links:</span><br><span class="line">  fab fa-twitter: /</span><br><span class="line">  fab fa-facebook-square: /</span><br><span class="line">  fab fa-github: /</span><br><span class="line">  fab fa-stack-overflow: /</span><br><span class="line">  fab fa-linkedin: /</span><br><span class="line">  fab fa-weibo: /</span><br><span class="line">  fab fa-weixin: /</span><br><span class="line">  fab fa-qq: /</span><br><span class="line">  fas fa-envelope: / <span class="comment">#E-mail</span></span><br><span class="line">  fas fa-rss: /  <span class="comment">#rss</span></span><br><span class="line">  </span><br><span class="line">e_social:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span> <span class="comment">#额外社交链接</span></span><br><span class="line">e_social_links:</span><br><span class="line">  Google Scholar: / || fas fa-graduation-cap</span><br><span class="line">  ORCID: / || fab fa-orcid</span><br></pre></td></tr></table></figure>
-
-<p>可以添加个人简历，可以通过在/themes/Academia/source/attaches/CV.pdf 替换添加。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cv_dl:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span></span><br><span class="line">  dir: /attaches/CV.pdf</span><br><span class="line">  description: My Detail CV.</span><br></pre></td></tr></table></figure>
-
-<h1 id="编辑主页"><a href="#编辑主页" class="headerlink" title="编辑主页"></a>编辑主页</h1><p>新建文章。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo n post <span class="string">&quot;any title&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>去到 hexo project 的/source/_posts 中就能找到名称相同的 markdown 文档，里面有几行内容。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: Public <span class="comment">#标题</span></span><br><span class="line">date: 2020-09-07 15:45:51 <span class="comment">#创建日期</span></span><br><span class="line">tags: <span class="comment">#标签 在 Academia 风格下不提供标签 所以无效</span></span><br><span class="line">---</span><br></pre></td></tr></table></figure>
-
-<p>在文首加上 academia: true，才会被 academia 显示出来。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: Public <span class="comment">#标题</span></span><br><span class="line">date: 2020-09-07 15:45:51 <span class="comment">#创建日期</span></span><br><span class="line">tags: <span class="comment">#标签 在 Academia 风格下不提供标签 所以无效</span></span><br><span class="line">academia: <span class="literal">true</span></span><br><span class="line">---</span><br></pre></td></tr></table></figure>
-
-<p>然后就可以在上面写想写的内容啦。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: Public <span class="comment">#标题</span></span><br><span class="line">date: 2020-09-07 15:45:51 <span class="comment">#创建日期</span></span><br><span class="line">tags: <span class="comment">#标签 在 Academia 风格下不提供标签 所以无效</span></span><br><span class="line">academia: <span class="literal">true</span></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">在这里用 markdown 语法写任意想写的内容。</span><br></pre></td></tr></table></figure>
-
-<h1 id="编辑其他页"><a href="#编辑其他页" class="headerlink" title="编辑其他页"></a>编辑其他页</h1><p>我这里以 Publications 页为例。现在只在标题栏中有  Publications，但是实际后段文档中并没有，所以我们需要先添加一下。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo n post <span class="string">&quot;Publications&quot;</span>  </span><br></pre></td></tr></table></figure>
-
-<p>然后系统就会在/source 里新增一个同名文件夹，同时文件夹里有一个 index.md. 直接打开然后和之前一样编辑就好啦。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /<span class="built_in">source</span>/Publications</span><br><span class="line">open index.md</span><br></pre></td></tr></table></figure>
-
-<p>编辑完成之后要在 Academia 的  _config.yml 文件中链接一下。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">menu:</span><br><span class="line">  Publications: /Publications</span><br></pre></td></tr></table></figure>
-
 ]]></content>
       <categories>
         <category>鼓捣电脑</category>
@@ -736,6 +736,19 @@ chmod 755 deploy.sh
       </tags>
   </entry>
   <entry>
+    <title>mac一些有用的快捷键（随时更新）</title>
+    <url>/2020/09/08/mac-shortcut/</url>
+    <content><![CDATA[<p>command+i | 访达 | 显示简介<br>command+shift+c | 访达 ｜ 复制路径</p>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>mac</tag>
+        <tag>小技巧</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>如何在 numbers 单元格内换行？</title>
     <url>/2020/09/07/numbers-return/</url>
     <content><![CDATA[<p>通常我们都习惯在写文本的时候按回车（Enter）换行，但在numbers里，按了回车是会自动跳到下一格的，那么如何解决这个问题？</p>
@@ -758,28 +771,6 @@ chmod 755 deploy.sh
       </tags>
   </entry>
   <entry>
-    <title>Pages如何快速无格式粘贴粘贴</title>
-    <url>/2020/09/07/pages-paste/</url>
-    <content><![CDATA[<p>很多时候我们复制的文本都是带有格式的 可我们又不需要 粘贴过来再要改又好麻烦 那怎么破呢？</p>
-<h1 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h1><ol>
-<li><p>标签栏-编辑-粘贴并匹配样式</p>
-</li>
-<li><p>快捷键：shift+option+command+v</p>
-</li>
-</ol>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giicesxtguj30xc0hqgmy.jpg" alt="9808904-d0bc2014ff4d9869"></p>
-<h1 id="小栗子"><a href="#小栗子" class="headerlink" title="小栗子"></a>小栗子</h1><p>1.0版：<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giicfqj6ljg30s90kcwht.gif" alt="9808904-c940fa8e6cf85b3d"></p>
-<p>2.0版：<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giicftx0p8g30s90kcta8.gif" alt="9808904-d0d98444cda8b3a1"></p>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>pages</tag>
-        <tag>小技巧</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>用python制作anki卡组</title>
     <url>/2021/05/23/python%20-%20ankimaker/</url>
     <content><![CDATA[<p>目标是读取pdf做anki卡组，记录一下鼓捣了一晚上的结果。</p>
@@ -798,22 +789,51 @@ chmod 755 deploy.sh
       </tags>
   </entry>
   <entry>
-    <title>python小菜鸟备忘录：用python读取/写入excel</title>
-    <url>/2021/06/03/python%20-%20excel/</url>
-    <content><![CDATA[<p>最近要做数据分析，总要跟excel打交道，我好懒，于是打算用python搞搞excel</p>
-<h2 id="读取"><a href="#读取" class="headerlink" title="读取"></a>读取</h2><p>使用的库是xlrd，基本操作</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> xlrd</span><br><span class="line"><span class="keyword">with</span> xlrd.open_workbook(<span class="string">&#x27;x.xlsx&#x27;</span>) <span class="keyword">as</span> workbook: <span class="comment">#打开文档</span></span><br><span class="line">    worksheet=workbook.sheet_by_name(<span class="string">&#x27;Sheet1&#x27;</span>) <span class="comment">#读取工作表</span></span><br><span class="line">    <span class="keyword">for</span> row_index <span class="keyword">in</span> range(worksheet.nrows): <span class="comment">#对于每一行</span></span><br><span class="line">        content = worksheet.cell_value(row_index, <span class="number">0</span>) <span class="comment">#获取某个格的内容</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#或者另外一种方法读取excel</span></span><br><span class="line">data_excel=xlrd.open_workbook(<span class="string">&#x27;data/dataset.xlsx&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取所有sheet名称</span></span><br><span class="line">names=data_excel.sheet_names()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取book中的sheet工作表的三种方法,返回一个xlrd.sheet.Sheet()对象</span></span><br><span class="line">table=data_excel.sheets()[<span class="number">0</span>]  <span class="comment"># 通过索引顺序获取sheet</span></span><br><span class="line">table=data_excel.sheet_by_index(sheetx=<span class="number">0</span>) <span class="comment"># 通过索引顺序获取sheet</span></span><br><span class="line">table=data_excel.sheet_by_name(sheet_name=<span class="string">&#x27;Sheet1&#x27;</span>) <span class="comment"># 通过名称获取</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># excel工作表的行列操作</span></span><br><span class="line">n_rows=table.nrows  <span class="comment"># 获取该sheet中的有效行数</span></span><br><span class="line">n_cols=table.ncols  <span class="comment"># 获取该sheet中的有效列数</span></span><br><span class="line">row_list=table.row(rowx=<span class="number">0</span>)  <span class="comment"># 返回某行中所有的单元格对象组成的列表</span></span><br><span class="line">cols_list=table.col(colx=<span class="number">0</span>) <span class="comment"># 返回某列中所有的单元格对象组成的列表</span></span><br><span class="line">content_list = worksheet.row_values(<span class="number">0</span>) <span class="comment">#获取某行中所有的单元格内容组成的列表</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 返回某行中所有单元格的数据组成的列表</span></span><br><span class="line">row_data=table.row_values(<span class="number">0</span>,start_colx=<span class="number">0</span>,end_colx=<span class="literal">None</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 返回某列中所有单元格的数据组成的列表</span></span><br><span class="line">cols_data=table.col_values(<span class="number">0</span>,start_rowx=<span class="number">0</span>,end_rowx=<span class="literal">None</span>)</span><br><span class="line">row_lenth=table.row_len(<span class="number">0</span>)  <span class="comment"># 返回某行的有效单元格长度</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="写入"><a href="#写入" class="headerlink" title="写入"></a>写入</h2><p>写入的库是 xlwt</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment"># 创建一个workbook 设置编码</span></span><br><span class="line">workbook = xlwt.Workbook(encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个worksheet</span></span><br><span class="line">worksheet = workbook.add_sheet(<span class="string">&#x27;Sheet1&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#字体样式设置</span></span><br><span class="line">style = xlwt.XFStyle()  <span class="comment"># 初始化样式</span></span><br><span class="line">font = xlwt.Font()  <span class="comment"># 为样式创建字体</span></span><br><span class="line">font.name = <span class="string">&#x27;Times New Roman&#x27;</span></span><br><span class="line">font.height = <span class="number">20</span> * <span class="number">11</span>  <span class="comment"># 字体大小，11为字号，20为衡量单位</span></span><br><span class="line">font.bold = <span class="literal">True</span>  <span class="comment"># 黑体</span></span><br><span class="line">font.underline = <span class="literal">True</span>  <span class="comment"># 下划线</span></span><br><span class="line">font.italic = <span class="literal">True</span>  <span class="comment"># 斜体字</span></span><br><span class="line">style.font = font  <span class="comment"># 设定样式</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 数据写入excel,参数对应 行, 列, 值</span></span><br><span class="line">worksheet.write(<span class="number">0</span>, <span class="number">0</span>, <span class="string">&#x27;test_data&#x27;</span>)  <span class="comment"># 不带样式的写入</span></span><br><span class="line">worksheet.write(<span class="number">1</span>, <span class="number">0</span>, <span class="string">&#x27;test_data&#x27;</span>, style)  <span class="comment"># 带字体样式的写入</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置单元格宽度</span></span><br><span class="line">worksheet.col(<span class="number">0</span>).width = <span class="number">3333</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#设置单元格背景颜色</span></span><br><span class="line">pattern = xlwt.Pattern()</span><br><span class="line">pattern.pattern = xlwt.Pattern.SOLID_PATTERN</span><br><span class="line">pattern.pattern_fore_colour = <span class="number">13</span></span><br><span class="line">style = xlwt.XFStyle()  <span class="comment"># Create the Pattern</span></span><br><span class="line">style.pattern = pattern  <span class="comment"># Add Pattern to Style</span></span><br><span class="line">worksheet.write(<span class="number">2</span>, <span class="number">0</span>, <span class="string">&#x27;colour&#x27;</span>, style)</span><br><span class="line"></span><br><span class="line"><span class="comment">#给单元格添加边框方法一</span></span><br><span class="line">borders = xlwt.Borders()  <span class="comment"># Create Borders</span></span><br><span class="line">borders.left = xlwt.Borders.DASHED   <span class="comment">#DASHED虚线，NO_LINE没有，THIN实线</span></span><br><span class="line">borders.right = xlwt.Borders.DASHED  <span class="comment">#borders.right=1 表示实线</span></span><br><span class="line">borders.top = xlwt.Borders.DASHED</span><br><span class="line">borders.bottom = xlwt.Borders.DASHED</span><br><span class="line">borders.left_colour=<span class="number">0x40</span></span><br><span class="line">borders.right_colour = <span class="number">0x40</span></span><br><span class="line">borders.top_colour = <span class="number">0x40</span></span><br><span class="line">borders.bottom_colour = <span class="number">0x40</span></span><br><span class="line">style = xlwt.XFStyle()  <span class="comment"># Create Style</span></span><br><span class="line">style.borders = borders  <span class="comment"># Add Borders to Style</span></span><br><span class="line">worksheet.write(<span class="number">3</span>,<span class="number">0</span> , <span class="string">&#x27;border1&#x27;</span>, style)</span><br><span class="line"></span><br><span class="line"><span class="comment">#给单元格添加边框方法二</span></span><br><span class="line"><span class="comment"># 细实线:1，小粗实线:2，细虚线:3，中细虚线:4，大粗实线:5，双线:6，细点虚线:7，大粗虚线:8，细点划线:9，粗点划线:10，细双点划线:11，粗双点划线:12，斜点划线:13</span></span><br><span class="line">borders = xlwt.Borders()</span><br><span class="line">borders.left = <span class="number">1</span>    <span class="comment">#设置为细实线</span></span><br><span class="line">borders.right = <span class="number">1</span></span><br><span class="line">borders.top = <span class="number">1</span></span><br><span class="line">borders.bottom = <span class="number">1</span></span><br><span class="line">borders.left_colour = <span class="number">2</span>  <span class="comment">#颜色设置为红色</span></span><br><span class="line">borders.right_colour = <span class="number">2</span></span><br><span class="line">borders.top_colour = <span class="number">2</span></span><br><span class="line">borders.bottom_colour = <span class="number">2</span></span><br><span class="line">style = xlwt.XFStyle()  <span class="comment"># Create Style</span></span><br><span class="line">style.borders = borders  <span class="comment"># Add Borders to Style</span></span><br><span class="line">worksheet.write(<span class="number">4</span>, <span class="number">0</span>, <span class="string">&#x27;border2&#x27;</span>, style)</span><br><span class="line"></span><br><span class="line"><span class="comment">#单元格添加计算公式</span></span><br><span class="line">worksheet.write(<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>)  <span class="comment"># Outputs 2</span></span><br><span class="line">worksheet.write(<span class="number">0</span>, <span class="number">2</span>, <span class="number">3</span>)  <span class="comment"># Outputs 3</span></span><br><span class="line">worksheet.write(<span class="number">1</span>, <span class="number">1</span>, xlwt.Formula(<span class="string">&#x27;B1*C1&#x27;</span>))  <span class="comment"># Should output &quot;6&quot; (B1[2] * B2[6])</span></span><br><span class="line">worksheet.write(<span class="number">1</span>, <span class="number">2</span>, xlwt.Formula(<span class="string">&#x27;SUM(B1,C1)&#x27;</span>))  <span class="comment"># Should output &quot;5&quot; (B1[2] + C1[3])</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#向单元格添加一个超链接</span></span><br><span class="line">worksheet.write(<span class="number">0</span>, <span class="number">3</span>, xlwt.Formula(<span class="string">&#x27;HYPERLINK(&quot;http://www.baidu.com&quot;;&quot;baidu&quot;)&#x27;</span>))  <span class="comment"># Outputs the text &quot;baidu&quot; linking to http://www.baidu.com</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#单元格合并</span></span><br><span class="line">worksheet.write_merge(<span class="number">0</span>, <span class="number">0</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="string">&#x27;First Merge&#x27;</span>)   <span class="comment">#合并0行的4到5列</span></span><br><span class="line">worksheet.write_merge(<span class="number">1</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="string">&#x27;Second Merge&#x27;</span>)  <span class="comment">#合并1和2行的4到5列</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#设置单元格内容的对其方式</span></span><br><span class="line">alignment=xlwt.Alignment()  <span class="comment">## Create Alignment</span></span><br><span class="line">alignment.horz=xlwt.Alignment.HORZ_CENTER</span><br><span class="line">alignment.vert=xlwt.Alignment.VERT_CENTER</span><br><span class="line">style=xlwt.XFStyle()</span><br><span class="line">style.alignment=alignment   <span class="comment"># Add Alignment to Style</span></span><br><span class="line">worksheet.write(<span class="number">0</span>, <span class="number">6</span>, <span class="string">&#x27;alignment&#x27;</span>, style)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 保存文件</span></span><br><span class="line">workbook.save(<span class="string">&#x27;data_test.xls&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://blog.csdn.net/asialee_bird/article/details/105497121">Python3读取和写入excel表格数据</a></p>
+    <title>如何在 pages 里快速复制格式/格式刷？</title>
+    <url>/2020/09/07/pages-formatting/</url>
+    <content><![CDATA[<h1 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h1><p>快捷键：</p>
+<ul>
+<li><p>opt+command+c 复制格式</p>
+</li>
+<li><p>opt+command+v 粘贴格式</p>
+</li>
+</ul>
+<p>常规方法：</p>
+<ul>
+<li>pages标签栏-格式-拷贝样式/粘贴样式</li>
+</ul>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiao3q6cvj30ti0m40tz.jpg" alt="9808904-778c5800c618cf4c"></p>
+<h1 id="小栗子"><a href="#小栗子" class="headerlink" title="小栗子"></a>小栗子</h1><p>1.0版：<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiaoc2qskg30sf0kbwhv.gif" alt="9808904-d6799f3140157c59"></p>
+<p>2.0版<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiaovee63g30sf0kbabl.gif" alt="9808904-4812c80c61f8814c"></p>
 ]]></content>
       <categories>
         <category>鼓捣电脑</category>
       </categories>
       <tags>
-        <tag>python</tag>
+        <tag>小技巧</tag>
+        <tag>pages</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Pages如何快速无格式粘贴粘贴</title>
+    <url>/2020/09/07/pages-paste/</url>
+    <content><![CDATA[<p>很多时候我们复制的文本都是带有格式的 可我们又不需要 粘贴过来再要改又好麻烦 那怎么破呢？</p>
+<h1 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h1><ol>
+<li><p>标签栏-编辑-粘贴并匹配样式</p>
+</li>
+<li><p>快捷键：shift+option+command+v</p>
+</li>
+</ol>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giicesxtguj30xc0hqgmy.jpg" alt="9808904-d0bc2014ff4d9869"></p>
+<h1 id="小栗子"><a href="#小栗子" class="headerlink" title="小栗子"></a>小栗子</h1><p>1.0版：<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giicfqj6ljg30s90kcwht.gif" alt="9808904-c940fa8e6cf85b3d"></p>
+<p>2.0版：<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giicftx0p8g30s90kcta8.gif" alt="9808904-d0d98444cda8b3a1"></p>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>小技巧</tag>
+        <tag>pages</tag>
       </tags>
   </entry>
   <entry>
@@ -832,99 +852,6 @@ chmod 755 deploy.sh
       </tags>
   </entry>
   <entry>
-    <title>python小菜鸟备忘录：怎么读取/写入文档</title>
-    <url>/2021/01/24/python%20-%20file/</url>
-    <content><![CDATA[<p>总是忘记怎么读取/写入文档……然后发现原先写在jupyter的所有python和R的笔记都没了……所以痛定思痛，还是自己写在自己博客上靠谱呜呜</p>
-<hr>
-<h2 id="打开文件"><a href="#打开文件" class="headerlink" title="打开文件"></a>打开文件</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">f = open(file, mode=<span class="string">&#x27;r&#x27;</span>) <span class="comment">#file为文件路径（绝对/相对）</span></span><br></pre></td></tr></table></figure>
-
-<p>这是最基本的读取文件方式，其他的变形为：</p>
-<ul>
-<li>encoding = none 为默认，其他常用的为utf8</li>
-<li>mode一共有好几种，这里列几种常用的</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>模式</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>x</td>
-<td>写模式，新建一个文件，如果该文件已存在则会报错。</td>
-</tr>
-<tr>
-<td>r</td>
-<td>以只读方式打开文件。文件的指针将会放在文件的开头。</td>
-</tr>
-<tr>
-<td>r+</td>
-<td>打开一个文件用于读写。文件指针将会放在文件的开头。</td>
-</tr>
-<tr>
-<td>w</td>
-<td>打开一个文件只用于写入。如果该文件已存在则打开文件，并从开头开始编辑，即原有内容会被删除。如果该文件不存在，创建新文件。</td>
-</tr>
-<tr>
-<td>w+</td>
-<td>打开一个文件用于读写。如果该文件已存在则打开文件，并从开头开始编辑，即原有内容会被删除。如果该文件不存在，创建新文件。</td>
-</tr>
-<tr>
-<td>a</td>
-<td>打开一个文件用于追加。如果该文件已存在，文件指针将会放在文件的结尾。也就是说，新的内容将会被写入到已有内容之后。如果该文件不存在，创建新文件进行写入。</td>
-</tr>
-<tr>
-<td>a+</td>
-<td>打开一个文件用于读写。如果该文件已存在，文件指针将会放在文件的结尾。文件打开时会是追加模式。如果该文件不存在，创建新文件用于读写。</td>
-</tr>
-</tbody></table>
-<h2 id="关闭文件"><a href="#关闭文件" class="headerlink" title="关闭文件"></a>关闭文件</h2><p>要打开文件就一定要相对应的关闭文件</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#关闭文件</span></span><br><span class="line">f.close()</span><br></pre></td></tr></table></figure>
-
-<h2 id="读取文件"><a href="#读取文件" class="headerlink" title="读取文件"></a>读取文件</h2><p>读取文件首先模式要选对，其次是不同的函数</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">f.read([size]) <span class="comment">#返回size数量的字节数 如果未给定或为负则读取所有。</span></span><br><span class="line">f.readline() <span class="comment">#读取整行，包括 &quot;\n&quot; 字符。如果不想要\n的话可以f.readline().strip()</span></span><br><span class="line">f.readlines() <span class="comment">#读取所有行,返回包含所有行以及\n的列表</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#note：返回的都是string</span></span><br><span class="line">string = f.read()</span><br></pre></td></tr></table></figure>
-
-<p>常用的是readlines()，即依次读取每行信息（且不返还列表）</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> f.readlines():   <span class="comment">#依次读取每行  </span></span><br><span class="line">    line = line.strip()       <span class="comment">#去掉每行头尾空白  </span></span><br><span class="line">    <span class="keyword">print</span> <span class="string">&quot;读取的数据为: %s&quot;</span> % (line)</span><br></pre></td></tr></table></figure>
-
-<h2 id="设置指针位置"><a href="#设置指针位置" class="headerlink" title="设置指针位置"></a>设置指针位置</h2><p>一般打开文件默认指针在开头或结尾，如果想到其他位置可以设置指针。</p>
-<p>语法为：fileObject.seek(offset[, whence])</p>
-<ul>
-<li>offset: 开始的偏移量，也就是代表需要移动偏移的字节数</li>
-<li>whence：可选，默认值为 0。给offset参数一个定义，表示要从哪个位置开始偏移；0代表从文件开头开始算起，1代表从当前位置开始算起，2代表从文件末尾算起。</li>
-</ul>
-<p>如果操作成功，则返回新的文件位置，如果操作失败，则函数返回 -1。</p>
-<p>一些常用的：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">f.seek(<span class="number">0</span>,<span class="number">0</span>) <span class="comment">#重新设置文件读取指针到开头</span></span><br><span class="line">f.seek(<span class="number">0</span>,<span class="number">2</span>) <span class="comment">#重新设置文件读取指针到末尾</span></span><br><span class="line">f.tell() <span class="comment">#返回文件当前位置</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="写入文件"><a href="#写入文件" class="headerlink" title="写入文件"></a>写入文件</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">f.write(str) #写入字符串</span><br><span class="line">f.writelines([list of strings]) #写入多行字符串，但是如需换行需要自己加换行符</span><br><span class="line"></span><br><span class="line">#栗子</span><br><span class="line">seq &#x3D; [&quot;test 1\n&quot;, &quot;test 2&quot;]</span><br><span class="line">f.writelines(seq)</span><br></pre></td></tr></table></figure>
-
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">f.name <span class="comment">#返回文件名</span></span><br><span class="line">f.truncate([size]) <span class="comment">#截断文件</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://www.runoob.com/python/file-methods.html">菜鸟教程</a></p>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mac一些有用的快捷键（随时更新）</title>
-    <url>/2020/09/08/mac-shortcut/</url>
-    <content><![CDATA[<p>command+i | 访达 | 显示简介<br>command+shift+c | 访达 ｜ 复制路径</p>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>mac</tag>
-        <tag>小技巧</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>python小菜鸟备忘录：用python读取word</title>
     <url>/2021/05/23/python%20-%20wordread/</url>
     <content><![CDATA[<p>突发奇想想将读取pdf做anki卡组，以为会很简单，没想到最后卡在读取word上，赶紧记在小本本上，下回读取word就不怕啦！</p>
@@ -938,6 +865,45 @@ chmod 755 deploy.sh
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> p <span class="keyword">in</span> file.paragraphs:</span><br><span class="line">    <span class="keyword">for</span> n <span class="keyword">in</span> p.runs: <span class="comment">#p.runs里有该段落每个字符（包括空格）的属性信息 也是list</span></span><br><span class="line">        color = str(n.font.color.rgb) <span class="comment">#获取每个字符的颜色（空格是字符串的None）</span></span><br><span class="line">  </span><br></pre></td></tr></table></figure>
 
 <h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://blog.csdn.net/Pythoncxy/article/details/95339953">Python读取word文档识别字段颜色，解析字段</a></p>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python小菜鸟备忘录：用python做简易爬虫</title>
+    <url>/2021/07/02/python%20-%20%E7%88%AC%E8%99%AB/</url>
+    <content><![CDATA[<p>小菜鸟开始爬虫之旅了！记录一下！</p>
+<h2 id="安装库"><a href="#安装库" class="headerlink" title="安装库"></a>安装库</h2><p>安装 requests 库</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">python3 -m pip install requests</span><br></pre></td></tr></table></figure>
+
+<p>安装 beautifulsoup4</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">python3 -m pip install beautifulsoup4</span><br></pre></td></tr></table></figure>
+
+<h2 id="爬取网页"><a href="#爬取网页" class="headerlink" title="爬取网页"></a>爬取网页</h2><p>import库</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br></pre></td></tr></table></figure>
+
+<p>指定 url 并提取网页内容</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">url = <span class="string">&quot;https://……&quot;</span></span><br><span class="line">r = requests.get(url)  </span><br><span class="line">html_doc = r.text</span><br><span class="line"></span><br><span class="line"><span class="comment">#if 要加headers</span></span><br><span class="line">headers = &#123;<span class="string">&#x27;User-Agent&#x27;</span>: <span class="string">&#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36&#x27;</span>&#125;</span><br><span class="line">r = requests.get(res_url, headers=headers)</span><br><span class="line">html_doc = r.text</span><br></pre></td></tr></table></figure>
+
+<h2 id="处理网页内容"><a href="#处理网页内容" class="headerlink" title="处理网页内容"></a>处理网页内容</h2><p>初始化 beautifulsoup4</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Soup = BeautifulSoup(html_doc, <span class="string">&#x27;lxml&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>寻找需要的部分</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#网页里包含多个相同class的内容</span></span><br><span class="line">cols = Soup.find_all(<span class="string">&#x27;div&#x27;</span>, class_=<span class="string">&#x27;col2 articleDetailTeaser&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(cols)):</span><br><span class="line">    all_a = cols[i].find_all(<span class="string">&#x27;a&#x27;</span>) <span class="comment">#找到所有指定class底下的链接</span></span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(len(all_a)):</span><br><span class="line">        res_url = all_a[j][<span class="string">&#x27;href&#x27;</span>] <span class="comment">#[&#x27;href&#x27;]后就是真的链接</span></span><br><span class="line">        </span><br><span class="line"><span class="comment">#网页里只有一个相同class的内容</span></span><br><span class="line">links = Soup.find(<span class="string">&#x27;div&#x27;</span>, class_=<span class="string">&#x27;linkList download&#x27;</span>)</span><br><span class="line">link = links.find(<span class="string">&#x27;a&#x27;</span>)[<span class="string">&#x27;href&#x27;</span>]</span><br></pre></td></tr></table></figure>
+
+<h2 id="下载指定链接文件"><a href="#下载指定链接文件" class="headerlink" title="下载指定链接文件"></a>下载指定链接文件</h2><p>pdf</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">target_file = requests.get(url)</span><br><span class="line">fo = open(<span class="string">&#x27;name.pdf&#x27;</span>,<span class="string">&#x27;wb&#x27;</span>)</span><br><span class="line">fo.write(target_file.content)  </span><br><span class="line">fo.close()</span><br></pre></td></tr></table></figure>
+
+<p>mp3</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">target_file = requests.get(url,stream=<span class="literal">True</span>)</span><br><span class="line">fo = open(<span class="string">&#x27;name.mp3&#x27;</span>,<span class="string">&#x27;ab&#x27;</span>)</span><br><span class="line">fo.write(res.content)</span><br><span class="line">fo.flush()</span><br><span class="line">fo.close()</span><br></pre></td></tr></table></figure>
+
+<h2 id="其他处理"><a href="#其他处理" class="headerlink" title="其他处理"></a>其他处理</h2><p>速度减慢</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line">time.sleep(<span class="number">0.2</span>)</span><br></pre></td></tr></table></figure>
+
 ]]></content>
       <categories>
         <category>鼓捣电脑</category>
@@ -1004,45 +970,6 @@ chmod 755 deploy.sh
       </tags>
   </entry>
   <entry>
-    <title>python小菜鸟备忘录：用python做简易爬虫</title>
-    <url>/2021/07/02/python%20-%20%E7%88%AC%E8%99%AB/</url>
-    <content><![CDATA[<p>小菜鸟开始爬虫之旅了！记录一下！</p>
-<h2 id="安装库"><a href="#安装库" class="headerlink" title="安装库"></a>安装库</h2><p>安装 requests 库</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">python3 -m pip install requests</span><br></pre></td></tr></table></figure>
-
-<p>安装 beautifulsoup4</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">python3 -m pip install beautifulsoup4</span><br></pre></td></tr></table></figure>
-
-<h2 id="爬取网页"><a href="#爬取网页" class="headerlink" title="爬取网页"></a>爬取网页</h2><p>import库</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br></pre></td></tr></table></figure>
-
-<p>指定 url 并提取网页内容</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">url = <span class="string">&quot;https://……&quot;</span></span><br><span class="line">r = requests.get(url)  </span><br><span class="line">html_doc = r.text</span><br><span class="line"></span><br><span class="line"><span class="comment">#if 要加headers</span></span><br><span class="line">headers = &#123;<span class="string">&#x27;User-Agent&#x27;</span>: <span class="string">&#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36&#x27;</span>&#125;</span><br><span class="line">r = requests.get(res_url, headers=headers)</span><br><span class="line">html_doc = r.text</span><br></pre></td></tr></table></figure>
-
-<h2 id="处理网页内容"><a href="#处理网页内容" class="headerlink" title="处理网页内容"></a>处理网页内容</h2><p>初始化 beautifulsoup4</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Soup = BeautifulSoup(html_doc, <span class="string">&#x27;lxml&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
-<p>寻找需要的部分</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#网页里包含多个相同class的内容</span></span><br><span class="line">cols = Soup.find_all(<span class="string">&#x27;div&#x27;</span>, class_=<span class="string">&#x27;col2 articleDetailTeaser&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(cols)):</span><br><span class="line">    all_a = cols[i].find_all(<span class="string">&#x27;a&#x27;</span>) <span class="comment">#找到所有指定class底下的链接</span></span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(len(all_a)):</span><br><span class="line">        res_url = all_a[j][<span class="string">&#x27;href&#x27;</span>] <span class="comment">#[&#x27;href&#x27;]后就是真的链接</span></span><br><span class="line">        </span><br><span class="line"><span class="comment">#网页里只有一个相同class的内容</span></span><br><span class="line">links = Soup.find(<span class="string">&#x27;div&#x27;</span>, class_=<span class="string">&#x27;linkList download&#x27;</span>)</span><br><span class="line">link = links.find(<span class="string">&#x27;a&#x27;</span>)[<span class="string">&#x27;href&#x27;</span>]</span><br></pre></td></tr></table></figure>
-
-<h2 id="下载指定链接文件"><a href="#下载指定链接文件" class="headerlink" title="下载指定链接文件"></a>下载指定链接文件</h2><p>pdf</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">target_file = requests.get(url)</span><br><span class="line">fo = open(<span class="string">&#x27;name.pdf&#x27;</span>,<span class="string">&#x27;wb&#x27;</span>)</span><br><span class="line">fo.write(target_file.content)  </span><br><span class="line">fo.close()</span><br></pre></td></tr></table></figure>
-
-<p>mp3</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">target_file = requests.get(url,stream=<span class="literal">True</span>)</span><br><span class="line">fo = open(<span class="string">&#x27;name.mp3&#x27;</span>,<span class="string">&#x27;ab&#x27;</span>)</span><br><span class="line">fo.write(res.content)</span><br><span class="line">fo.flush()</span><br><span class="line">fo.close()</span><br></pre></td></tr></table></figure>
-
-<h2 id="其他处理"><a href="#其他处理" class="headerlink" title="其他处理"></a>其他处理</h2><p>速度减慢</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line">time.sleep(<span class="number">0.2</span>)</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>VSCode无法调用已安装python库</title>
     <url>/2021/08/08/python-import/</url>
     <content><![CDATA[<p>折腾了半天结果居然是拼错了，emmm……无论如何，记录一下这个过程好啦</p>
@@ -1077,34 +1004,40 @@ chmod 755 deploy.sh
       </tags>
   </entry>
   <entry>
-    <title>用python识别语音的音调（speech analysis - intonation)</title>
-    <url>/2021/10/27/python-intonation%20detection/</url>
-    <content><![CDATA[<p>一直想完成我心中很想做的一个东西，不过好难啊，只好拆接下来，一步一步来咯。</p>
-<p>第一步，就是用python识别语音的音调。</p>
-<h2 id="praat"><a href="#praat" class="headerlink" title="praat"></a>praat</h2><p>先说个不用python的方法。最初是偶然找到了praat这个软件，很简单，打开praat-点open-read from file - view &amp; edit - pitch - show pitch 就可以啦（注意要短于10秒，如果超过的话zoom in才能看到线条）。</p>
-<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gvu76v6bn7j321w0t6qav.jpg" alt="截屏2021-10-27 下午9.37.50"></p>
-<h2 id="python"><a href="#python" class="headerlink" title="python"></a>python</h2><p>再说用python 的2个方法。</p>
-<h3 id="amfm-decompy"><a href="#amfm-decompy" class="headerlink" title="amfm_decompy"></a>amfm_decompy</h3><p>首先安装amfm_decompy</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">python3 -m pip install amfm_decompy</span><br></pre></td></tr></table></figure>
+    <title>python录音 生成wav 并播放</title>
+    <url>/2021/10/29/python-record-play%20audio/</url>
+    <content><![CDATA[<h2 id="安装包"><a href="#安装包" class="headerlink" title="安装包"></a>安装包</h2><h3 id="pyaudio"><a href="#pyaudio" class="headerlink" title="pyaudio"></a>pyaudio</h3><p>安装pyaudio真是曲折的过程……</p>
+<p>直接用pip安装会报错</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">python3 -m pip install pyaudio</span><br><span class="line">&gt;  fatal error: <span class="string">&#x27;portaudio.h&#x27;</span> file not found</span><br></pre></td></tr></table></figure>
 
-<p>使用</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> amfm_decompy.basic_tools <span class="keyword">as</span> basic</span><br><span class="line"><span class="keyword">import</span> amfm_decompy.pYAAPT <span class="keyword">as</span> pYAAPT</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment">#load audio 注意必须是wav</span></span><br><span class="line">signal = basic.SignalObj(<span class="string">&quot;01.wav&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#pYAAPT pitches 生成pitches文件</span></span><br><span class="line">pitch = pYAAPT.yaapt(signal, frame_length = <span class="number">40</span>, tda_frame_length=<span class="number">40</span>,f0_min=<span class="number">75</span>, f0_max=<span class="number">600</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#plot </span></span><br><span class="line">plt.plot(pitch.samp_values)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p>所以要先用brew下portaudio，但是我的homebrew死活无法下载portaudio</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">brew install portaudio</span><br><span class="line">&gt; no formulae found</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gvu7bl4cgmj30ym0tcq58.jpg" alt="截屏2021-10-27 下午9.42.32"></p>
-<p>但是问题就是这个0我一直想去掉但是不知道怎么去掉……</p>
-<h3 id="praat-1"><a href="#praat-1" class="headerlink" title="praat"></a>praat</h3><ol>
-<li><p>用刚刚的praat软件 view &amp; edit 后，点击 pitch - pitch listing，生成一个txt文件</p>
-</li>
-<li><p>使用</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line">praat = np.genfromtxt(<span class="string">&quot;info.txt&quot;</span>)</span><br><span class="line">praat = praat[:,<span class="number">1</span>]</span><br><span class="line">plt.plot(praat)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p>试过重启什么的都不行，最后重新安装了homebrew</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/Homebrew/Library/Taps/homebrew/</span><br><span class="line">rm -rf homebrew-core</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/Homebrew/homebrew-core.git</span><br></pre></td></tr></table></figure>
 
-</li>
-</ol>
-<p>结果：<br><img src="https://tva1.sinaimg.cn/large/008i3skNly1gvu7ipcosjj30wo0qiabe.jpg" alt="截屏2021-10-27 下午9.49.22"></p>
-<h2 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h2><p>两者对比一下，可以看到结果基本差不多。</p>
-<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gvu7jt39o5j31780u0go4.jpg" alt="截屏2021-10-27 下午9.50.59"></p>
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://medium.com/@neurodatalab/pitch-tracking-or-how-to-estimate-the-fundamental-frequency-in-speech-on-the-examples-of-praat-fe0ca50f61fd">Pitch-Tracking, or How to Estimate the Fundamental Frequency in Speech — on the Examples of Praat, YAAPT, and YIN Algorithms</a></p>
-<p>关于进一步增进matplotlib：<a href="https://zhuanlan.zhihu.com/p/109245779">https://zhuanlan.zhihu.com/p/109245779</a></p>
+<p>然后就成功安装了portaudio，但是安装pyaudio依然报错失败，尝试link</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">brew link portaudio</span><br></pre></td></tr></table></figure>
+
+<p>但是显示已经link了，仍然无法安装。</p>
+<p>最后终于找到了方法，手动找到portaudio.h的位置‘usr/local/Cellar/portaudio/19.7.0/include’ ，然后以如下方式安装就可以啦</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">python3 -m pip install --global-option=<span class="string">&#x27;build_ext&#x27;</span> --global-option=<span class="string">&#x27;-I/usr/local/Cellar/portaudio/19.7.0/include&#x27;</span> --global-option=<span class="string">&#x27;-L/usr/local/Cellar/portaudio/19.7.0/lib&#x27;</span> pyaudio</span><br></pre></td></tr></table></figure>
+
+<h3 id="playsound-pydub"><a href="#playsound-pydub" class="headerlink" title="playsound/pydub"></a>playsound/pydub</h3><p>这个就正常安装就没问题。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">python3 -m pip install playsound pydub</span><br></pre></td></tr></table></figure>
+
+<h2 id="播放音频"><a href="#播放音频" class="headerlink" title="播放音频"></a>播放音频</h2><p>这个很简单。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> playsound <span class="keyword">import</span> playsound</span><br><span class="line"></span><br><span class="line">playsound(<span class="string">&quot;chunk3.wav&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>另外一种方法</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> pydub <span class="keyword">import</span> AudioSegment</span><br><span class="line"><span class="keyword">from</span> pydub.playback <span class="keyword">import</span> play</span><br><span class="line"></span><br><span class="line"><span class="comment"># read MP3 file</span></span><br><span class="line">song = AudioSegment.from_wav(<span class="string">&quot;/Users/whitelephant/Files/ENN/发音/audio-chunks/chunk3.wav&quot;</span>)</span><br><span class="line"><span class="comment"># song = AudioSegment.from_mp3(&quot;audio_file.mp3&quot;)</span></span><br><span class="line"><span class="comment"># you can also read from other formats such as MP4</span></span><br><span class="line"><span class="comment"># song = AudioSegment.from_file(&quot;audio_file.mp4&quot;, &quot;mp4&quot;)</span></span><br><span class="line">play(song)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="录音并生成文件"><a href="#录音并生成文件" class="headerlink" title="录音并生成文件"></a>录音并生成文件</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">CHUNK = <span class="number">1024</span>  <span class="comment"># 每个缓冲区的帧数</span></span><br><span class="line">FORMAT = pyaudio.paInt16  <span class="comment"># 采样位数</span></span><br><span class="line">CHANNELS = <span class="number">1</span>  <span class="comment"># 单声道</span></span><br><span class="line">RATE = <span class="number">44100</span>  <span class="comment"># 采样频率</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">record_audio</span>(<span class="params">wave_out_path, record_second</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot; 录音功能 &quot;&quot;&quot;</span></span><br><span class="line">    p = pyaudio.PyAudio()  <span class="comment"># 实例化对象</span></span><br><span class="line">    stream = p.open(format=FORMAT,</span><br><span class="line">                    channels=CHANNELS,</span><br><span class="line">                    rate=RATE,</span><br><span class="line">                    input=<span class="literal">True</span>,</span><br><span class="line">                    frames_per_buffer=CHUNK)  <span class="comment"># 打开流，传入响应参数</span></span><br><span class="line">    wf = wave.open(wave_out_path, <span class="string">&#x27;wb&#x27;</span>)  <span class="comment"># 打开 wav 文件。</span></span><br><span class="line">    wf.setnchannels(CHANNELS)  <span class="comment"># 声道设置</span></span><br><span class="line">    wf.setsampwidth(p.get_sample_size(FORMAT))  <span class="comment"># 采样位数设置</span></span><br><span class="line">    wf.setframerate(RATE)  <span class="comment"># 采样频率设置</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">0</span>, int(RATE * record_second / CHUNK)):</span><br><span class="line">        data = stream.read(CHUNK)</span><br><span class="line">        wf.writeframes(data)  <span class="comment"># 写入数据</span></span><br><span class="line">    stream.stop_stream()  <span class="comment"># 关闭流</span></span><br><span class="line">    stream.close()</span><br><span class="line">    p.terminate()</span><br><span class="line">    wf.close()</span><br><span class="line"></span><br><span class="line">filepath = <span class="string">&#x27;try.wav&#x27;</span></span><br><span class="line">record_audio(filepath,<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://zhuanlan.zhihu.com/p/92205480">Python实现电脑录音（含音频基础知识讲解）</a></p>
+<p><a href="https://www.thepythoncode.com/article/play-and-record-audio-sound-in-python">How to Play and Record Audio in Python</a></p>
 ]]></content>
       <categories>
         <category>鼓捣电脑</category>
@@ -1157,6 +1090,57 @@ chmod 755 deploy.sh
       </tags>
   </entry>
   <entry>
+    <title>用 python GUI（前端package） 做个程序</title>
+    <url>/2021/10/29/python-wxpython/</url>
+    <content><![CDATA[<p>python的GUI包选择：wxpython</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">python3 -m pip install wxpython</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://github.com/necan/wxPython-tutorial/blob/master/2.%E7%AC%AC%E4%B8%80%E6%AD%A5.md">wxpython的中文简明文档</a></p>
+<h2 id="wxpython基本使用"><a href="#wxpython基本使用" class="headerlink" title="wxpython基本使用"></a>wxpython基本使用</h2><p>###构建frame</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> wx</span><br><span class="line"></span><br><span class="line"><span class="comment">#创建一个应用程序对象</span></span><br><span class="line">app = wx.App()</span><br><span class="line"></span><br><span class="line"><span class="comment">#构建frame</span></span><br><span class="line">frame = wx.Frame(<span class="literal">None</span>, title=<span class="string">&#x27;Simple application&#x27;</span>, size=(<span class="number">300</span>,<span class="number">200</span>)) <span class="comment">#设置大小</span></span><br><span class="line">frame.Center() <span class="comment">#居中</span></span><br><span class="line">frame.Show()</span><br><span class="line"></span><br><span class="line"><span class="comment">#运行</span></span><br><span class="line">app.MainLoop()</span><br></pre></td></tr></table></figure>
+
+<p>###基本元素</p>
+<p>文字</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#基本</span></span><br><span class="line">text = wx.StaticText(frame, label=<span class="string">&#x27;Please enter filepath&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#位置</span></span><br><span class="line">text = wx.StaticText(frame, label=<span class="string">&#x27;Please enter filepath&#x27;</span>,style = wx.ALIGN_CENTER)</span><br><span class="line">text = wx.StaticText(panel, label=<span class="string">&#x27;Please enter filepath&#x27;</span>, pos = (<span class="number">500</span>,<span class="number">400</span>)) </span><br><span class="line"></span><br><span class="line"><span class="comment">#设置字体</span></span><br><span class="line"><span class="comment">## 先设置好</span></span><br><span class="line">font = wx.SystemSettings.GetFont(wx.SYS_SYSTEM_FONT)</span><br><span class="line">font.SetPointSize(<span class="number">9</span>)</span><br><span class="line"><span class="comment">## 用时候就加上</span></span><br><span class="line">st1.SetFont(font) <span class="comment">#st1是static text1</span></span><br></pre></td></tr></table></figure>
+
+<p>按钮</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># button触发内容</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">onButton</span>(<span class="params">event</span>):</span></span><br><span class="line">    print(<span class="string">&quot;Button pressed.&quot;</span>)</span><br><span class="line"> </span><br><span class="line">panel = wx.Panel(frame)</span><br><span class="line"></span><br><span class="line"><span class="comment">#button基本设置</span></span><br><span class="line">button = wx.Button(panel, wx.ID_ANY, label=<span class="string">&#x27;GO&#x27;</span>,size=(<span class="number">70</span>,<span class="number">30</span>),pos=(<span class="number">400</span>,<span class="number">400</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">#button链接触发内容</span></span><br><span class="line">button.Bind(wx.EVT_BUTTON, onButton)</span><br><span class="line"></span><br><span class="line"><span class="comment">#带有图标的按钮</span></span><br><span class="line">bmp = wx.Bitmap(<span class="string">&quot;call-start.png&quot;</span>, wx.BITMAP_TYPE_ANY)</span><br><span class="line">button = wx.BitmapButton(panel, id=wx.ID_ANY, bitmap=bmp,</span><br><span class="line">                          size=(bmp.GetWidth()+<span class="number">10</span>, bmp.GetHeight()+<span class="number">10</span>))</span><br></pre></td></tr></table></figure>
+
+<p>勾选眶</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">cb1 = wx.CheckBox(panel, label=<span class="string">&#x27;Case Sensitive&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>文字输入框</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#最基本</span></span><br><span class="line">tc = wx.TextCtrl(panel)</span><br><span class="line"></span><br><span class="line"><span class="comment">#多行（大的框）</span></span><br><span class="line">tc2 = wx.TextCtrl(panel, style=wx.TE_MULTILINE)</span><br><span class="line"></span><br><span class="line"><span class="comment">#右侧输入文字</span></span><br><span class="line">wx.TextCtrl(panel, style=wx.TE_RIGHT)</span><br></pre></td></tr></table></figure>
+
+<p>图片</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">png = wx.Image(imageFile, wx.BITMAP_TYPE_ANY).ConvertToBitmap()</span><br><span class="line">wx.StaticBitmap(self, <span class="number">-1</span>, png, (<span class="number">10</span>, <span class="number">5</span>), (png.GetWidth(), png.GetHeight()))</span><br></pre></td></tr></table></figure>
+
+<h3 id="布局"><a href="#布局" class="headerlink" title="布局"></a>布局</h3><p>boxSizer 使我们能够将多个组件放入行或列中。 我们可以将另一个 sizer 放入现有的 sizer 中。 这样我们可以创建非常复杂的布局。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#竖着的</span></span><br><span class="line">vbox = wx.BoxSizer(wx.VERTICAL)</span><br><span class="line"></span><br><span class="line"><span class="comment">#横着的</span></span><br><span class="line">hbox1 = wx.BoxSizer(wx.HORIZONTAL)</span><br><span class="line"></span><br><span class="line"><span class="comment">#最整体的那个要放在panel里</span></span><br><span class="line">panel.SetSizer(vbox)</span><br><span class="line"></span><br><span class="line"><span class="comment">#把元素加进box里</span></span><br><span class="line">hbox1.Add(st1, flag=wx.RIGHT, border=<span class="number">8</span>) <span class="comment">#flag和border指的是右边加8的margin 共有wx.LEFT，wx.RIGHT，wx.BOTTOM，wx.TOP，wx.ALL</span></span><br><span class="line">vbox.Add(hbox1, flag=wx.EXPAND|wx.LEFT|wx.RIGHT|wx.TOP, border=<span class="number">10</span>) <span class="comment">#多个方向加margin；wx.EXPAND 是指元素将使用分配给它的所有空间</span></span><br><span class="line"> vbox.Add(hbox5, flag=wx.ALIGN_RIGHT|wx.RIGHT, border=<span class="number">10</span>) <span class="comment">#默认左对齐 如果更改用align；共有wx.ALIGN_LEFT，wx.ALIGN_RIGHT，wx.ALIGN_TOP，wx.ALIGN_BOTTOM，wx.ALIGN_CENTER_VERTICAL，wx.ALIGN_CENTER_HORIZONTAL，wx.ALIGN_CENTER</span></span><br><span class="line">  </span><br><span class="line"><span class="comment">#加空白</span></span><br><span class="line">vbox.Add((<span class="number">-1</span>, <span class="number">25</span>))</span><br></pre></td></tr></table></figure>
+
+<p>wx.GridSizer: 在二维表格中展示组件。 表格中的每个单元具有相同的大小。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 初始化 wx.GridSizer(int rows=1, int cols=0, int vgap=0, int hgap=0)行数和列数，纵向和横向的单元格之间的间隔（单位是像素）</span></span><br><span class="line">gs = wx.GridSizer(<span class="number">5</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">5</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加内容（忽略self）</span></span><br><span class="line">gs.AddMany( [(wx.Button(self, label=<span class="string">&#x27;Cls&#x27;</span>), <span class="number">0</span>, wx.EXPAND),</span><br><span class="line">            (wx.Button(self, label=<span class="string">&#x27;Bck&#x27;</span>), <span class="number">0</span>, wx.EXPAND),</span><br><span class="line">            (wx.StaticText(self), wx.EXPAND), <span class="comment">#空白格</span></span><br><span class="line">            (wx.Button(self, label=<span class="string">&#x27;Close&#x27;</span>), <span class="number">0</span>, wx.EXPAND),</span><br><span class="line">            (wx.Button(self, label=<span class="string">&#x27;7&#x27;</span>), <span class="number">0</span>, wx.EXPAND),</span><br><span class="line">            (wx.Button(self, label=<span class="string">&#x27;8&#x27;</span>), <span class="number">0</span>, wx.EXPAND),</span><br><span class="line">            (wx.Button(self, label=<span class="string">&#x27;9&#x27;</span>), <span class="number">0</span>, wx.EXPAND),</span><br><span class="line">            (wx.Button(self, label=<span class="string">&#x27;/&#x27;</span>), <span class="number">0</span>, wx.EXPAND),</span><br><span class="line">            (wx.Button(self, label=<span class="string">&#x27;4&#x27;</span>), <span class="number">0</span>, wx.EXPAND),</span><br><span class="line">            (wx.Button(self, label=<span class="string">&#x27;5&#x27;</span>), <span class="number">0</span>, wx.EXPAND),</span><br><span class="line">            (wx.Button(self, label=<span class="string">&#x27;6&#x27;</span>), <span class="number">0</span>, wx.EXPAND),</span><br><span class="line">            (wx.Button(self, label=<span class="string">&#x27;*&#x27;</span>), <span class="number">0</span>, wx.EXPAND),</span><br><span class="line">            (wx.Button(self, label=<span class="string">&#x27;1&#x27;</span>), <span class="number">0</span>, wx.EXPAND),</span><br><span class="line">            (wx.Button(self, label=<span class="string">&#x27;2&#x27;</span>), <span class="number">0</span>, wx.EXPAND),</span><br><span class="line">            (wx.Button(self, label=<span class="string">&#x27;3&#x27;</span>), <span class="number">0</span>, wx.EXPAND),</span><br><span class="line">            (wx.Button(self, label=<span class="string">&#x27;-&#x27;</span>), <span class="number">0</span>, wx.EXPAND),</span><br><span class="line">            (wx.Button(self, label=<span class="string">&#x27;0&#x27;</span>), <span class="number">0</span>, wx.EXPAND),</span><br><span class="line">            (wx.Button(self, label=<span class="string">&#x27;.&#x27;</span>), <span class="number">0</span>, wx.EXPAND),</span><br><span class="line">            (wx.Button(self, label=<span class="string">&#x27;=&#x27;</span>), <span class="number">0</span>, wx.EXPAND),</span><br><span class="line">            (wx.Button(self, label=<span class="string">&#x27;+&#x27;</span>), <span class="number">0</span>, wx.EXPAND) ])</span><br></pre></td></tr></table></figure>
+
+<p>wx.FlexGridSizer：与 <code>wx.GridSizer</code> 类似。它也在一个二维表中的放置组件。它增加了一些灵活性。<code>wx.GridSizer</code> 单元格大小相同。<code>wx.FlexGridSizer</code> 中的所有单元格在同一行中具有相同的高度。所有单元在一列中具有相同的宽度。但是所有的行和列不需要是同样的高度或宽度。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 初始化 wx.FlexGridSizer(int rows=1, int cols=0, int vgap=0, int hgap=0) 行，列，每行/列之间的gap</span></span><br><span class="line">fgs = wx.FlexGridSizer(<span class="number">3</span>, <span class="number">2</span>, <span class="number">9</span>, <span class="number">25</span>)</span><br><span class="line"></span><br><span class="line">fgs.AddMany([(title), (tc1, <span class="number">1</span>, wx.EXPAND), </span><br><span class="line">             (author),(tc2, <span class="number">1</span>, wx.EXPAND), </span><br><span class="line">             (review, <span class="number">1</span>, wx.EXPAND), (tc3, <span class="number">1</span>, wx.EXPAND)])</span><br><span class="line"></span><br><span class="line">fgs.AddGrowableRow(<span class="number">2</span>, <span class="number">1</span>)</span><br><span class="line">fgs.AddGrowableCol(<span class="number">1</span>, <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+<p>wx.GridBagSizer：是 wxPython 中最灵活的 size</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#初始化wx.GridBagSizer(integer vgap, integer hgap) 所有元素之间的间隔（单位为像素）</span></span><br><span class="line">sizer = wx.GridBagSizer(<span class="number">4</span>, <span class="number">4</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#添加Add(self, item, tuple pos, tuple span=wx.DefaultSpan, integer flag=0, integer border=0, userData=None)</span></span><br><span class="line">sizer.Add(text, pos=(<span class="number">0</span>, <span class="number">0</span>), flag=wx.TOP|wx.LEFT|wx.BOTTOM, border=<span class="number">5</span>)</span><br><span class="line">sizer.Add(tc, pos=(<span class="number">1</span>, <span class="number">0</span>), span=(<span class="number">1</span>, <span class="number">5</span>),flag=wx.EXPAND|wx.LEFT|wx.RIGHT, border=<span class="number">5</span>)</span><br><span class="line"></span><br><span class="line">sizer.AddGrowableCol(<span class="number">1</span>)</span><br><span class="line">sizer.AddGrowableRow(<span class="number">2</span>)</span><br><span class="line">panel.SetSizer(sizer)</span><br></pre></td></tr></table></figure>
+
+<h3 id="高级技巧"><a href="#高级技巧" class="headerlink" title="高级技巧"></a>高级技巧</h3><p>拖拽文件</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> wx</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FileDrop</span>(<span class="params">wx.FileDropTarget</span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, window</span>):</span></span><br><span class="line"></span><br><span class="line">        wx.FileDropTarget.__init__(self) <span class="comment">#file drop</span></span><br><span class="line">        self.window = window</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">OnDropFiles</span>(<span class="params">self, x, y, filenames</span>):</span> <span class="comment">#file drop之后的</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> name <span class="keyword">in</span> filenames:</span><br><span class="line"></span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                file = open(name, <span class="string">&#x27;r&#x27;</span>)</span><br><span class="line">                text = file.read()</span><br><span class="line">                self.window.WriteText(text)</span><br><span class="line"></span><br><span class="line">            <span class="keyword">except</span> IOError <span class="keyword">as</span> error:</span><br><span class="line"></span><br><span class="line">                msg = <span class="string">&quot;Error opening file\n &#123;&#125;&quot;</span>.format(str(error))</span><br><span class="line">                dlg = wx.MessageDialog(<span class="literal">None</span>, msg)</span><br><span class="line">                dlg.ShowModal()</span><br><span class="line"></span><br><span class="line">                <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">except</span> UnicodeDecodeError <span class="keyword">as</span> error:</span><br><span class="line"></span><br><span class="line">                msg = <span class="string">&quot;Cannot open non ascii files\n &#123;&#125;&quot;</span>.format(str(error))</span><br><span class="line">                dlg = wx.MessageDialog(<span class="literal">None</span>, msg)</span><br><span class="line">                dlg.ShowModal()</span><br><span class="line"></span><br><span class="line">                <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">finally</span>:</span><br><span class="line"></span><br><span class="line">                file.close()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Example</span>(<span class="params">wx.Frame</span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, *args, **kw</span>):</span></span><br><span class="line">        super(Example, self).__init__(*args, **kw)</span><br><span class="line"></span><br><span class="line">        self.InitUI()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">InitUI</span>(<span class="params">self</span>):</span></span><br><span class="line"></span><br><span class="line">        self.text = wx.TextCtrl(self, style = wx.TE_MULTILINE)</span><br><span class="line">        dt = FileDrop(self.text)</span><br><span class="line"></span><br><span class="line">        self.text.SetDropTarget(dt)</span><br><span class="line"></span><br><span class="line">        self.SetTitle(<span class="string">&#x27;File drag and drop&#x27;</span>)</span><br><span class="line">        self.Centre()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line"></span><br><span class="line">    app = wx.App()</span><br><span class="line">    ex = Example(<span class="literal">None</span>)</span><br><span class="line">    ex.Show()</span><br><span class="line">    app.MainLoop()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2>]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>如何无需重新渲染裁剪剪辑视频——使用Quicktime Player</title>
     <url>/2020/09/07/quickplayer-render/</url>
     <content><![CDATA[<ol>
@@ -1193,6 +1177,45 @@ chmod 755 deploy.sh
       <tags>
         <tag>小技巧</tag>
         <tag>视频</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>用python识别语音的音调（speech analysis - intonation)</title>
+    <url>/2021/10/27/python-intonation%20detection/</url>
+    <content><![CDATA[<p>一直想完成我心中很想做的一个东西，不过好难啊，只好拆接下来，一步一步来咯。</p>
+<p>第一步，就是用python识别语音的音调。</p>
+<h2 id="praat"><a href="#praat" class="headerlink" title="praat"></a>praat</h2><p>先说个不用python的方法。最初是偶然找到了praat这个软件，很简单，打开praat-点open-read from file - view &amp; edit - pitch - show pitch 就可以啦（注意要短于10秒，如果超过的话zoom in才能看到线条）。</p>
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gvu76v6bn7j321w0t6qav.jpg" alt="截屏2021-10-27 下午9.37.50"></p>
+<h2 id="python"><a href="#python" class="headerlink" title="python"></a>python</h2><p>再说用python 的2个方法。</p>
+<h3 id="amfm-decompy"><a href="#amfm-decompy" class="headerlink" title="amfm_decompy"></a>amfm_decompy</h3><p>首先安装amfm_decompy</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">python3 -m pip install amfm_decompy</span><br></pre></td></tr></table></figure>
+
+<p>使用</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> amfm_decompy.basic_tools <span class="keyword">as</span> basic</span><br><span class="line"><span class="keyword">import</span> amfm_decompy.pYAAPT <span class="keyword">as</span> pYAAPT</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment">#load audio 注意必须是wav</span></span><br><span class="line">signal = basic.SignalObj(<span class="string">&quot;01.wav&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#pYAAPT pitches 生成pitches文件</span></span><br><span class="line">pitch = pYAAPT.yaapt(signal, frame_length = <span class="number">40</span>, tda_frame_length=<span class="number">40</span>,f0_min=<span class="number">75</span>, f0_max=<span class="number">600</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#plot </span></span><br><span class="line">plt.plot(pitch.samp_values)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gvu7bl4cgmj30ym0tcq58.jpg" alt="截屏2021-10-27 下午9.42.32"></p>
+<p>要去掉0的话：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">p_nan = pitch.samp_values</span><br><span class="line">p_nan[pitch.samp_values==<span class="number">0</span>] = np.nan</span><br><span class="line">plt.plot(p_nan)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<h3 id="praat-1"><a href="#praat-1" class="headerlink" title="praat"></a>praat</h3><ol>
+<li><p>用刚刚的praat软件 view &amp; edit 后，点击 pitch - pitch listing，生成一个txt文件</p>
+</li>
+<li><p>使用</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line">praat = np.genfromtxt(<span class="string">&quot;info.txt&quot;</span>)</span><br><span class="line">praat = praat[:,<span class="number">1</span>]</span><br><span class="line">plt.plot(praat)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>结果：<br><img src="https://tva1.sinaimg.cn/large/008i3skNly1gvu7ipcosjj30wo0qiabe.jpg" alt="截屏2021-10-27 下午9.49.22"></p>
+<h2 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h2><p>两者对比一下，可以看到结果基本差不多。</p>
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gvu7jt39o5j31780u0go4.jpg" alt="截屏2021-10-27 下午9.50.59"></p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://medium.com/@neurodatalab/pitch-tracking-or-how-to-estimate-the-fundamental-frequency-in-speech-on-the-examples-of-praat-fe0ca50f61fd">Pitch-Tracking, or How to Estimate the Fundamental Frequency in Speech — on the Examples of Praat, YAAPT, and YIN Algorithms</a></p>
+<p>关于进一步增进matplotlib：<a href="https://zhuanlan.zhihu.com/p/109245779">https://zhuanlan.zhihu.com/p/109245779</a></p>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
       </tags>
   </entry>
   <entry>
@@ -1234,34 +1257,6 @@ chmod 755 deploy.sh
         <category>鼓捣电脑</category>
       </categories>
       <tags>
-        <tag>downloader</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>you-get安装和使用</title>
-    <url>/2020/09/09/you-get/</url>
-    <content><![CDATA[<p><a href="https://github.com/soimort/you-get#supported-sites">You-get</a> 和 <a href="https://whitelephantee.github.io/2020/09/08/youtube-dl/">youtube-dl</a> 一样，都是命令行下载工具，不过you-get是国人开发的，对国内视频网站的支持更好。</p>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>用homebrew安装。</p>
-<pre><code>brew install you-get</code></pre>
-<p>再升级一下。</p>
-<pre><code>pip3 install --upgrade you-get</code></pre>
-<p>然后就可以用啦。</p>
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><p>使用和youtube-dl也很相似，超简单。</p>
-<pre><code>you-get &#123;url&#125;</code></pre>
-<p>you-get也支持断点续传，会留有之前的记录。</p>
-<p>可以设置存储位置(-o)和存储名称(-0)。</p>
-<pre><code>you-get -o ~/Videos -O zoo.webm &#39;https://www.youtube.com/watch?v=jNQXAC9IVRw&#39;</code></pre>
-<p>设置代理</p>
-<pre><code>you-get -x 127.0.0.1:8087 &#39;https://www.youtube.com/watch?v=jNQXAC9IVRw&#39;</code></pre>
-<p>也可以把视频发送到播放器或者浏览器中，不要广告，</p>
-<pre><code> you-get -p vlc &#39;https://www.youtube.com/watch?v=jNQXAC9IVRw&#39;
- you-get -p chromium &#39;https://www.youtube.com/watch?v=jNQXAC9IVRw&#39;</code></pre>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>mac</tag>
         <tag>downloader</tag>
       </tags>
   </entry>
@@ -1457,29 +1452,130 @@ youtube-dl -o &#39;/Users/&#123;username&#125;/Downloads/%(title)s.%(ext)s&#39; 
       </tags>
   </entry>
   <entry>
-    <title>如何在 pages 里快速复制格式/格式刷？</title>
-    <url>/2020/09/07/pages-formatting/</url>
-    <content><![CDATA[<h1 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h1><p>快捷键：</p>
-<ul>
-<li><p>opt+command+c 复制格式</p>
-</li>
-<li><p>opt+command+v 粘贴格式</p>
-</li>
-</ul>
-<p>常规方法：</p>
-<ul>
-<li>pages标签栏-格式-拷贝样式/粘贴样式</li>
-</ul>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiao3q6cvj30ti0m40tz.jpg" alt="9808904-778c5800c618cf4c"></p>
-<h1 id="小栗子"><a href="#小栗子" class="headerlink" title="小栗子"></a>小栗子</h1><p>1.0版：<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiaoc2qskg30sf0kbwhv.gif" alt="9808904-d6799f3140157c59"></p>
-<p>2.0版<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiaovee63g30sf0kbabl.gif" alt="9808904-4812c80c61f8814c"></p>
+    <title>you-get安装和使用</title>
+    <url>/2020/09/09/you-get/</url>
+    <content><![CDATA[<p><a href="https://github.com/soimort/you-get#supported-sites">You-get</a> 和 <a href="https://whitelephantee.github.io/2020/09/08/youtube-dl/">youtube-dl</a> 一样，都是命令行下载工具，不过you-get是国人开发的，对国内视频网站的支持更好。</p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>用homebrew安装。</p>
+<pre><code>brew install you-get</code></pre>
+<p>再升级一下。</p>
+<pre><code>pip3 install --upgrade you-get</code></pre>
+<p>然后就可以用啦。</p>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><p>使用和youtube-dl也很相似，超简单。</p>
+<pre><code>you-get &#123;url&#125;</code></pre>
+<p>you-get也支持断点续传，会留有之前的记录。</p>
+<p>可以设置存储位置(-o)和存储名称(-0)。</p>
+<pre><code>you-get -o ~/Videos -O zoo.webm &#39;https://www.youtube.com/watch?v=jNQXAC9IVRw&#39;</code></pre>
+<p>设置代理</p>
+<pre><code>you-get -x 127.0.0.1:8087 &#39;https://www.youtube.com/watch?v=jNQXAC9IVRw&#39;</code></pre>
+<p>也可以把视频发送到播放器或者浏览器中，不要广告，</p>
+<pre><code> you-get -p vlc &#39;https://www.youtube.com/watch?v=jNQXAC9IVRw&#39;
+ you-get -p chromium &#39;https://www.youtube.com/watch?v=jNQXAC9IVRw&#39;</code></pre>
 ]]></content>
       <categories>
         <category>鼓捣电脑</category>
       </categories>
       <tags>
-        <tag>pages</tag>
-        <tag>小技巧</tag>
+        <tag>mac</tag>
+        <tag>downloader</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python小菜鸟备忘录：怎么读取/写入文档</title>
+    <url>/2021/01/24/python%20-%20file/</url>
+    <content><![CDATA[<p>总是忘记怎么读取/写入文档……然后发现原先写在jupyter的所有python和R的笔记都没了……所以痛定思痛，还是自己写在自己博客上靠谱呜呜</p>
+<hr>
+<h2 id="打开文件"><a href="#打开文件" class="headerlink" title="打开文件"></a>打开文件</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">f = open(file, mode=<span class="string">&#x27;r&#x27;</span>) <span class="comment">#file为文件路径（绝对/相对）</span></span><br></pre></td></tr></table></figure>
+
+<p>这是最基本的读取文件方式，其他的变形为：</p>
+<ul>
+<li>encoding = none 为默认，其他常用的为utf8</li>
+<li>mode一共有好几种，这里列几种常用的</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>x</td>
+<td>写模式，新建一个文件，如果该文件已存在则会报错。</td>
+</tr>
+<tr>
+<td>r</td>
+<td>以只读方式打开文件。文件的指针将会放在文件的开头。</td>
+</tr>
+<tr>
+<td>r+</td>
+<td>打开一个文件用于读写。文件指针将会放在文件的开头。</td>
+</tr>
+<tr>
+<td>w</td>
+<td>打开一个文件只用于写入。如果该文件已存在则打开文件，并从开头开始编辑，即原有内容会被删除。如果该文件不存在，创建新文件。</td>
+</tr>
+<tr>
+<td>w+</td>
+<td>打开一个文件用于读写。如果该文件已存在则打开文件，并从开头开始编辑，即原有内容会被删除。如果该文件不存在，创建新文件。</td>
+</tr>
+<tr>
+<td>a</td>
+<td>打开一个文件用于追加。如果该文件已存在，文件指针将会放在文件的结尾。也就是说，新的内容将会被写入到已有内容之后。如果该文件不存在，创建新文件进行写入。</td>
+</tr>
+<tr>
+<td>a+</td>
+<td>打开一个文件用于读写。如果该文件已存在，文件指针将会放在文件的结尾。文件打开时会是追加模式。如果该文件不存在，创建新文件用于读写。</td>
+</tr>
+</tbody></table>
+<h2 id="关闭文件"><a href="#关闭文件" class="headerlink" title="关闭文件"></a>关闭文件</h2><p>要打开文件就一定要相对应的关闭文件</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#关闭文件</span></span><br><span class="line">f.close()</span><br></pre></td></tr></table></figure>
+
+<h2 id="读取文件"><a href="#读取文件" class="headerlink" title="读取文件"></a>读取文件</h2><p>读取文件首先模式要选对，其次是不同的函数</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">f.read([size]) <span class="comment">#返回size数量的字节数 如果未给定或为负则读取所有。</span></span><br><span class="line">f.readline() <span class="comment">#读取整行，包括 &quot;\n&quot; 字符。如果不想要\n的话可以f.readline().strip()</span></span><br><span class="line">f.readlines() <span class="comment">#读取所有行,返回包含所有行以及\n的列表</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#note：返回的都是string</span></span><br><span class="line">string = f.read()</span><br></pre></td></tr></table></figure>
+
+<p>常用的是readlines()，即依次读取每行信息（且不返还列表）</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> f.readlines():   <span class="comment">#依次读取每行  </span></span><br><span class="line">    line = line.strip()       <span class="comment">#去掉每行头尾空白  </span></span><br><span class="line">    <span class="keyword">print</span> <span class="string">&quot;读取的数据为: %s&quot;</span> % (line)</span><br></pre></td></tr></table></figure>
+
+<h2 id="设置指针位置"><a href="#设置指针位置" class="headerlink" title="设置指针位置"></a>设置指针位置</h2><p>一般打开文件默认指针在开头或结尾，如果想到其他位置可以设置指针。</p>
+<p>语法为：fileObject.seek(offset[, whence])</p>
+<ul>
+<li>offset: 开始的偏移量，也就是代表需要移动偏移的字节数</li>
+<li>whence：可选，默认值为 0。给offset参数一个定义，表示要从哪个位置开始偏移；0代表从文件开头开始算起，1代表从当前位置开始算起，2代表从文件末尾算起。</li>
+</ul>
+<p>如果操作成功，则返回新的文件位置，如果操作失败，则函数返回 -1。</p>
+<p>一些常用的：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">f.seek(<span class="number">0</span>,<span class="number">0</span>) <span class="comment">#重新设置文件读取指针到开头</span></span><br><span class="line">f.seek(<span class="number">0</span>,<span class="number">2</span>) <span class="comment">#重新设置文件读取指针到末尾</span></span><br><span class="line">f.tell() <span class="comment">#返回文件当前位置</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="写入文件"><a href="#写入文件" class="headerlink" title="写入文件"></a>写入文件</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">f.write(str) #写入字符串</span><br><span class="line">f.writelines([list of strings]) #写入多行字符串，但是如需换行需要自己加换行符</span><br><span class="line"></span><br><span class="line">#栗子</span><br><span class="line">seq &#x3D; [&quot;test 1\n&quot;, &quot;test 2&quot;]</span><br><span class="line">f.writelines(seq)</span><br></pre></td></tr></table></figure>
+
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">f.name <span class="comment">#返回文件名</span></span><br><span class="line">f.truncate([size]) <span class="comment">#截断文件</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://www.runoob.com/python/file-methods.html">菜鸟教程</a></p>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python小菜鸟备忘录：用python读取/写入excel</title>
+    <url>/2021/06/03/python%20-%20excel/</url>
+    <content><![CDATA[<p>最近要做数据分析，总要跟excel打交道，我好懒，于是打算用python搞搞excel</p>
+<h2 id="读取"><a href="#读取" class="headerlink" title="读取"></a>读取</h2><p>使用的库是xlrd，基本操作</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> xlrd</span><br><span class="line"><span class="keyword">with</span> xlrd.open_workbook(<span class="string">&#x27;x.xlsx&#x27;</span>) <span class="keyword">as</span> workbook: <span class="comment">#打开文档</span></span><br><span class="line">    worksheet=workbook.sheet_by_name(<span class="string">&#x27;Sheet1&#x27;</span>) <span class="comment">#读取工作表</span></span><br><span class="line">    <span class="keyword">for</span> row_index <span class="keyword">in</span> range(worksheet.nrows): <span class="comment">#对于每一行</span></span><br><span class="line">        content = worksheet.cell_value(row_index, <span class="number">0</span>) <span class="comment">#获取某个格的内容</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#或者另外一种方法读取excel</span></span><br><span class="line">data_excel=xlrd.open_workbook(<span class="string">&#x27;data/dataset.xlsx&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取所有sheet名称</span></span><br><span class="line">names=data_excel.sheet_names()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取book中的sheet工作表的三种方法,返回一个xlrd.sheet.Sheet()对象</span></span><br><span class="line">table=data_excel.sheets()[<span class="number">0</span>]  <span class="comment"># 通过索引顺序获取sheet</span></span><br><span class="line">table=data_excel.sheet_by_index(sheetx=<span class="number">0</span>) <span class="comment"># 通过索引顺序获取sheet</span></span><br><span class="line">table=data_excel.sheet_by_name(sheet_name=<span class="string">&#x27;Sheet1&#x27;</span>) <span class="comment"># 通过名称获取</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># excel工作表的行列操作</span></span><br><span class="line">n_rows=table.nrows  <span class="comment"># 获取该sheet中的有效行数</span></span><br><span class="line">n_cols=table.ncols  <span class="comment"># 获取该sheet中的有效列数</span></span><br><span class="line">row_list=table.row(rowx=<span class="number">0</span>)  <span class="comment"># 返回某行中所有的单元格对象组成的列表</span></span><br><span class="line">cols_list=table.col(colx=<span class="number">0</span>) <span class="comment"># 返回某列中所有的单元格对象组成的列表</span></span><br><span class="line">content_list = worksheet.row_values(<span class="number">0</span>) <span class="comment">#获取某行中所有的单元格内容组成的列表</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 返回某行中所有单元格的数据组成的列表</span></span><br><span class="line">row_data=table.row_values(<span class="number">0</span>,start_colx=<span class="number">0</span>,end_colx=<span class="literal">None</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 返回某列中所有单元格的数据组成的列表</span></span><br><span class="line">cols_data=table.col_values(<span class="number">0</span>,start_rowx=<span class="number">0</span>,end_rowx=<span class="literal">None</span>)</span><br><span class="line">row_lenth=table.row_len(<span class="number">0</span>)  <span class="comment"># 返回某行的有效单元格长度</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="写入"><a href="#写入" class="headerlink" title="写入"></a>写入</h2><p>写入的库是 xlwt</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment"># 创建一个workbook 设置编码</span></span><br><span class="line">workbook = xlwt.Workbook(encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个worksheet</span></span><br><span class="line">worksheet = workbook.add_sheet(<span class="string">&#x27;Sheet1&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#字体样式设置</span></span><br><span class="line">style = xlwt.XFStyle()  <span class="comment"># 初始化样式</span></span><br><span class="line">font = xlwt.Font()  <span class="comment"># 为样式创建字体</span></span><br><span class="line">font.name = <span class="string">&#x27;Times New Roman&#x27;</span></span><br><span class="line">font.height = <span class="number">20</span> * <span class="number">11</span>  <span class="comment"># 字体大小，11为字号，20为衡量单位</span></span><br><span class="line">font.bold = <span class="literal">True</span>  <span class="comment"># 黑体</span></span><br><span class="line">font.underline = <span class="literal">True</span>  <span class="comment"># 下划线</span></span><br><span class="line">font.italic = <span class="literal">True</span>  <span class="comment"># 斜体字</span></span><br><span class="line">style.font = font  <span class="comment"># 设定样式</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 数据写入excel,参数对应 行, 列, 值</span></span><br><span class="line">worksheet.write(<span class="number">0</span>, <span class="number">0</span>, <span class="string">&#x27;test_data&#x27;</span>)  <span class="comment"># 不带样式的写入</span></span><br><span class="line">worksheet.write(<span class="number">1</span>, <span class="number">0</span>, <span class="string">&#x27;test_data&#x27;</span>, style)  <span class="comment"># 带字体样式的写入</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置单元格宽度</span></span><br><span class="line">worksheet.col(<span class="number">0</span>).width = <span class="number">3333</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#设置单元格背景颜色</span></span><br><span class="line">pattern = xlwt.Pattern()</span><br><span class="line">pattern.pattern = xlwt.Pattern.SOLID_PATTERN</span><br><span class="line">pattern.pattern_fore_colour = <span class="number">13</span></span><br><span class="line">style = xlwt.XFStyle()  <span class="comment"># Create the Pattern</span></span><br><span class="line">style.pattern = pattern  <span class="comment"># Add Pattern to Style</span></span><br><span class="line">worksheet.write(<span class="number">2</span>, <span class="number">0</span>, <span class="string">&#x27;colour&#x27;</span>, style)</span><br><span class="line"></span><br><span class="line"><span class="comment">#给单元格添加边框方法一</span></span><br><span class="line">borders = xlwt.Borders()  <span class="comment"># Create Borders</span></span><br><span class="line">borders.left = xlwt.Borders.DASHED   <span class="comment">#DASHED虚线，NO_LINE没有，THIN实线</span></span><br><span class="line">borders.right = xlwt.Borders.DASHED  <span class="comment">#borders.right=1 表示实线</span></span><br><span class="line">borders.top = xlwt.Borders.DASHED</span><br><span class="line">borders.bottom = xlwt.Borders.DASHED</span><br><span class="line">borders.left_colour=<span class="number">0x40</span></span><br><span class="line">borders.right_colour = <span class="number">0x40</span></span><br><span class="line">borders.top_colour = <span class="number">0x40</span></span><br><span class="line">borders.bottom_colour = <span class="number">0x40</span></span><br><span class="line">style = xlwt.XFStyle()  <span class="comment"># Create Style</span></span><br><span class="line">style.borders = borders  <span class="comment"># Add Borders to Style</span></span><br><span class="line">worksheet.write(<span class="number">3</span>,<span class="number">0</span> , <span class="string">&#x27;border1&#x27;</span>, style)</span><br><span class="line"></span><br><span class="line"><span class="comment">#给单元格添加边框方法二</span></span><br><span class="line"><span class="comment"># 细实线:1，小粗实线:2，细虚线:3，中细虚线:4，大粗实线:5，双线:6，细点虚线:7，大粗虚线:8，细点划线:9，粗点划线:10，细双点划线:11，粗双点划线:12，斜点划线:13</span></span><br><span class="line">borders = xlwt.Borders()</span><br><span class="line">borders.left = <span class="number">1</span>    <span class="comment">#设置为细实线</span></span><br><span class="line">borders.right = <span class="number">1</span></span><br><span class="line">borders.top = <span class="number">1</span></span><br><span class="line">borders.bottom = <span class="number">1</span></span><br><span class="line">borders.left_colour = <span class="number">2</span>  <span class="comment">#颜色设置为红色</span></span><br><span class="line">borders.right_colour = <span class="number">2</span></span><br><span class="line">borders.top_colour = <span class="number">2</span></span><br><span class="line">borders.bottom_colour = <span class="number">2</span></span><br><span class="line">style = xlwt.XFStyle()  <span class="comment"># Create Style</span></span><br><span class="line">style.borders = borders  <span class="comment"># Add Borders to Style</span></span><br><span class="line">worksheet.write(<span class="number">4</span>, <span class="number">0</span>, <span class="string">&#x27;border2&#x27;</span>, style)</span><br><span class="line"></span><br><span class="line"><span class="comment">#单元格添加计算公式</span></span><br><span class="line">worksheet.write(<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>)  <span class="comment"># Outputs 2</span></span><br><span class="line">worksheet.write(<span class="number">0</span>, <span class="number">2</span>, <span class="number">3</span>)  <span class="comment"># Outputs 3</span></span><br><span class="line">worksheet.write(<span class="number">1</span>, <span class="number">1</span>, xlwt.Formula(<span class="string">&#x27;B1*C1&#x27;</span>))  <span class="comment"># Should output &quot;6&quot; (B1[2] * B2[6])</span></span><br><span class="line">worksheet.write(<span class="number">1</span>, <span class="number">2</span>, xlwt.Formula(<span class="string">&#x27;SUM(B1,C1)&#x27;</span>))  <span class="comment"># Should output &quot;5&quot; (B1[2] + C1[3])</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#向单元格添加一个超链接</span></span><br><span class="line">worksheet.write(<span class="number">0</span>, <span class="number">3</span>, xlwt.Formula(<span class="string">&#x27;HYPERLINK(&quot;http://www.baidu.com&quot;;&quot;baidu&quot;)&#x27;</span>))  <span class="comment"># Outputs the text &quot;baidu&quot; linking to http://www.baidu.com</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#单元格合并</span></span><br><span class="line">worksheet.write_merge(<span class="number">0</span>, <span class="number">0</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="string">&#x27;First Merge&#x27;</span>)   <span class="comment">#合并0行的4到5列</span></span><br><span class="line">worksheet.write_merge(<span class="number">1</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="string">&#x27;Second Merge&#x27;</span>)  <span class="comment">#合并1和2行的4到5列</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#设置单元格内容的对其方式</span></span><br><span class="line">alignment=xlwt.Alignment()  <span class="comment">## Create Alignment</span></span><br><span class="line">alignment.horz=xlwt.Alignment.HORZ_CENTER</span><br><span class="line">alignment.vert=xlwt.Alignment.VERT_CENTER</span><br><span class="line">style=xlwt.XFStyle()</span><br><span class="line">style.alignment=alignment   <span class="comment"># Add Alignment to Style</span></span><br><span class="line">worksheet.write(<span class="number">0</span>, <span class="number">6</span>, <span class="string">&#x27;alignment&#x27;</span>, style)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 保存文件</span></span><br><span class="line">workbook.save(<span class="string">&#x27;data_test.xls&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://blog.csdn.net/asialee_bird/article/details/105497121">Python3读取和写入excel表格数据</a></p>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
       </tags>
   </entry>
 </search>
