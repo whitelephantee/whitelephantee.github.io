@@ -1,6 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>如何将PubMed导出BibTex并导入Bibliometrix</title>
+    <url>/2021/01/24/PubMed-Bibliometrix/</url>
+    <content><![CDATA[<p>上期介绍了怎么用bibliometrix，但是我发现导师要求找的数据库是PubMed而新版的PubMed没有导出BibTex的功能，这可怎么办呢，我又求助万能的谷歌，鼓捣了半天，找到了两种方法～</p>
+<ul>
+<li><p>方法一：通过 Endnote 转换</p>
+</li>
+<li><p>方法二：通过 python 转换</p>
+</li>
+</ul>
+<p>这两种方法整体而言没有什么差别，只是看哪个用着更顺手而已，从bib文件就可以看出，由于PubMed本身的局限性，无论是哪种方法都没有办法做到Web of Science那种程度的信息量，WoS里面不仅会有每篇文章的基本信息，还会包括每篇参考文献、作者机构、国家等等，实际上只有这种等级的信息量才能够最大限度利用bibliometrix，因此还是推荐WoS进行分析。但既然都找到方法了，那就继续写完好啦，毕竟不然不就白瞎了嘛～</p>
+<h2 id="通过Endnote转换"><a href="#通过Endnote转换" class="headerlink" title="通过Endnote转换"></a>通过Endnote转换</h2><p>前提：</p>
+<ul>
+<li>安装最新版正版Endnote并新建一个Library</li>
+</ul>
+<p>方法：</p>
+<ol>
+<li><p>从PubMed找到所需文献</p>
+</li>
+<li><p>Send to - Citation Manager - All Results - Create Files</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmylfvf5qrj32800sudkw.jpg"></p>
+</li>
+<li><p>点击下载完毕的文档，用相应的Library打开</p>
+</li>
+<li><p>成功加进Endnote后导出</p>
+<p>File - Export - TXT - BibTex</p>
+<p>如果这里没有BibTex的选项，则需要手动添加——</p>
+<ol>
+<li><p>Tools - Output Styles - open style manager </p>
+</li>
+<li><p>找到 BibTex 并勾选</p>
+</li>
+<li><p>如果没有 BibTex 的选项，则点击 Get more on Web 并在弹出的网页搜索 BibTex</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmymdojgqpj31qs0u0du5.jpg"></p>
+</li>
+<li><p>点击 Download 下载并将下载好的文件放到 Endnote - Styles 文件夹里就有啦</p>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="通过-python-转换"><a href="#通过-python-转换" class="headerlink" title="通过 python 转换"></a>通过 python 转换</h2><p>前提：</p>
+<ul>
+<li>已有Python3和相应编程软件如Visual Code Studio</li>
+</ul>
+<p>方法：</p>
+<ol>
+<li><p>从PubMed下载所需文献的PMID导出</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmymee9oq6j320v0u0te1.jpg"></p>
+</li>
+<li><p>打开 terminal 用 pip 下载 <a href="https://pypi.org/project/pubmed-bibtex/">pubmed_bibtex</a> 这个库可以将PMID转换为对应的BibTex信息</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">python3 -m pip install pubmed-bibtex</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>新建python文件，读取下载的文档、转换并写入 bibtex</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> pubmed_bibtex <span class="keyword">import</span> bibtex_entry_from_pmid</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打开文件</span></span><br><span class="line">inputFile = open(<span class="string">&quot;pmid-physicalac-set.txt&quot;</span>, <span class="string">&quot;r&quot;</span>) <span class="comment">#只有将下载的PMID文档放入python文件同一个文件夹才可以用相对路径 否则用绝对路径</span></span><br><span class="line">outputFile = open(<span class="string">&quot;output.txt&quot;</span>, <span class="string">&quot;w&quot;</span>)            <span class="comment">#新建输出文档</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> inputFile.readlines():                          <span class="comment">#依次读取每行  </span></span><br><span class="line">    line = line.strip()                             <span class="comment">#去掉每行头尾空白  </span></span><br><span class="line">    <span class="keyword">print</span> (<span class="string">&quot;读取的数据为: %s&quot;</span> % (line))							</span><br><span class="line">    bibMes = bibtex_entry_from_pmid(int(line))</span><br><span class="line">    print(bibMes)</span><br><span class="line">    outputFile.write(bibMes)                       <span class="comment">#写入输出文档</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭文件</span></span><br><span class="line">inputFile.close()</span><br><span class="line">outputFile.close()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>这个时候python文件所在文件夹里就应该有一个名为 output.txt 的文档，里面就是相对应的信息啦，把后缀改为.bib就可以放入 biblioshiny里啦。</p>
+<p>P.S. 只是因为这个库依托的是TexMed，所以转换速度会慢一些，如果量大的话可能得等一阵。</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>鼓捣文献</category>
+      </categories>
+      <tags>
+        <tag>Research</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>如何将anki转成csv</title>
     <url>/2021/07/06/anki-to-csv/</url>
     <content><![CDATA[<h2 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h2><p>首先需要两个插件，分别是 <a href="https://ankiweb.net/shared/info/1967530655">csv converter</a> 和 <a href="https://ankiweb.net/shared/info/874215009">Advanced Browser</a></p>
@@ -144,8 +211,8 @@ whitelephant     14893   0.0  0.0  5286740   1076   ??  Ss    3:47下午   0:00.
         <category>鼓捣文献</category>
       </categories>
       <tags>
-        <tag>R</tag>
         <tag>Research</tag>
+        <tag>R</tag>
       </tags>
   </entry>
   <entry>
@@ -185,73 +252,6 @@ whitelephant     14893   0.0  0.0  5286740   1076   ??  Ss    3:47下午   0:00.
       </tags>
   </entry>
   <entry>
-    <title>如何将PubMed导出BibTex并导入Bibliometrix</title>
-    <url>/2021/01/24/PubMed-Bibliometrix/</url>
-    <content><![CDATA[<p>上期介绍了怎么用bibliometrix，但是我发现导师要求找的数据库是PubMed而新版的PubMed没有导出BibTex的功能，这可怎么办呢，我又求助万能的谷歌，鼓捣了半天，找到了两种方法～</p>
-<ul>
-<li><p>方法一：通过 Endnote 转换</p>
-</li>
-<li><p>方法二：通过 python 转换</p>
-</li>
-</ul>
-<p>这两种方法整体而言没有什么差别，只是看哪个用着更顺手而已，从bib文件就可以看出，由于PubMed本身的局限性，无论是哪种方法都没有办法做到Web of Science那种程度的信息量，WoS里面不仅会有每篇文章的基本信息，还会包括每篇参考文献、作者机构、国家等等，实际上只有这种等级的信息量才能够最大限度利用bibliometrix，因此还是推荐WoS进行分析。但既然都找到方法了，那就继续写完好啦，毕竟不然不就白瞎了嘛～</p>
-<h2 id="通过Endnote转换"><a href="#通过Endnote转换" class="headerlink" title="通过Endnote转换"></a>通过Endnote转换</h2><p>前提：</p>
-<ul>
-<li>安装最新版正版Endnote并新建一个Library</li>
-</ul>
-<p>方法：</p>
-<ol>
-<li><p>从PubMed找到所需文献</p>
-</li>
-<li><p>Send to - Citation Manager - All Results - Create Files</p>
-<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmylfvf5qrj32800sudkw.jpg"></p>
-</li>
-<li><p>点击下载完毕的文档，用相应的Library打开</p>
-</li>
-<li><p>成功加进Endnote后导出</p>
-<p>File - Export - TXT - BibTex</p>
-<p>如果这里没有BibTex的选项，则需要手动添加——</p>
-<ol>
-<li><p>Tools - Output Styles - open style manager </p>
-</li>
-<li><p>找到 BibTex 并勾选</p>
-</li>
-<li><p>如果没有 BibTex 的选项，则点击 Get more on Web 并在弹出的网页搜索 BibTex</p>
-<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmymdojgqpj31qs0u0du5.jpg"></p>
-</li>
-<li><p>点击 Download 下载并将下载好的文件放到 Endnote - Styles 文件夹里就有啦</p>
-</li>
-</ol>
-</li>
-</ol>
-<h2 id="通过-python-转换"><a href="#通过-python-转换" class="headerlink" title="通过 python 转换"></a>通过 python 转换</h2><p>前提：</p>
-<ul>
-<li>已有Python3和相应编程软件如Visual Code Studio</li>
-</ul>
-<p>方法：</p>
-<ol>
-<li><p>从PubMed下载所需文献的PMID导出</p>
-<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmymee9oq6j320v0u0te1.jpg"></p>
-</li>
-<li><p>打开 terminal 用 pip 下载 <a href="https://pypi.org/project/pubmed-bibtex/">pubmed_bibtex</a> 这个库可以将PMID转换为对应的BibTex信息</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">python3 -m pip install pubmed-bibtex</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>新建python文件，读取下载的文档、转换并写入 bibtex</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> pubmed_bibtex <span class="keyword">import</span> bibtex_entry_from_pmid</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打开文件</span></span><br><span class="line">inputFile = open(<span class="string">&quot;pmid-physicalac-set.txt&quot;</span>, <span class="string">&quot;r&quot;</span>) <span class="comment">#只有将下载的PMID文档放入python文件同一个文件夹才可以用相对路径 否则用绝对路径</span></span><br><span class="line">outputFile = open(<span class="string">&quot;output.txt&quot;</span>, <span class="string">&quot;w&quot;</span>)            <span class="comment">#新建输出文档</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> inputFile.readlines():                          <span class="comment">#依次读取每行  </span></span><br><span class="line">    line = line.strip()                             <span class="comment">#去掉每行头尾空白  </span></span><br><span class="line">    <span class="keyword">print</span> (<span class="string">&quot;读取的数据为: %s&quot;</span> % (line))							</span><br><span class="line">    bibMes = bibtex_entry_from_pmid(int(line))</span><br><span class="line">    print(bibMes)</span><br><span class="line">    outputFile.write(bibMes)                       <span class="comment">#写入输出文档</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭文件</span></span><br><span class="line">inputFile.close()</span><br><span class="line">outputFile.close()</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>这个时候python文件所在文件夹里就应该有一个名为 output.txt 的文档，里面就是相对应的信息啦，把后缀改为.bib就可以放入 biblioshiny里啦。</p>
-<p>P.S. 只是因为这个库依托的是TexMed，所以转换速度会慢一些，如果量大的话可能得等一阵。</p>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>鼓捣文献</category>
-      </categories>
-      <tags>
-        <tag>Research</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>如何直接在chrome浏览器网页上高亮文本内容？</title>
     <url>/2020/09/07/chrome-highlight/</url>
     <content><![CDATA[<p>写东西的时候经常会在网页上看到一些有用的内容 但通常会打开好几个标签页好几千字 竟然在开始动笔的时候就找不到需要的那段话去哪儿了 经过一番寻找和对比（主要是对比Diigo和CollaMark），最终发现了 <a href="https://link.jianshu.com/?t=https://chrome.google.com/webstore/detail/pdf-markup-my-web-markups/cbjngbfjehiofmihfpodinolkcokdojp">Markup</a> 拓展是我想要的那一款！</p>
@@ -287,30 +287,6 @@ whitelephant     14893   0.0  0.0  5286740   1076   ??  Ss    3:47下午   0:00.
     <url>/2020/09/05/hello-world/</url>
     <content><![CDATA[<p>作为一个只学过一点python的小白，终于！经过两天的倒腾，终于搞定了这个个人网页！呱唧呱唧喜大普奔！</p>
 ]]></content>
-  </entry>
-  <entry>
-    <title>谷歌搜索命令</title>
-    <url>/2022/02/12/google%20search/</url>
-    <content><![CDATA[<p><strong>站内全文搜索</strong> </p>
-<p>site: 链接 关键词</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">site:www.zhihu.com 博尔赫斯</span><br></pre></td></tr></table></figure>
-
-<p><strong>特定文件类型搜索</strong></p>
-<p>filetype:文件类型 关键词</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">filetype:pdf 博尔赫斯</span><br></pre></td></tr></table></figure>
-
-<p><strong>链接内关键词</strong></p>
-<p>在网页的url地址中查找，例如：inurl:dowload 表示查找url中包含download的网页。</p>
-<p><strong>查询类似网页</strong></p>
-<p>related: 寻找某网页的“类似网页”。例如：related:<a href="http://www.zhihu.com/">www.zhihu.com</a> 表示找和“知乎”类似的网页。</p>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>mac</tag>
-        <tag>google</tag>
-      </tags>
   </entry>
   <entry>
     <title>Hexo 优化 II</title>
@@ -400,6 +376,30 @@ url: #填这里</code></pre>
       </categories>
       <tags>
         <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>谷歌搜索命令</title>
+    <url>/2022/02/12/google%20search/</url>
+    <content><![CDATA[<p><strong>站内全文搜索</strong> </p>
+<p>site: 链接 关键词</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">site:www.zhihu.com 博尔赫斯</span><br></pre></td></tr></table></figure>
+
+<p><strong>特定文件类型搜索</strong></p>
+<p>filetype:文件类型 关键词</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">filetype:pdf 博尔赫斯</span><br></pre></td></tr></table></figure>
+
+<p><strong>链接内关键词</strong></p>
+<p>在网页的url地址中查找，例如：inurl:dowload 表示查找url中包含download的网页。</p>
+<p><strong>查询类似网页</strong></p>
+<p>related: 寻找某网页的“类似网页”。例如：related:<a href="http://www.zhihu.com/">www.zhihu.com</a> 表示找和“知乎”类似的网页。</p>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>mac</tag>
+        <tag>google</tag>
       </tags>
   </entry>
   <entry>
@@ -721,36 +721,6 @@ chmod 755 deploy.sh
       </tags>
   </entry>
   <entry>
-    <title>mac图片大小调整</title>
-    <url>/2020/09/08/mac-photo-sizing/</url>
-    <content><![CDATA[<p>有时某些网站会限制上传照片的大小（50K变到10K），或者需要调整照片的大小（2寸照片变成1寸），这些当然可以通过phtooshop简单做到，但是mac预览本身也提供了非常简单的方法可以进行修改。</p>
-<p>预览-工具-调整大小。</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gijgkcz6yuj30zq0m44pj.jpg" alt="mac-photo-01"></p>
-<p>调到合适大小就可以啦，分辨率越低、图片大小越小，所占的Size也就越小啦。</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gijgof6ohaj30zk0mc4qp.jpg" alt="mac-photo-02"></p>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>mac</tag>
-        <tag>小技巧</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mac一些有用的快捷键（随时更新）</title>
-    <url>/2020/09/08/mac-shortcut/</url>
-    <content><![CDATA[<p>command+i | 访达 | 显示简介<br>command+shift+c | 访达 ｜ 复制路径</p>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>mac</tag>
-        <tag>小技巧</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>mac访达Finder中文件绝对路径怎么找</title>
     <url>/2020/09/07/mac-path/</url>
     <content><![CDATA[<p>最方便快捷的方式就是直接点击想知道路径的文件，然后按 option-command-c 就能自动复制到剪贴板啦，超easy！</p>
@@ -788,6 +758,36 @@ chmod 755 deploy.sh
       </tags>
   </entry>
   <entry>
+    <title>mac一些有用的快捷键（随时更新）</title>
+    <url>/2020/09/08/mac-shortcut/</url>
+    <content><![CDATA[<p>command+i | 访达 | 显示简介<br>command+shift+c | 访达 ｜ 复制路径</p>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>mac</tag>
+        <tag>小技巧</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mac图片大小调整</title>
+    <url>/2020/09/08/mac-photo-sizing/</url>
+    <content><![CDATA[<p>有时某些网站会限制上传照片的大小（50K变到10K），或者需要调整照片的大小（2寸照片变成1寸），这些当然可以通过phtooshop简单做到，但是mac预览本身也提供了非常简单的方法可以进行修改。</p>
+<p>预览-工具-调整大小。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gijgkcz6yuj30zq0m44pj.jpg" alt="mac-photo-01"></p>
+<p>调到合适大小就可以啦，分辨率越低、图片大小越小，所占的Size也就越小啦。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gijgof6ohaj30zk0mc4qp.jpg" alt="mac-photo-02"></p>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>mac</tag>
+        <tag>小技巧</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>如何在notion里快速跳转到顶部/目录？</title>
     <url>/2021/10/08/notion-backToTop/</url>
     <content><![CDATA[<p>由于notion里目录不能悬浮，所以大家各显神通解决这一问题。我搜了半天，觉得比较靠谱的有两种方法。</p>
@@ -806,50 +806,6 @@ chmod 755 deploy.sh
       </categories>
       <tags>
         <tag>notion</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>如何在 numbers 单元格内换行？</title>
-    <url>/2020/09/07/numbers-return/</url>
-    <content><![CDATA[<p>通常我们都习惯在写文本的时候按回车（Enter）换行，但在numbers里，按了回车是会自动跳到下一格的，那么如何解决这个问题？</p>
-<p>用 <strong>option+Enter</strong> 就行啦！</p>
-<hr>
-<h2 id="Example小栗子："><a href="#Example小栗子：" class="headerlink" title="Example小栗子："></a>Example小栗子：</h2><p>现在我有文本如下：</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiajmqwqnj30xc0c1aad.jpg" alt="9808904-94c37e422ac7dfe1."></p>
-<p>可我不想说自己傻，所以想获得酱紫的效果：</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiajuhojoj30xc07bq30.jpg" alt="9808904-49be64714c4f3411."></p>
-<p>于是我按option+Enter:</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiajzbr1fg30pb0kcgmm.gif" alt="9808904-a9435cc4ed1b7815"></p>
-<p>Perfect！</p>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>小技巧</tag>
-        <tag>numbers</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Pages如何快速无格式粘贴粘贴</title>
-    <url>/2020/09/07/pages-paste/</url>
-    <content><![CDATA[<p>很多时候我们复制的文本都是带有格式的 可我们又不需要 粘贴过来再要改又好麻烦 那怎么破呢？</p>
-<h1 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h1><ol>
-<li><p>标签栏-编辑-粘贴并匹配样式</p>
-</li>
-<li><p>快捷键：shift+option+command+v</p>
-</li>
-</ol>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giicesxtguj30xc0hqgmy.jpg" alt="9808904-d0bc2014ff4d9869"></p>
-<h1 id="小栗子"><a href="#小栗子" class="headerlink" title="小栗子"></a>小栗子</h1><p>1.0版：<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giicfqj6ljg30s90kcwht.gif" alt="9808904-c940fa8e6cf85b3d"></p>
-<p>2.0版：<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giicftx0p8g30s90kcta8.gif" alt="9808904-d0d98444cda8b3a1"></p>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>小技巧</tag>
-        <tag>pages</tag>
       </tags>
   </entry>
   <entry>
@@ -879,6 +835,28 @@ chmod 755 deploy.sh
       </tags>
   </entry>
   <entry>
+    <title>Pages如何快速无格式粘贴粘贴</title>
+    <url>/2020/09/07/pages-paste/</url>
+    <content><![CDATA[<p>很多时候我们复制的文本都是带有格式的 可我们又不需要 粘贴过来再要改又好麻烦 那怎么破呢？</p>
+<h1 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h1><ol>
+<li><p>标签栏-编辑-粘贴并匹配样式</p>
+</li>
+<li><p>快捷键：shift+option+command+v</p>
+</li>
+</ol>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giicesxtguj30xc0hqgmy.jpg" alt="9808904-d0bc2014ff4d9869"></p>
+<h1 id="小栗子"><a href="#小栗子" class="headerlink" title="小栗子"></a>小栗子</h1><p>1.0版：<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giicfqj6ljg30s90kcwht.gif" alt="9808904-c940fa8e6cf85b3d"></p>
+<p>2.0版：<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giicftx0p8g30s90kcta8.gif" alt="9808904-d0d98444cda8b3a1"></p>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>小技巧</tag>
+        <tag>pages</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>用python制作anki卡组</title>
     <url>/2021/05/23/python%20-%20ankimaker/</url>
     <content><![CDATA[<p>目标是读取pdf做anki卡组，记录一下鼓捣了一晚上的结果。</p>
@@ -897,6 +875,28 @@ chmod 755 deploy.sh
       </tags>
   </entry>
   <entry>
+    <title>如何在 numbers 单元格内换行？</title>
+    <url>/2020/09/07/numbers-return/</url>
+    <content><![CDATA[<p>通常我们都习惯在写文本的时候按回车（Enter）换行，但在numbers里，按了回车是会自动跳到下一格的，那么如何解决这个问题？</p>
+<p>用 <strong>option+Enter</strong> 就行啦！</p>
+<hr>
+<h2 id="Example小栗子："><a href="#Example小栗子：" class="headerlink" title="Example小栗子："></a>Example小栗子：</h2><p>现在我有文本如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiajmqwqnj30xc0c1aad.jpg" alt="9808904-94c37e422ac7dfe1."></p>
+<p>可我不想说自己傻，所以想获得酱紫的效果：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiajuhojoj30xc07bq30.jpg" alt="9808904-49be64714c4f3411."></p>
+<p>于是我按option+Enter:</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiajzbr1fg30pb0kcgmm.gif" alt="9808904-a9435cc4ed1b7815"></p>
+<p>Perfect！</p>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>小技巧</tag>
+        <tag>numbers</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>python小菜鸟备忘录：用python读取/写入excel</title>
     <url>/2021/06/03/python%20-%20excel/</url>
     <content><![CDATA[<p>最近要做数据分析，总要跟excel打交道，我好懒，于是打算用python搞搞excel</p>
@@ -907,43 +907,6 @@ chmod 755 deploy.sh
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment"># 创建一个workbook 设置编码</span></span><br><span class="line">workbook = xlwt.Workbook(encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个worksheet</span></span><br><span class="line">worksheet = workbook.add_sheet(<span class="string">&#x27;Sheet1&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#字体样式设置</span></span><br><span class="line">style = xlwt.XFStyle()  <span class="comment"># 初始化样式</span></span><br><span class="line">font = xlwt.Font()  <span class="comment"># 为样式创建字体</span></span><br><span class="line">font.name = <span class="string">&#x27;Times New Roman&#x27;</span></span><br><span class="line">font.height = <span class="number">20</span> * <span class="number">11</span>  <span class="comment"># 字体大小，11为字号，20为衡量单位</span></span><br><span class="line">font.bold = <span class="literal">True</span>  <span class="comment"># 黑体</span></span><br><span class="line">font.underline = <span class="literal">True</span>  <span class="comment"># 下划线</span></span><br><span class="line">font.italic = <span class="literal">True</span>  <span class="comment"># 斜体字</span></span><br><span class="line">style.font = font  <span class="comment"># 设定样式</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 数据写入excel,参数对应 行, 列, 值</span></span><br><span class="line">worksheet.write(<span class="number">0</span>, <span class="number">0</span>, <span class="string">&#x27;test_data&#x27;</span>)  <span class="comment"># 不带样式的写入</span></span><br><span class="line">worksheet.write(<span class="number">1</span>, <span class="number">0</span>, <span class="string">&#x27;test_data&#x27;</span>, style)  <span class="comment"># 带字体样式的写入</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置单元格宽度</span></span><br><span class="line">worksheet.col(<span class="number">0</span>).width = <span class="number">3333</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#设置单元格背景颜色</span></span><br><span class="line">pattern = xlwt.Pattern()</span><br><span class="line">pattern.pattern = xlwt.Pattern.SOLID_PATTERN</span><br><span class="line">pattern.pattern_fore_colour = <span class="number">13</span></span><br><span class="line">style = xlwt.XFStyle()  <span class="comment"># Create the Pattern</span></span><br><span class="line">style.pattern = pattern  <span class="comment"># Add Pattern to Style</span></span><br><span class="line">worksheet.write(<span class="number">2</span>, <span class="number">0</span>, <span class="string">&#x27;colour&#x27;</span>, style)</span><br><span class="line"></span><br><span class="line"><span class="comment">#给单元格添加边框方法一</span></span><br><span class="line">borders = xlwt.Borders()  <span class="comment"># Create Borders</span></span><br><span class="line">borders.left = xlwt.Borders.DASHED   <span class="comment">#DASHED虚线，NO_LINE没有，THIN实线</span></span><br><span class="line">borders.right = xlwt.Borders.DASHED  <span class="comment">#borders.right=1 表示实线</span></span><br><span class="line">borders.top = xlwt.Borders.DASHED</span><br><span class="line">borders.bottom = xlwt.Borders.DASHED</span><br><span class="line">borders.left_colour=<span class="number">0x40</span></span><br><span class="line">borders.right_colour = <span class="number">0x40</span></span><br><span class="line">borders.top_colour = <span class="number">0x40</span></span><br><span class="line">borders.bottom_colour = <span class="number">0x40</span></span><br><span class="line">style = xlwt.XFStyle()  <span class="comment"># Create Style</span></span><br><span class="line">style.borders = borders  <span class="comment"># Add Borders to Style</span></span><br><span class="line">worksheet.write(<span class="number">3</span>,<span class="number">0</span> , <span class="string">&#x27;border1&#x27;</span>, style)</span><br><span class="line"></span><br><span class="line"><span class="comment">#给单元格添加边框方法二</span></span><br><span class="line"><span class="comment"># 细实线:1，小粗实线:2，细虚线:3，中细虚线:4，大粗实线:5，双线:6，细点虚线:7，大粗虚线:8，细点划线:9，粗点划线:10，细双点划线:11，粗双点划线:12，斜点划线:13</span></span><br><span class="line">borders = xlwt.Borders()</span><br><span class="line">borders.left = <span class="number">1</span>    <span class="comment">#设置为细实线</span></span><br><span class="line">borders.right = <span class="number">1</span></span><br><span class="line">borders.top = <span class="number">1</span></span><br><span class="line">borders.bottom = <span class="number">1</span></span><br><span class="line">borders.left_colour = <span class="number">2</span>  <span class="comment">#颜色设置为红色</span></span><br><span class="line">borders.right_colour = <span class="number">2</span></span><br><span class="line">borders.top_colour = <span class="number">2</span></span><br><span class="line">borders.bottom_colour = <span class="number">2</span></span><br><span class="line">style = xlwt.XFStyle()  <span class="comment"># Create Style</span></span><br><span class="line">style.borders = borders  <span class="comment"># Add Borders to Style</span></span><br><span class="line">worksheet.write(<span class="number">4</span>, <span class="number">0</span>, <span class="string">&#x27;border2&#x27;</span>, style)</span><br><span class="line"></span><br><span class="line"><span class="comment">#单元格添加计算公式</span></span><br><span class="line">worksheet.write(<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>)  <span class="comment"># Outputs 2</span></span><br><span class="line">worksheet.write(<span class="number">0</span>, <span class="number">2</span>, <span class="number">3</span>)  <span class="comment"># Outputs 3</span></span><br><span class="line">worksheet.write(<span class="number">1</span>, <span class="number">1</span>, xlwt.Formula(<span class="string">&#x27;B1*C1&#x27;</span>))  <span class="comment"># Should output &quot;6&quot; (B1[2] * B2[6])</span></span><br><span class="line">worksheet.write(<span class="number">1</span>, <span class="number">2</span>, xlwt.Formula(<span class="string">&#x27;SUM(B1,C1)&#x27;</span>))  <span class="comment"># Should output &quot;5&quot; (B1[2] + C1[3])</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#向单元格添加一个超链接</span></span><br><span class="line">worksheet.write(<span class="number">0</span>, <span class="number">3</span>, xlwt.Formula(<span class="string">&#x27;HYPERLINK(&quot;http://www.baidu.com&quot;;&quot;baidu&quot;)&#x27;</span>))  <span class="comment"># Outputs the text &quot;baidu&quot; linking to http://www.baidu.com</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#单元格合并</span></span><br><span class="line">worksheet.write_merge(<span class="number">0</span>, <span class="number">0</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="string">&#x27;First Merge&#x27;</span>)   <span class="comment">#合并0行的4到5列</span></span><br><span class="line">worksheet.write_merge(<span class="number">1</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="string">&#x27;Second Merge&#x27;</span>)  <span class="comment">#合并1和2行的4到5列</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#设置单元格内容的对其方式</span></span><br><span class="line">alignment=xlwt.Alignment()  <span class="comment">## Create Alignment</span></span><br><span class="line">alignment.horz=xlwt.Alignment.HORZ_CENTER</span><br><span class="line">alignment.vert=xlwt.Alignment.VERT_CENTER</span><br><span class="line">style=xlwt.XFStyle()</span><br><span class="line">style.alignment=alignment   <span class="comment"># Add Alignment to Style</span></span><br><span class="line">worksheet.write(<span class="number">0</span>, <span class="number">6</span>, <span class="string">&#x27;alignment&#x27;</span>, style)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 保存文件</span></span><br><span class="line">workbook.save(<span class="string">&#x27;data_test.xls&#x27;</span>)</span><br></pre></td></tr></table></figure>
 
 <h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://blog.csdn.net/asialee_bird/article/details/105497121">Python3读取和写入excel表格数据</a></p>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>python小菜鸟备忘录：怎么多行注释</title>
-    <url>/2021/02/12/python%20-%20notation/</url>
-    <content><![CDATA[<p>总是忘记怎么多行注释，每次都要谷歌一下，还是记在这里更靠谱一些！</p>
-<hr>
-<p>一次性多行注释：cmd+/</p>
-<p>不要再忘啦喂！</p>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>python小菜鸟备忘录：用python读取word</title>
-    <url>/2021/05/23/python%20-%20wordread/</url>
-    <content><![CDATA[<p>突发奇想想将读取pdf做anki卡组，以为会很简单，没想到最后卡在读取word上，赶紧记在小本本上，下回读取word就不怕啦！</p>
-<hr>
-<p>还是用docx库，具体安装之前写过，直接跳过写怎么用啦。</p>
-<h2 id="读取文档对象"><a href="#读取文档对象" class="headerlink" title="读取文档对象"></a>读取文档对象</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> docx </span><br><span class="line"></span><br><span class="line">path = <span class="string">&quot;C:\test.docx&quot;</span> <span class="comment">#文件路径</span></span><br><span class="line"></span><br><span class="line">file = docx.Document(path) <span class="comment">#读取文档</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="读取文本"><a href="#读取文本" class="headerlink" title="读取文本"></a>读取文本</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">##获取所有内容</span></span><br><span class="line">content = file.paragraphs <span class="comment">#paragraphs基本上有所有信息 包括文本和后面要说到的属性</span></span><br><span class="line">print(content.text)</span><br><span class="line"></span><br><span class="line"><span class="comment">#循环读取文本</span></span><br><span class="line"><span class="keyword">for</span> f <span class="keyword">in</span> file.paragraphs:</span><br><span class="line">    print(f.text)</span><br></pre></td></tr></table></figure>
-
-<h2 id="获取属性"><a href="#获取属性" class="headerlink" title="获取属性"></a>获取属性</h2><p>以获取文本颜色为例</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> p <span class="keyword">in</span> file.paragraphs:</span><br><span class="line">    <span class="keyword">for</span> n <span class="keyword">in</span> p.runs: <span class="comment">#p.runs里有该段落每个字符（包括空格）的属性信息 也是list</span></span><br><span class="line">        color = str(n.font.color.rgb) <span class="comment">#获取每个字符的颜色（空格是字符串的None）</span></span><br><span class="line">  </span><br></pre></td></tr></table></figure>
-
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://blog.csdn.net/Pythoncxy/article/details/95339953">Python读取word文档识别字段颜色，解析字段</a></p>
 ]]></content>
       <categories>
         <category>鼓捣电脑</category>
@@ -1024,6 +987,43 @@ chmod 755 deploy.sh
 <h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">f.name <span class="comment">#返回文件名</span></span><br><span class="line">f.truncate([size]) <span class="comment">#截断文件</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://www.runoob.com/python/file-methods.html">菜鸟教程</a></p>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python小菜鸟备忘录：怎么多行注释</title>
+    <url>/2021/02/12/python%20-%20notation/</url>
+    <content><![CDATA[<p>总是忘记怎么多行注释，每次都要谷歌一下，还是记在这里更靠谱一些！</p>
+<hr>
+<p>一次性多行注释：cmd+/</p>
+<p>不要再忘啦喂！</p>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python小菜鸟备忘录：用python读取word</title>
+    <url>/2021/05/23/python%20-%20wordread/</url>
+    <content><![CDATA[<p>突发奇想想将读取pdf做anki卡组，以为会很简单，没想到最后卡在读取word上，赶紧记在小本本上，下回读取word就不怕啦！</p>
+<hr>
+<p>还是用docx库，具体安装之前写过，直接跳过写怎么用啦。</p>
+<h2 id="读取文档对象"><a href="#读取文档对象" class="headerlink" title="读取文档对象"></a>读取文档对象</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> docx </span><br><span class="line"></span><br><span class="line">path = <span class="string">&quot;C:\test.docx&quot;</span> <span class="comment">#文件路径</span></span><br><span class="line"></span><br><span class="line">file = docx.Document(path) <span class="comment">#读取文档</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="读取文本"><a href="#读取文本" class="headerlink" title="读取文本"></a>读取文本</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">##获取所有内容</span></span><br><span class="line">content = file.paragraphs <span class="comment">#paragraphs基本上有所有信息 包括文本和后面要说到的属性</span></span><br><span class="line">print(content.text)</span><br><span class="line"></span><br><span class="line"><span class="comment">#循环读取文本</span></span><br><span class="line"><span class="keyword">for</span> f <span class="keyword">in</span> file.paragraphs:</span><br><span class="line">    print(f.text)</span><br></pre></td></tr></table></figure>
+
+<h2 id="获取属性"><a href="#获取属性" class="headerlink" title="获取属性"></a>获取属性</h2><p>以获取文本颜色为例</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> p <span class="keyword">in</span> file.paragraphs:</span><br><span class="line">    <span class="keyword">for</span> n <span class="keyword">in</span> p.runs: <span class="comment">#p.runs里有该段落每个字符（包括空格）的属性信息 也是list</span></span><br><span class="line">        color = str(n.font.color.rgb) <span class="comment">#获取每个字符的颜色（空格是字符串的None）</span></span><br><span class="line">  </span><br></pre></td></tr></table></figure>
+
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://blog.csdn.net/Pythoncxy/article/details/95339953">Python读取word文档识别字段颜色，解析字段</a></p>
 ]]></content>
       <categories>
         <category>鼓捣电脑</category>
@@ -1260,60 +1260,46 @@ chmod 755 deploy.sh
       </tags>
   </entry>
   <entry>
-    <title>Rmarkdown 输出中文 pdf 报错解决</title>
-    <url>/2022/01/30/rmarkdown%20-%20pdf%20outpuf/</url>
-    <content><![CDATA[<ol>
-<li><p>下载 rticles包</p>
-</li>
-<li><p>在最开始的YAML中增加 documentclass: ctexart、output: rticles::ctex</p>
-<p><img src="https://tva1.sinaimg.cn/large/008i3skNgy1gyw2zq71iyj30wi06owf8.jpg" alt="image-20220130224533474"></p>
-</li>
-</ol>
+    <title>用python识别语音中的文字</title>
+    <url>/2021/10/27/python-speech%20to%20text/</url>
+    <content><![CDATA[<p>接着上一篇，第二步，用python识别语音中的文字。</p>
+<h2 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h2><p>前提准备：必须是<strong>wav格式</strong></p>
+<p>安装speech recognition包</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">python3 -m pip install SpeechRecognition</span><br></pre></td></tr></table></figure>
+
+<p>使用</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> speech_recognition <span class="keyword">as</span> sr</span><br><span class="line"></span><br><span class="line">filename = <span class="string">&quot;01.wav&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># initialize the recognizer</span></span><br><span class="line">r = sr.Recognizer()</span><br><span class="line"></span><br><span class="line"><span class="comment"># open the file</span></span><br><span class="line"><span class="keyword">with</span> sr.AudioFile(filename) <span class="keyword">as</span> source:</span><br><span class="line">    <span class="comment"># listen for the data (load audio to memory)</span></span><br><span class="line">    audio_data = r.record(source)</span><br><span class="line">    <span class="comment"># recognize (convert from speech to text)</span></span><br><span class="line">    text = r.recognize_google(audio_data)</span><br><span class="line">    print(text)</span><br></pre></td></tr></table></figure>
+
+<p>就可以啦！</p>
+<p>如果想要改变语言不是识别英语的话</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#Adding french langauge option</span></span><br><span class="line">text = r.recognize_google(audio_text, language = <span class="string">&quot;fr-FR&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>不过如果语音很大的话会很慢，所以可以使用将它拆解的方式拆开。</p>
+<h2 id="长语音识别"><a href="#长语音识别" class="headerlink" title="长语音识别"></a>长语音识别</h2><p>安装pydub</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">python3 -m pip install pydub</span><br></pre></td></tr></table></figure>
+
+<p>使用</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># importing libraries </span></span><br><span class="line"><span class="keyword">import</span> speech_recognition <span class="keyword">as</span> sr </span><br><span class="line"><span class="keyword">import</span> os </span><br><span class="line"><span class="keyword">from</span> pydub <span class="keyword">import</span> AudioSegment</span><br><span class="line"><span class="keyword">from</span> pydub.silence <span class="keyword">import</span> split_on_silence</span><br><span class="line"></span><br><span class="line"><span class="comment"># create a speech recognition object</span></span><br><span class="line">r = sr.Recognizer()</span><br><span class="line"></span><br><span class="line"><span class="comment"># a function that splits the audio file into chunks</span></span><br><span class="line"><span class="comment"># and applies speech recognition</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_large_audio_transcription</span>(<span class="params">path</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    Splitting the large audio file into chunks</span></span><br><span class="line"><span class="string">    and apply speech recognition on each of these chunks</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="comment"># open the audio file using pydub</span></span><br><span class="line">    sound = AudioSegment.from_wav(path)  </span><br><span class="line">    <span class="comment"># split audio sound where silence is 700 miliseconds or more and get chunks</span></span><br><span class="line">    chunks = split_on_silence(sound,</span><br><span class="line">        <span class="comment"># experiment with this value for your target audio file</span></span><br><span class="line">        min_silence_len = <span class="number">500</span>,</span><br><span class="line">        <span class="comment"># adjust this per requirement</span></span><br><span class="line">        silence_thresh = sound.dBFS<span class="number">-14</span>,</span><br><span class="line">        <span class="comment"># keep the silence for 1 second, adjustable as well</span></span><br><span class="line">        keep_silence=<span class="number">500</span>,</span><br><span class="line">    )</span><br><span class="line">    folder_name = <span class="string">&quot;audio-chunks&quot;</span></span><br><span class="line">    <span class="comment"># create a directory to store the audio chunks</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> os.path.isdir(folder_name):</span><br><span class="line">        os.mkdir(folder_name)</span><br><span class="line">    whole_text = <span class="string">&quot;&quot;</span></span><br><span class="line">    <span class="comment"># process each chunk </span></span><br><span class="line">    <span class="keyword">for</span> i, audio_chunk <span class="keyword">in</span> enumerate(chunks, start=<span class="number">1</span>):</span><br><span class="line">        <span class="comment"># export audio chunk and save it in</span></span><br><span class="line">        <span class="comment"># the `folder_name` directory.</span></span><br><span class="line">        chunk_filename = os.path.join(folder_name, <span class="string">f&quot;chunk<span class="subst">&#123;i&#125;</span>.wav&quot;</span>)</span><br><span class="line">        audio_chunk.export(chunk_filename, format=<span class="string">&quot;wav&quot;</span>)</span><br><span class="line">        <span class="comment"># recognize the chunk</span></span><br><span class="line">        <span class="keyword">with</span> sr.AudioFile(chunk_filename) <span class="keyword">as</span> source:</span><br><span class="line">            audio_listened = r.record(source)</span><br><span class="line">            <span class="comment"># try converting it to text</span></span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                text = r.recognize_google(audio_listened)</span><br><span class="line">            <span class="keyword">except</span> sr.UnknownValueError <span class="keyword">as</span> e:</span><br><span class="line">                print(<span class="string">&quot;Error:&quot;</span>, str(e))</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                text = <span class="string">f&quot;<span class="subst">&#123;text.capitalize()&#125;</span>. &quot;</span></span><br><span class="line">                print(chunk_filename, <span class="string">&quot;:&quot;</span>, text)</span><br><span class="line">                whole_text += text</span><br><span class="line">    <span class="comment"># return the text for all chunks detected</span></span><br><span class="line">    <span class="keyword">return</span> whole_text</span><br><span class="line">  </span><br><span class="line">get_large_audio_transcription(<span class="string">&#x27;01.wav&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="录音识别"><a href="#录音识别" class="headerlink" title="录音识别"></a>录音识别</h2><p>安装</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">python3 -m pip install PyAudio</span><br></pre></td></tr></table></figure>
+
+<p>使用</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># import library</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> speech_recognition <span class="keyword">as</span> sr</span><br><span class="line"></span><br><span class="line"><span class="comment"># Initialize recognizer class (for recognizing the speech)</span></span><br><span class="line"></span><br><span class="line">r = sr.Recognizer()</span><br><span class="line"></span><br><span class="line"><span class="comment"># Reading Microphone as source</span></span><br><span class="line"><span class="comment"># listening the speech and store in audio_text variable</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> sr.Microphone() <span class="keyword">as</span> source:</span><br><span class="line">    print(<span class="string">&quot;Talk&quot;</span>)</span><br><span class="line">    audio_text = r.listen(source)</span><br><span class="line">    print(<span class="string">&quot;Time over, thanks&quot;</span>)</span><br><span class="line"><span class="comment"># recoginize_() method will throw a request error if the API is unreachable, hence using exception handling</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="comment"># using google speech recognition</span></span><br><span class="line">        print(<span class="string">&quot;Text: &quot;</span>+r.recognize_google(audio_text))</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">         print(<span class="string">&quot;Sorry, I did not get that&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>如果说的不是英语</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Adding &quot;tamil language&quot;</span></span><br><span class="line">print(“Text: “+r.recognize_google(audio_text, language = “ta-IN”))</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://towardsdatascience.com/easy-speech-to-text-with-python-3df0d973b426">Easy Speech-to-Text with Python</a></p>
+<p><a href="https://www.thepythoncode.com/article/using-speech-recognition-to-convert-speech-to-text-python">How to Convert Speech to Text in Python</a></p>
 ]]></content>
       <categories>
         <category>鼓捣电脑</category>
       </categories>
       <tags>
-        <tag>r</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>如何无需重新渲染裁剪剪辑视频——使用Quicktime Player</title>
-    <url>/2020/09/07/quickplayer-render/</url>
-    <content><![CDATA[<ol>
-<li>用Quicktime Player打开所需要剪辑的视频 标签栏-编辑-修剪（快捷键command+T)<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giicjb4ltvj30ro0o8dh3.jpg" alt="9808904-4e3b9f42045188b1"></li>
-</ol>
-<ol start="2">
-<li><p>滑动视图轴进行修剪（修建过程中将鼠标长时间停留在某个地方 可以打开该位置时间间隔更小的时间轴）</p>
-</li>
-<li><p>修建完毕后点击“修剪”进行保存 不会覆盖原文件 而是生成新视频</p>
-</li>
-</ol>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giicjl16sfg30xc0htx6p.gif" alt="9808904-3f002fd35eb2c531"></p>
-<ol start="4">
-<li>点按关闭 命名&amp;选择存储位置</li>
-</ol>
-<hr>
-<p>另外，Quicktime Player也支持将一个视频分离成多段进行重新整合：</p>
-<ol>
-<li><p>用Quicktime Player打开所需要剪辑的视频 找到要被分离的点（注意：无法在视频开头分离）</p>
-</li>
-<li><p>标签栏-编辑-分离剪辑（快捷键command+Y)<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giicjlnjjvj30o80nugn8.jpg" alt="9808904-5fd1bc0d45e64fac"></p>
-</li>
-<li><p>滑动各段进行挪移<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giicjs73feg30xc0ionpd.gif" alt="9808904-aff0080167c8c7d1"></p>
-</li>
-<li><p>修建完毕后点击“修剪”进行保存 不会覆盖原文件 而是生成新视频</p>
-</li>
-<li><p>点按关闭 命名&amp;选择存储位置</p>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>小技巧</tag>
-        <tag>视频</tag>
+        <tag>python</tag>
       </tags>
   </entry>
   <entry>
@@ -1367,46 +1353,60 @@ chmod 755 deploy.sh
       </tags>
   </entry>
   <entry>
-    <title>用python识别语音中的文字</title>
-    <url>/2021/10/27/python-speech%20to%20text/</url>
-    <content><![CDATA[<p>接着上一篇，第二步，用python识别语音中的文字。</p>
-<h2 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h2><p>前提准备：必须是<strong>wav格式</strong></p>
-<p>安装speech recognition包</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">python3 -m pip install SpeechRecognition</span><br></pre></td></tr></table></figure>
-
-<p>使用</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> speech_recognition <span class="keyword">as</span> sr</span><br><span class="line"></span><br><span class="line">filename = <span class="string">&quot;01.wav&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># initialize the recognizer</span></span><br><span class="line">r = sr.Recognizer()</span><br><span class="line"></span><br><span class="line"><span class="comment"># open the file</span></span><br><span class="line"><span class="keyword">with</span> sr.AudioFile(filename) <span class="keyword">as</span> source:</span><br><span class="line">    <span class="comment"># listen for the data (load audio to memory)</span></span><br><span class="line">    audio_data = r.record(source)</span><br><span class="line">    <span class="comment"># recognize (convert from speech to text)</span></span><br><span class="line">    text = r.recognize_google(audio_data)</span><br><span class="line">    print(text)</span><br></pre></td></tr></table></figure>
-
-<p>就可以啦！</p>
-<p>如果想要改变语言不是识别英语的话</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#Adding french langauge option</span></span><br><span class="line">text = r.recognize_google(audio_text, language = <span class="string">&quot;fr-FR&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<p>不过如果语音很大的话会很慢，所以可以使用将它拆解的方式拆开。</p>
-<h2 id="长语音识别"><a href="#长语音识别" class="headerlink" title="长语音识别"></a>长语音识别</h2><p>安装pydub</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">python3 -m pip install pydub</span><br></pre></td></tr></table></figure>
-
-<p>使用</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># importing libraries </span></span><br><span class="line"><span class="keyword">import</span> speech_recognition <span class="keyword">as</span> sr </span><br><span class="line"><span class="keyword">import</span> os </span><br><span class="line"><span class="keyword">from</span> pydub <span class="keyword">import</span> AudioSegment</span><br><span class="line"><span class="keyword">from</span> pydub.silence <span class="keyword">import</span> split_on_silence</span><br><span class="line"></span><br><span class="line"><span class="comment"># create a speech recognition object</span></span><br><span class="line">r = sr.Recognizer()</span><br><span class="line"></span><br><span class="line"><span class="comment"># a function that splits the audio file into chunks</span></span><br><span class="line"><span class="comment"># and applies speech recognition</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_large_audio_transcription</span>(<span class="params">path</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    Splitting the large audio file into chunks</span></span><br><span class="line"><span class="string">    and apply speech recognition on each of these chunks</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="comment"># open the audio file using pydub</span></span><br><span class="line">    sound = AudioSegment.from_wav(path)  </span><br><span class="line">    <span class="comment"># split audio sound where silence is 700 miliseconds or more and get chunks</span></span><br><span class="line">    chunks = split_on_silence(sound,</span><br><span class="line">        <span class="comment"># experiment with this value for your target audio file</span></span><br><span class="line">        min_silence_len = <span class="number">500</span>,</span><br><span class="line">        <span class="comment"># adjust this per requirement</span></span><br><span class="line">        silence_thresh = sound.dBFS<span class="number">-14</span>,</span><br><span class="line">        <span class="comment"># keep the silence for 1 second, adjustable as well</span></span><br><span class="line">        keep_silence=<span class="number">500</span>,</span><br><span class="line">    )</span><br><span class="line">    folder_name = <span class="string">&quot;audio-chunks&quot;</span></span><br><span class="line">    <span class="comment"># create a directory to store the audio chunks</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> os.path.isdir(folder_name):</span><br><span class="line">        os.mkdir(folder_name)</span><br><span class="line">    whole_text = <span class="string">&quot;&quot;</span></span><br><span class="line">    <span class="comment"># process each chunk </span></span><br><span class="line">    <span class="keyword">for</span> i, audio_chunk <span class="keyword">in</span> enumerate(chunks, start=<span class="number">1</span>):</span><br><span class="line">        <span class="comment"># export audio chunk and save it in</span></span><br><span class="line">        <span class="comment"># the `folder_name` directory.</span></span><br><span class="line">        chunk_filename = os.path.join(folder_name, <span class="string">f&quot;chunk<span class="subst">&#123;i&#125;</span>.wav&quot;</span>)</span><br><span class="line">        audio_chunk.export(chunk_filename, format=<span class="string">&quot;wav&quot;</span>)</span><br><span class="line">        <span class="comment"># recognize the chunk</span></span><br><span class="line">        <span class="keyword">with</span> sr.AudioFile(chunk_filename) <span class="keyword">as</span> source:</span><br><span class="line">            audio_listened = r.record(source)</span><br><span class="line">            <span class="comment"># try converting it to text</span></span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                text = r.recognize_google(audio_listened)</span><br><span class="line">            <span class="keyword">except</span> sr.UnknownValueError <span class="keyword">as</span> e:</span><br><span class="line">                print(<span class="string">&quot;Error:&quot;</span>, str(e))</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                text = <span class="string">f&quot;<span class="subst">&#123;text.capitalize()&#125;</span>. &quot;</span></span><br><span class="line">                print(chunk_filename, <span class="string">&quot;:&quot;</span>, text)</span><br><span class="line">                whole_text += text</span><br><span class="line">    <span class="comment"># return the text for all chunks detected</span></span><br><span class="line">    <span class="keyword">return</span> whole_text</span><br><span class="line">  </span><br><span class="line">get_large_audio_transcription(<span class="string">&#x27;01.wav&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
-<h2 id="录音识别"><a href="#录音识别" class="headerlink" title="录音识别"></a>录音识别</h2><p>安装</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">python3 -m pip install PyAudio</span><br></pre></td></tr></table></figure>
-
-<p>使用</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># import library</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> speech_recognition <span class="keyword">as</span> sr</span><br><span class="line"></span><br><span class="line"><span class="comment"># Initialize recognizer class (for recognizing the speech)</span></span><br><span class="line"></span><br><span class="line">r = sr.Recognizer()</span><br><span class="line"></span><br><span class="line"><span class="comment"># Reading Microphone as source</span></span><br><span class="line"><span class="comment"># listening the speech and store in audio_text variable</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> sr.Microphone() <span class="keyword">as</span> source:</span><br><span class="line">    print(<span class="string">&quot;Talk&quot;</span>)</span><br><span class="line">    audio_text = r.listen(source)</span><br><span class="line">    print(<span class="string">&quot;Time over, thanks&quot;</span>)</span><br><span class="line"><span class="comment"># recoginize_() method will throw a request error if the API is unreachable, hence using exception handling</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="comment"># using google speech recognition</span></span><br><span class="line">        print(<span class="string">&quot;Text: &quot;</span>+r.recognize_google(audio_text))</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">         print(<span class="string">&quot;Sorry, I did not get that&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<p>如果说的不是英语</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Adding &quot;tamil language&quot;</span></span><br><span class="line">print(“Text: “+r.recognize_google(audio_text, language = “ta-IN”))</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://towardsdatascience.com/easy-speech-to-text-with-python-3df0d973b426">Easy Speech-to-Text with Python</a></p>
-<p><a href="https://www.thepythoncode.com/article/using-speech-recognition-to-convert-speech-to-text-python">How to Convert Speech to Text in Python</a></p>
+    <title>如何无需重新渲染裁剪剪辑视频——使用Quicktime Player</title>
+    <url>/2020/09/07/quickplayer-render/</url>
+    <content><![CDATA[<ol>
+<li>用Quicktime Player打开所需要剪辑的视频 标签栏-编辑-修剪（快捷键command+T)<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giicjb4ltvj30ro0o8dh3.jpg" alt="9808904-4e3b9f42045188b1"></li>
+</ol>
+<ol start="2">
+<li><p>滑动视图轴进行修剪（修建过程中将鼠标长时间停留在某个地方 可以打开该位置时间间隔更小的时间轴）</p>
+</li>
+<li><p>修建完毕后点击“修剪”进行保存 不会覆盖原文件 而是生成新视频</p>
+</li>
+</ol>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giicjl16sfg30xc0htx6p.gif" alt="9808904-3f002fd35eb2c531"></p>
+<ol start="4">
+<li>点按关闭 命名&amp;选择存储位置</li>
+</ol>
+<hr>
+<p>另外，Quicktime Player也支持将一个视频分离成多段进行重新整合：</p>
+<ol>
+<li><p>用Quicktime Player打开所需要剪辑的视频 找到要被分离的点（注意：无法在视频开头分离）</p>
+</li>
+<li><p>标签栏-编辑-分离剪辑（快捷键command+Y)<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giicjlnjjvj30o80nugn8.jpg" alt="9808904-5fd1bc0d45e64fac"></p>
+</li>
+<li><p>滑动各段进行挪移<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giicjs73feg30xc0ionpd.gif" alt="9808904-aff0080167c8c7d1"></p>
+</li>
+<li><p>修建完毕后点击“修剪”进行保存 不会覆盖原文件 而是生成新视频</p>
+</li>
+<li><p>点按关闭 命名&amp;选择存储位置</p>
+</li>
+</ol>
 ]]></content>
       <categories>
         <category>鼓捣电脑</category>
       </categories>
       <tags>
-        <tag>python</tag>
+        <tag>小技巧</tag>
+        <tag>视频</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Rmarkdown 输出中文 pdf 报错解决</title>
+    <url>/2022/01/30/rmarkdown%20-%20pdf%20outpuf/</url>
+    <content><![CDATA[<ol>
+<li><p>下载 rticles包</p>
+</li>
+<li><p>在最开始的YAML中增加 documentclass: ctexart、output: rticles::ctex</p>
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNgy1gyw2zq71iyj30wi06owf8.jpg" alt="image-20220130224533474"></p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>r</tag>
       </tags>
   </entry>
   <entry>
@@ -1424,6 +1424,76 @@ chmod 755 deploy.sh
       </categories>
       <tags>
         <tag>word</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>you-get安装和使用</title>
+    <url>/2020/09/09/you-get/</url>
+    <content><![CDATA[<p><a href="https://github.com/soimort/you-get#supported-sites">You-get</a> 和 <a href="https://whitelephantee.github.io/2020/09/08/youtube-dl/">youtube-dl</a> 一样，都是命令行下载工具，不过you-get是国人开发的，对国内视频网站的支持更好。</p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>用homebrew安装。</p>
+<pre><code>brew install you-get</code></pre>
+<p>再升级一下。</p>
+<pre><code>pip3 install --upgrade you-get</code></pre>
+<p>然后就可以用啦。</p>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><p>使用和youtube-dl也很相似，超简单。</p>
+<pre><code>you-get &#123;url&#125;</code></pre>
+<p>you-get也支持断点续传，会留有之前的记录。</p>
+<p>可以设置存储位置(-o)和存储名称(-0)。</p>
+<pre><code>you-get -o ~/Videos -O zoo.webm &#39;https://www.youtube.com/watch?v=jNQXAC9IVRw&#39;</code></pre>
+<p>设置代理</p>
+<pre><code>you-get -x 127.0.0.1:8087 &#39;https://www.youtube.com/watch?v=jNQXAC9IVRw&#39;</code></pre>
+<p>也可以把视频发送到播放器或者浏览器中，不要广告，</p>
+<pre><code> you-get -p vlc &#39;https://www.youtube.com/watch?v=jNQXAC9IVRw&#39;
+ you-get -p chromium &#39;https://www.youtube.com/watch?v=jNQXAC9IVRw&#39;</code></pre>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>mac</tag>
+        <tag>downloader</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>you-get mac使用（2021更新）</title>
+    <url>/2021/10/20/you-get-2/</url>
+    <content><![CDATA[<p><a href="https://whitelephantee.github.io/2020/09/09/you-get/">之前有写过</a>，但是和youtube-dl一样，写了之后迫于各种问题可能还一直没真正用起来……</p>
+<p>这两天又抽空折腾了一下，还是不能用……但是写都写了，就发上来好啦</p>
+<h2 id="升级"><a href="#升级" class="headerlink" title="升级"></a>升级</h2><p>用you-get</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">you-get https://github.com/soimort/you-get/archive/master.zip</span><br></pre></td></tr></table></figure>
+
+<p>或者pip</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pip3 install --upgrade you-get</span><br></pre></td></tr></table></figure>
+
+<h2 id="基础使用"><a href="#基础使用" class="headerlink" title="基础使用"></a>基础使用</h2><p>最基本使用，会自动最高画质和下载字幕（if 有）</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">you-get <span class="string">&#x27;https://www.youtube.com/watch?v=jNQXAC9IVRw&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>会显示多种画质/格式，可以进行选择</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">you-get -i <span class="string">&#x27;https://www.youtube.com/watch?v=jNQXAC9IVRw&#x27;</span> <span class="comment">#显示有哪些选项</span></span><br><span class="line">you-get --itag=18 <span class="string">&#x27;https://www.youtube.com/watch?v=jNQXAC9IVRw&#x27;</span> <span class="comment">#根据tag挑选</span></span><br></pre></td></tr></table></figure>
+
+<p>设置下载地址和名字</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">you-get -o ~/Videos -O zoo.webm <span class="string">&#x27;https://www.youtube.com/watch?v=jNQXAC9IVRw&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>只看不下</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">you-get -p chromium <span class="string">&#x27;https://www.youtube.com/watch?v=jNQXAC9IVRw&#x27;</span> <span class="comment">#e.g.用chromium</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="关于下载"><a href="#关于下载" class="headerlink" title="关于下载"></a>关于下载</h2><p>断点续传：</p>
+<ul>
+<li>cmd+c 可以退出下载，再次用相同 command 运行的时候会自动继续下载（基于.downloading 文件）</li>
+<li>如果想要重新下载，加 –force<code>/</code>-f</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li>如果非视频的网站，会猜测你想要什么，可以用来下载<strong>大图片</strong></li>
+<li>如果是关键词，会自动google并下载第一个匹配的视频</li>
+</ul>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>downloader</tag>
       </tags>
   </entry>
   <entry>
@@ -1608,76 +1678,6 @@ youtube-dl -o &#39;/Users/&#123;username&#125;/Downloads/%(title)s.%(ext)s&#39; 
 --ffmpeg-location PATH           ffmpeg/avconv程序位置;PATH为二进制所在文件夹或者目录.
 --exec CMD                       在下载后对文件执行命令,类似于find -exec语法.示例：--exec‘adb push &#123;&#125; /sdcard/Music/ &amp;&amp; rm &#123;&#125;‘
 --convert-subs FORMAT            转换字幕格式(当前支持: srt|ass|vtt)</code></pre>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>mac</tag>
-        <tag>downloader</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>you-get mac使用（2021更新）</title>
-    <url>/2021/10/20/you-get-2/</url>
-    <content><![CDATA[<p><a href="https://whitelephantee.github.io/2020/09/09/you-get/">之前有写过</a>，但是和youtube-dl一样，写了之后迫于各种问题可能还一直没真正用起来……</p>
-<p>这两天又抽空折腾了一下，还是不能用……但是写都写了，就发上来好啦</p>
-<h2 id="升级"><a href="#升级" class="headerlink" title="升级"></a>升级</h2><p>用you-get</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">you-get https://github.com/soimort/you-get/archive/master.zip</span><br></pre></td></tr></table></figure>
-
-<p>或者pip</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pip3 install --upgrade you-get</span><br></pre></td></tr></table></figure>
-
-<h2 id="基础使用"><a href="#基础使用" class="headerlink" title="基础使用"></a>基础使用</h2><p>最基本使用，会自动最高画质和下载字幕（if 有）</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">you-get <span class="string">&#x27;https://www.youtube.com/watch?v=jNQXAC9IVRw&#x27;</span></span><br></pre></td></tr></table></figure>
-
-<p>会显示多种画质/格式，可以进行选择</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">you-get -i <span class="string">&#x27;https://www.youtube.com/watch?v=jNQXAC9IVRw&#x27;</span> <span class="comment">#显示有哪些选项</span></span><br><span class="line">you-get --itag=18 <span class="string">&#x27;https://www.youtube.com/watch?v=jNQXAC9IVRw&#x27;</span> <span class="comment">#根据tag挑选</span></span><br></pre></td></tr></table></figure>
-
-<p>设置下载地址和名字</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">you-get -o ~/Videos -O zoo.webm <span class="string">&#x27;https://www.youtube.com/watch?v=jNQXAC9IVRw&#x27;</span></span><br></pre></td></tr></table></figure>
-
-<p>只看不下</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">you-get -p chromium <span class="string">&#x27;https://www.youtube.com/watch?v=jNQXAC9IVRw&#x27;</span> <span class="comment">#e.g.用chromium</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="关于下载"><a href="#关于下载" class="headerlink" title="关于下载"></a>关于下载</h2><p>断点续传：</p>
-<ul>
-<li>cmd+c 可以退出下载，再次用相同 command 运行的时候会自动继续下载（基于.downloading 文件）</li>
-<li>如果想要重新下载，加 –force<code>/</code>-f</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li>如果非视频的网站，会猜测你想要什么，可以用来下载<strong>大图片</strong></li>
-<li>如果是关键词，会自动google并下载第一个匹配的视频</li>
-</ul>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>downloader</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>you-get安装和使用</title>
-    <url>/2020/09/09/you-get/</url>
-    <content><![CDATA[<p><a href="https://github.com/soimort/you-get#supported-sites">You-get</a> 和 <a href="https://whitelephantee.github.io/2020/09/08/youtube-dl/">youtube-dl</a> 一样，都是命令行下载工具，不过you-get是国人开发的，对国内视频网站的支持更好。</p>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>用homebrew安装。</p>
-<pre><code>brew install you-get</code></pre>
-<p>再升级一下。</p>
-<pre><code>pip3 install --upgrade you-get</code></pre>
-<p>然后就可以用啦。</p>
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><p>使用和youtube-dl也很相似，超简单。</p>
-<pre><code>you-get &#123;url&#125;</code></pre>
-<p>you-get也支持断点续传，会留有之前的记录。</p>
-<p>可以设置存储位置(-o)和存储名称(-0)。</p>
-<pre><code>you-get -o ~/Videos -O zoo.webm &#39;https://www.youtube.com/watch?v=jNQXAC9IVRw&#39;</code></pre>
-<p>设置代理</p>
-<pre><code>you-get -x 127.0.0.1:8087 &#39;https://www.youtube.com/watch?v=jNQXAC9IVRw&#39;</code></pre>
-<p>也可以把视频发送到播放器或者浏览器中，不要广告，</p>
-<pre><code> you-get -p vlc &#39;https://www.youtube.com/watch?v=jNQXAC9IVRw&#39;
- you-get -p chromium &#39;https://www.youtube.com/watch?v=jNQXAC9IVRw&#39;</code></pre>
 ]]></content>
       <categories>
         <category>鼓捣电脑</category>
