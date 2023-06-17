@@ -1,73 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>如何将PubMed导出BibTex并导入Bibliometrix</title>
-    <url>/2021/01/24/PubMed-Bibliometrix/</url>
-    <content><![CDATA[<p>上期介绍了怎么用bibliometrix，但是我发现导师要求找的数据库是PubMed而新版的PubMed没有导出BibTex的功能，这可怎么办呢，我又求助万能的谷歌，鼓捣了半天，找到了两种方法～</p>
-<ul>
-<li><p>方法一：通过 Endnote 转换</p>
-</li>
-<li><p>方法二：通过 python 转换</p>
-</li>
-</ul>
-<p>这两种方法整体而言没有什么差别，只是看哪个用着更顺手而已，从bib文件就可以看出，由于PubMed本身的局限性，无论是哪种方法都没有办法做到Web of Science那种程度的信息量，WoS里面不仅会有每篇文章的基本信息，还会包括每篇参考文献、作者机构、国家等等，实际上只有这种等级的信息量才能够最大限度利用bibliometrix，因此还是推荐WoS进行分析。但既然都找到方法了，那就继续写完好啦，毕竟不然不就白瞎了嘛～</p>
-<h2 id="通过Endnote转换"><a href="#通过Endnote转换" class="headerlink" title="通过Endnote转换"></a>通过Endnote转换</h2><p>前提：</p>
-<ul>
-<li>安装最新版正版Endnote并新建一个Library</li>
-</ul>
-<p>方法：</p>
-<ol>
-<li><p>从PubMed找到所需文献</p>
-</li>
-<li><p>Send to - Citation Manager - All Results - Create Files</p>
-<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmylfvf5qrj32800sudkw.jpg"></p>
-</li>
-<li><p>点击下载完毕的文档，用相应的Library打开</p>
-</li>
-<li><p>成功加进Endnote后导出</p>
-<p>File - Export - TXT - BibTex</p>
-<p>如果这里没有BibTex的选项，则需要手动添加——</p>
-<ol>
-<li><p>Tools - Output Styles - open style manager </p>
-</li>
-<li><p>找到 BibTex 并勾选</p>
-</li>
-<li><p>如果没有 BibTex 的选项，则点击 Get more on Web 并在弹出的网页搜索 BibTex</p>
-<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmymdojgqpj31qs0u0du5.jpg"></p>
-</li>
-<li><p>点击 Download 下载并将下载好的文件放到 Endnote - Styles 文件夹里就有啦</p>
-</li>
-</ol>
-</li>
-</ol>
-<h2 id="通过-python-转换"><a href="#通过-python-转换" class="headerlink" title="通过 python 转换"></a>通过 python 转换</h2><p>前提：</p>
-<ul>
-<li>已有Python3和相应编程软件如Visual Code Studio</li>
-</ul>
-<p>方法：</p>
-<ol>
-<li><p>从PubMed下载所需文献的PMID导出</p>
-<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmymee9oq6j320v0u0te1.jpg"></p>
-</li>
-<li><p>打开 terminal 用 pip 下载 <a href="https://pypi.org/project/pubmed-bibtex/">pubmed_bibtex</a> 这个库可以将PMID转换为对应的BibTex信息</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">python3 -m pip install pubmed-bibtex</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>新建python文件，读取下载的文档、转换并写入 bibtex</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> pubmed_bibtex <span class="keyword">import</span> bibtex_entry_from_pmid</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打开文件</span></span><br><span class="line">inputFile = open(<span class="string">&quot;pmid-physicalac-set.txt&quot;</span>, <span class="string">&quot;r&quot;</span>) <span class="comment">#只有将下载的PMID文档放入python文件同一个文件夹才可以用相对路径 否则用绝对路径</span></span><br><span class="line">outputFile = open(<span class="string">&quot;output.txt&quot;</span>, <span class="string">&quot;w&quot;</span>)            <span class="comment">#新建输出文档</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> inputFile.readlines():                          <span class="comment">#依次读取每行  </span></span><br><span class="line">    line = line.strip()                             <span class="comment">#去掉每行头尾空白  </span></span><br><span class="line">    <span class="keyword">print</span> (<span class="string">&quot;读取的数据为: %s&quot;</span> % (line))							</span><br><span class="line">    bibMes = bibtex_entry_from_pmid(int(line))</span><br><span class="line">    print(bibMes)</span><br><span class="line">    outputFile.write(bibMes)                       <span class="comment">#写入输出文档</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭文件</span></span><br><span class="line">inputFile.close()</span><br><span class="line">outputFile.close()</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>这个时候python文件所在文件夹里就应该有一个名为 output.txt 的文档，里面就是相对应的信息啦，把后缀改为.bib就可以放入 biblioshiny里啦。</p>
-<p>P.S. 只是因为这个库依托的是TexMed，所以转换速度会慢一些，如果量大的话可能得等一阵。</p>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>鼓捣文献</category>
-      </categories>
-      <tags>
-        <tag>Research</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>如何将anki转成csv</title>
     <url>/2021/07/06/anki-to-csv/</url>
     <content><![CDATA[<h2 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h2><p>首先需要两个插件，分别是 <a href="https://ankiweb.net/shared/info/1967530655">csv converter</a> 和 <a href="https://ankiweb.net/shared/info/874215009">Advanced Browser</a></p>
@@ -161,6 +94,73 @@ whitelephant     14893   0.0  0.0  5286740   1076   ??  Ss    3:47下午   0:00.
       </tags>
   </entry>
   <entry>
+    <title>如何将PubMed导出BibTex并导入Bibliometrix</title>
+    <url>/2021/01/24/PubMed-Bibliometrix/</url>
+    <content><![CDATA[<p>上期介绍了怎么用bibliometrix，但是我发现导师要求找的数据库是PubMed而新版的PubMed没有导出BibTex的功能，这可怎么办呢，我又求助万能的谷歌，鼓捣了半天，找到了两种方法～</p>
+<ul>
+<li><p>方法一：通过 Endnote 转换</p>
+</li>
+<li><p>方法二：通过 python 转换</p>
+</li>
+</ul>
+<p>这两种方法整体而言没有什么差别，只是看哪个用着更顺手而已，从bib文件就可以看出，由于PubMed本身的局限性，无论是哪种方法都没有办法做到Web of Science那种程度的信息量，WoS里面不仅会有每篇文章的基本信息，还会包括每篇参考文献、作者机构、国家等等，实际上只有这种等级的信息量才能够最大限度利用bibliometrix，因此还是推荐WoS进行分析。但既然都找到方法了，那就继续写完好啦，毕竟不然不就白瞎了嘛～</p>
+<h2 id="通过Endnote转换"><a href="#通过Endnote转换" class="headerlink" title="通过Endnote转换"></a>通过Endnote转换</h2><p>前提：</p>
+<ul>
+<li>安装最新版正版Endnote并新建一个Library</li>
+</ul>
+<p>方法：</p>
+<ol>
+<li><p>从PubMed找到所需文献</p>
+</li>
+<li><p>Send to - Citation Manager - All Results - Create Files</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmylfvf5qrj32800sudkw.jpg"></p>
+</li>
+<li><p>点击下载完毕的文档，用相应的Library打开</p>
+</li>
+<li><p>成功加进Endnote后导出</p>
+<p>File - Export - TXT - BibTex</p>
+<p>如果这里没有BibTex的选项，则需要手动添加——</p>
+<ol>
+<li><p>Tools - Output Styles - open style manager </p>
+</li>
+<li><p>找到 BibTex 并勾选</p>
+</li>
+<li><p>如果没有 BibTex 的选项，则点击 Get more on Web 并在弹出的网页搜索 BibTex</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmymdojgqpj31qs0u0du5.jpg"></p>
+</li>
+<li><p>点击 Download 下载并将下载好的文件放到 Endnote - Styles 文件夹里就有啦</p>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="通过-python-转换"><a href="#通过-python-转换" class="headerlink" title="通过 python 转换"></a>通过 python 转换</h2><p>前提：</p>
+<ul>
+<li>已有Python3和相应编程软件如Visual Code Studio</li>
+</ul>
+<p>方法：</p>
+<ol>
+<li><p>从PubMed下载所需文献的PMID导出</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gmymee9oq6j320v0u0te1.jpg"></p>
+</li>
+<li><p>打开 terminal 用 pip 下载 <a href="https://pypi.org/project/pubmed-bibtex/">pubmed_bibtex</a> 这个库可以将PMID转换为对应的BibTex信息</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">python3 -m pip install pubmed-bibtex</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>新建python文件，读取下载的文档、转换并写入 bibtex</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> pubmed_bibtex <span class="keyword">import</span> bibtex_entry_from_pmid</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打开文件</span></span><br><span class="line">inputFile = open(<span class="string">&quot;pmid-physicalac-set.txt&quot;</span>, <span class="string">&quot;r&quot;</span>) <span class="comment">#只有将下载的PMID文档放入python文件同一个文件夹才可以用相对路径 否则用绝对路径</span></span><br><span class="line">outputFile = open(<span class="string">&quot;output.txt&quot;</span>, <span class="string">&quot;w&quot;</span>)            <span class="comment">#新建输出文档</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> inputFile.readlines():                          <span class="comment">#依次读取每行  </span></span><br><span class="line">    line = line.strip()                             <span class="comment">#去掉每行头尾空白  </span></span><br><span class="line">    <span class="keyword">print</span> (<span class="string">&quot;读取的数据为: %s&quot;</span> % (line))							</span><br><span class="line">    bibMes = bibtex_entry_from_pmid(int(line))</span><br><span class="line">    print(bibMes)</span><br><span class="line">    outputFile.write(bibMes)                       <span class="comment">#写入输出文档</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭文件</span></span><br><span class="line">inputFile.close()</span><br><span class="line">outputFile.close()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>这个时候python文件所在文件夹里就应该有一个名为 output.txt 的文档，里面就是相对应的信息啦，把后缀改为.bib就可以放入 biblioshiny里啦。</p>
+<p>P.S. 只是因为这个库依托的是TexMed，所以转换速度会慢一些，如果量大的话可能得等一阵。</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>鼓捣文献</category>
+      </categories>
+      <tags>
+        <tag>Research</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>如何使用bibliometrix进行文献综述准备</title>
     <url>/2021/01/24/bibliometrix/</url>
     <content><![CDATA[<p>怎么快速了解一个科研领域写文献综述？听说可以用bibliometrix。</p>
@@ -247,12 +247,6 @@ whitelephant     14893   0.0  0.0  5286740   1076   ??  Ss    3:47下午   0:00.
       </tags>
   </entry>
   <entry>
-    <title>Hello World</title>
-    <url>/2020/09/05/hello-world/</url>
-    <content><![CDATA[<p>作为一个只学过一点python的小白，终于！经过两天的倒腾，终于搞定了这个个人网页！呱唧呱唧喜大普奔！</p>
-]]></content>
-  </entry>
-  <entry>
     <title>如何直接在浏览器网页上高亮文本内容？(DIIGO)</title>
     <url>/2020/09/07/chrome-highlight-2/</url>
     <content><![CDATA[<p>之前我介绍了我比较喜欢的MarkUp 但后来发现Diigo功能更齐全 于是就想也写个Diigo版的 就酱 开始啦～</p>
@@ -287,6 +281,12 @@ whitelephant     14893   0.0  0.0  5286740   1076   ??  Ss    3:47下午   0:00.
         <tag>小技巧</tag>
         <tag>chrome</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2020/09/05/hello-world/</url>
+    <content><![CDATA[<p>作为一个只学过一点python的小白，终于！经过两天的倒腾，终于搞定了这个个人网页！呱唧呱唧喜大普奔！</p>
+]]></content>
   </entry>
   <entry>
     <title>Hexo 优化 II</title>
@@ -379,43 +379,6 @@ url: #填这里</code></pre>
       </tags>
   </entry>
   <entry>
-    <title>谷歌搜索命令</title>
-    <url>/2022/02/12/google%20search/</url>
-    <content><![CDATA[<p><strong>站内全文搜索</strong> </p>
-<p>site: 链接 关键词</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">site:www.zhihu.com 博尔赫斯</span><br></pre></td></tr></table></figure>
-
-<p><strong>特定文件类型搜索</strong></p>
-<p>filetype:文件类型 关键词</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">filetype:pdf 博尔赫斯</span><br></pre></td></tr></table></figure>
-
-<p><strong>链接内关键词</strong></p>
-<p>在网页的url地址中查找，例如：inurl:dowload 表示查找url中包含download的网页。</p>
-<p><strong>查询类似网页</strong></p>
-<p>related: 寻找某网页的“类似网页”。例如：related:<a href="http://www.zhihu.com/">www.zhihu.com</a> 表示找和“知乎”类似的网页。</p>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>mac</tag>
-        <tag>google</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mac访达Finder中文件绝对路径怎么找</title>
-    <url>/2020/09/07/mac-path/</url>
-    <content><![CDATA[<p>最方便快捷的方式就是直接点击想知道路径的文件，然后按 option-command-c 就能自动复制到剪贴板啦，超easy！</p>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>mac</tag>
-        <tag>小技巧</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Hexo-Academia 配置</title>
     <url>/2020/09/07/hexo-academia/</url>
     <content><![CDATA[<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><ul>
@@ -480,20 +443,27 @@ url: #填这里</code></pre>
       </tags>
   </entry>
   <entry>
-    <title>mac图片大小调整</title>
-    <url>/2020/09/08/mac-photo-sizing/</url>
-    <content><![CDATA[<p>有时某些网站会限制上传照片的大小（50K变到10K），或者需要调整照片的大小（2寸照片变成1寸），这些当然可以通过phtooshop简单做到，但是mac预览本身也提供了非常简单的方法可以进行修改。</p>
-<p>预览-工具-调整大小。</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gijgkcz6yuj30zq0m44pj.jpg" alt="mac-photo-01"></p>
-<p>调到合适大小就可以啦，分辨率越低、图片大小越小，所占的Size也就越小啦。</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gijgof6ohaj30zk0mc4qp.jpg" alt="mac-photo-02"></p>
+    <title>谷歌搜索命令</title>
+    <url>/2022/02/12/google%20search/</url>
+    <content><![CDATA[<p><strong>站内全文搜索</strong> </p>
+<p>site: 链接 关键词</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">site:www.zhihu.com 博尔赫斯</span><br></pre></td></tr></table></figure>
+
+<p><strong>特定文件类型搜索</strong></p>
+<p>filetype:文件类型 关键词</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">filetype:pdf 博尔赫斯</span><br></pre></td></tr></table></figure>
+
+<p><strong>链接内关键词</strong></p>
+<p>在网页的url地址中查找，例如：inurl:dowload 表示查找url中包含download的网页。</p>
+<p><strong>查询类似网页</strong></p>
+<p>related: 寻找某网页的“类似网页”。例如：related:<a href="http://www.zhihu.com/">www.zhihu.com</a> 表示找和“知乎”类似的网页。</p>
 ]]></content>
       <categories>
         <category>鼓捣电脑</category>
       </categories>
       <tags>
         <tag>mac</tag>
-        <tag>小技巧</tag>
+        <tag>google</tag>
       </tags>
   </entry>
   <entry>
@@ -525,91 +495,6 @@ url: #填这里</code></pre>
       </categories>
       <tags>
         <tag>mac</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mac一些有用的快捷键（随时更新）</title>
-    <url>/2020/09/08/mac-shortcut/</url>
-    <content><![CDATA[<p>command+i | 访达 | 显示简介<br>command+shift+c | 访达 ｜ 复制路径</p>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>mac</tag>
-        <tag>小技巧</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>如何在 numbers 单元格内换行？</title>
-    <url>/2020/09/07/numbers-return/</url>
-    <content><![CDATA[<p>通常我们都习惯在写文本的时候按回车（Enter）换行，但在numbers里，按了回车是会自动跳到下一格的，那么如何解决这个问题？</p>
-<p>用 <strong>option+Enter</strong> 就行啦！</p>
-<hr>
-<h2 id="Example小栗子："><a href="#Example小栗子：" class="headerlink" title="Example小栗子："></a>Example小栗子：</h2><p>现在我有文本如下：</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiajmqwqnj30xc0c1aad.jpg" alt="9808904-94c37e422ac7dfe1."></p>
-<p>可我不想说自己傻，所以想获得酱紫的效果：</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiajuhojoj30xc07bq30.jpg" alt="9808904-49be64714c4f3411."></p>
-<p>于是我按option+Enter:</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiajzbr1fg30pb0kcgmm.gif" alt="9808904-a9435cc4ed1b7815"></p>
-<p>Perfect！</p>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>小技巧</tag>
-        <tag>numbers</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mac pip 用法</title>
-    <url>/2020/10/19/mac-pip/</url>
-    <content><![CDATA[<p>mac系统更新后，pip以前的命令似乎都不能用了。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pip install requests</span><br><span class="line"></span><br><span class="line">Traceback (most recent call last):</span><br><span class="line"></span><br><span class="line"> File <span class="string">&quot;/usr/local/bin/pip&quot;</span>, line 6, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line"></span><br><span class="line">  from pip._internal.cli.main import main</span><br><span class="line"></span><br><span class="line">ModuleNotFoundError: No module named <span class="string">&#x27;pip._internal.cli.main&#x27;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>我查阅了资料后发现，现在pip在mac上的用法更改了。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">python3 -m pip install requests</span><br></pre></td></tr></table></figure>
-
-<p>这样就可以啦！</p>
-<p>然后pip更新的话是——</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;usr&#x2F;local&#x2F;opt&#x2F;python&#x2F;bin&#x2F;python3.7 -m pip install --upgrade pip</span><br></pre></td></tr></table></figure>
-
-<p>附上更多用法清单</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Usage:   </span><br><span class="line">  /usr/<span class="built_in">local</span>/opt/python/bin/python3.7 -m pip &lt;<span class="built_in">command</span>&gt; [options]</span><br><span class="line"></span><br><span class="line">Commands:</span><br><span class="line">  install                     Install packages.</span><br><span class="line">  download                    Download packages.</span><br><span class="line">  uninstall                   Uninstall packages.</span><br><span class="line">  freeze                      Output installed packages <span class="keyword">in</span> requirements format.</span><br><span class="line">  list                        List installed packages.</span><br><span class="line">  show                        Show information about installed packages.</span><br><span class="line">  check                       Verify installed packages have compatible dependencies.</span><br><span class="line">  config                      Manage <span class="built_in">local</span> and global configuration.</span><br><span class="line">  search                      Search PyPI <span class="keyword">for</span> packages.</span><br><span class="line">  cache                       Inspect and manage pip<span class="string">&#x27;s wheel cache.</span></span><br><span class="line"><span class="string">  wheel                       Build wheels from your requirements.</span></span><br><span class="line"><span class="string">  hash                        Compute hashes of package archives.</span></span><br><span class="line"><span class="string">  completion                  A helper command used for command completion.</span></span><br><span class="line"><span class="string">  debug                       Show information useful for debugging.</span></span><br><span class="line"><span class="string">  help                        Show help for commands.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">General Options:</span></span><br><span class="line"><span class="string">  -h, --help                  Show help.</span></span><br><span class="line"><span class="string">  --isolated                  Run pip in an isolated mode, ignoring environment variables and user configuration.</span></span><br><span class="line"><span class="string">  -v, --verbose               Give more output. Option is additive, and can be used up to 3 times.</span></span><br><span class="line"><span class="string">  -V, --version               Show version and exit.</span></span><br><span class="line"><span class="string">  -q, --quiet                 Give less output. Option is additive, and can be used up to 3 times (corresponding to WARNING, ERROR, and CRITICAL logging levels).</span></span><br><span class="line"><span class="string">  --log &lt;path&gt;                Path to a verbose appending log.</span></span><br><span class="line"><span class="string">  --proxy &lt;proxy&gt;             Specify a proxy in the form [user:passwd@]proxy.server:port.</span></span><br><span class="line"><span class="string">  --retries &lt;retries&gt;         Maximum number of retries each connection should attempt (default 5 times).</span></span><br><span class="line"><span class="string">  --timeout &lt;sec&gt;             Set the socket timeout (default 15 seconds).</span></span><br><span class="line"><span class="string">  --exists-action &lt;action&gt;    Default action when a path already exists: (s)witch, (i)gnore, (w)ipe, (b)ackup, (a)bort.</span></span><br><span class="line"><span class="string">  --trusted-host &lt;hostname&gt;   Mark this host or host:port pair as trusted, even though it does not have valid or any HTTPS.</span></span><br><span class="line"><span class="string">  --cert &lt;path&gt;               Path to alternate CA bundle.</span></span><br><span class="line"><span class="string">  --client-cert &lt;path&gt;        Path to SSL client certificate, a single file containing the private key and the certificate in PEM format.</span></span><br><span class="line"><span class="string">  --cache-dir &lt;dir&gt;           Store the cache data in &lt;dir&gt;.</span></span><br><span class="line"><span class="string">  --no-cache-dir              Disable the cache.</span></span><br><span class="line"><span class="string">  --disable-pip-version-check</span></span><br><span class="line"><span class="string">                              Don&#x27;</span>t periodically check PyPI to determine whether a new version of pip is available <span class="keyword">for</span> download. Implied with --no-index.</span><br><span class="line">  --no-color                  Suppress colored output</span><br><span class="line">  --no-python-version-warning</span><br><span class="line">                              Silence deprecation warnings <span class="keyword">for</span> upcoming unsupported Pythons.</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>mac</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>如何在 pages 里快速复制格式/格式刷？</title>
-    <url>/2020/09/07/pages-formatting/</url>
-    <content><![CDATA[<h1 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h1><p>快捷键：</p>
-<ul>
-<li><p>opt+command+c 复制格式</p>
-</li>
-<li><p>opt+command+v 粘贴格式</p>
-</li>
-</ul>
-<p>常规方法：</p>
-<ul>
-<li>pages标签栏-格式-拷贝样式/粘贴样式</li>
-</ul>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiao3q6cvj30ti0m40tz.jpg" alt="9808904-778c5800c618cf4c"></p>
-<h1 id="小栗子"><a href="#小栗子" class="headerlink" title="小栗子"></a>小栗子</h1><p>1.0版：<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiaoc2qskg30sf0kbwhv.gif" alt="9808904-d6799f3140157c59"></p>
-<p>2.0版<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiaovee63g30sf0kbabl.gif" alt="9808904-4812c80c61f8814c"></p>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>pages</tag>
-        <tag>小技巧</tag>
       </tags>
   </entry>
   <entry>
@@ -836,6 +721,78 @@ chmod 755 deploy.sh
       </tags>
   </entry>
   <entry>
+    <title>mac访达Finder中文件绝对路径怎么找</title>
+    <url>/2020/09/07/mac-path/</url>
+    <content><![CDATA[<p>最方便快捷的方式就是直接点击想知道路径的文件，然后按 option-command-c 就能自动复制到剪贴板啦，超easy！</p>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>mac</tag>
+        <tag>小技巧</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mac一些有用的快捷键（随时更新）</title>
+    <url>/2020/09/08/mac-shortcut/</url>
+    <content><![CDATA[<p>command+i | 访达 | 显示简介<br>command+shift+c | 访达 ｜ 复制路径</p>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>mac</tag>
+        <tag>小技巧</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mac pip 用法</title>
+    <url>/2020/10/19/mac-pip/</url>
+    <content><![CDATA[<p>mac系统更新后，pip以前的命令似乎都不能用了。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pip install requests</span><br><span class="line"></span><br><span class="line">Traceback (most recent call last):</span><br><span class="line"></span><br><span class="line"> File <span class="string">&quot;/usr/local/bin/pip&quot;</span>, line 6, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line"></span><br><span class="line">  from pip._internal.cli.main import main</span><br><span class="line"></span><br><span class="line">ModuleNotFoundError: No module named <span class="string">&#x27;pip._internal.cli.main&#x27;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>我查阅了资料后发现，现在pip在mac上的用法更改了。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">python3 -m pip install requests</span><br></pre></td></tr></table></figure>
+
+<p>这样就可以啦！</p>
+<p>然后pip更新的话是——</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;usr&#x2F;local&#x2F;opt&#x2F;python&#x2F;bin&#x2F;python3.7 -m pip install --upgrade pip</span><br></pre></td></tr></table></figure>
+
+<p>附上更多用法清单</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Usage:   </span><br><span class="line">  /usr/<span class="built_in">local</span>/opt/python/bin/python3.7 -m pip &lt;<span class="built_in">command</span>&gt; [options]</span><br><span class="line"></span><br><span class="line">Commands:</span><br><span class="line">  install                     Install packages.</span><br><span class="line">  download                    Download packages.</span><br><span class="line">  uninstall                   Uninstall packages.</span><br><span class="line">  freeze                      Output installed packages <span class="keyword">in</span> requirements format.</span><br><span class="line">  list                        List installed packages.</span><br><span class="line">  show                        Show information about installed packages.</span><br><span class="line">  check                       Verify installed packages have compatible dependencies.</span><br><span class="line">  config                      Manage <span class="built_in">local</span> and global configuration.</span><br><span class="line">  search                      Search PyPI <span class="keyword">for</span> packages.</span><br><span class="line">  cache                       Inspect and manage pip<span class="string">&#x27;s wheel cache.</span></span><br><span class="line"><span class="string">  wheel                       Build wheels from your requirements.</span></span><br><span class="line"><span class="string">  hash                        Compute hashes of package archives.</span></span><br><span class="line"><span class="string">  completion                  A helper command used for command completion.</span></span><br><span class="line"><span class="string">  debug                       Show information useful for debugging.</span></span><br><span class="line"><span class="string">  help                        Show help for commands.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">General Options:</span></span><br><span class="line"><span class="string">  -h, --help                  Show help.</span></span><br><span class="line"><span class="string">  --isolated                  Run pip in an isolated mode, ignoring environment variables and user configuration.</span></span><br><span class="line"><span class="string">  -v, --verbose               Give more output. Option is additive, and can be used up to 3 times.</span></span><br><span class="line"><span class="string">  -V, --version               Show version and exit.</span></span><br><span class="line"><span class="string">  -q, --quiet                 Give less output. Option is additive, and can be used up to 3 times (corresponding to WARNING, ERROR, and CRITICAL logging levels).</span></span><br><span class="line"><span class="string">  --log &lt;path&gt;                Path to a verbose appending log.</span></span><br><span class="line"><span class="string">  --proxy &lt;proxy&gt;             Specify a proxy in the form [user:passwd@]proxy.server:port.</span></span><br><span class="line"><span class="string">  --retries &lt;retries&gt;         Maximum number of retries each connection should attempt (default 5 times).</span></span><br><span class="line"><span class="string">  --timeout &lt;sec&gt;             Set the socket timeout (default 15 seconds).</span></span><br><span class="line"><span class="string">  --exists-action &lt;action&gt;    Default action when a path already exists: (s)witch, (i)gnore, (w)ipe, (b)ackup, (a)bort.</span></span><br><span class="line"><span class="string">  --trusted-host &lt;hostname&gt;   Mark this host or host:port pair as trusted, even though it does not have valid or any HTTPS.</span></span><br><span class="line"><span class="string">  --cert &lt;path&gt;               Path to alternate CA bundle.</span></span><br><span class="line"><span class="string">  --client-cert &lt;path&gt;        Path to SSL client certificate, a single file containing the private key and the certificate in PEM format.</span></span><br><span class="line"><span class="string">  --cache-dir &lt;dir&gt;           Store the cache data in &lt;dir&gt;.</span></span><br><span class="line"><span class="string">  --no-cache-dir              Disable the cache.</span></span><br><span class="line"><span class="string">  --disable-pip-version-check</span></span><br><span class="line"><span class="string">                              Don&#x27;</span>t periodically check PyPI to determine whether a new version of pip is available <span class="keyword">for</span> download. Implied with --no-index.</span><br><span class="line">  --no-color                  Suppress colored output</span><br><span class="line">  --no-python-version-warning</span><br><span class="line">                              Silence deprecation warnings <span class="keyword">for</span> upcoming unsupported Pythons.</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>mac</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>如何在 numbers 单元格内换行？</title>
+    <url>/2020/09/07/numbers-return/</url>
+    <content><![CDATA[<p>通常我们都习惯在写文本的时候按回车（Enter）换行，但在numbers里，按了回车是会自动跳到下一格的，那么如何解决这个问题？</p>
+<p>用 <strong>option+Enter</strong> 就行啦！</p>
+<hr>
+<h2 id="Example小栗子："><a href="#Example小栗子：" class="headerlink" title="Example小栗子："></a>Example小栗子：</h2><p>现在我有文本如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiajmqwqnj30xc0c1aad.jpg" alt="9808904-94c37e422ac7dfe1."></p>
+<p>可我不想说自己傻，所以想获得酱紫的效果：</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiajuhojoj30xc07bq30.jpg" alt="9808904-49be64714c4f3411."></p>
+<p>于是我按option+Enter:</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiajzbr1fg30pb0kcgmm.gif" alt="9808904-a9435cc4ed1b7815"></p>
+<p>Perfect！</p>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>小技巧</tag>
+        <tag>numbers</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>如何在notion里快速跳转到顶部/目录？</title>
     <url>/2021/10/08/notion-backToTop/</url>
     <content><![CDATA[<p>由于notion里目录不能悬浮，所以大家各显神通解决这一问题。我搜了半天，觉得比较靠谱的有两种方法。</p>
@@ -854,6 +811,32 @@ chmod 755 deploy.sh
       </categories>
       <tags>
         <tag>notion</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>如何在 pages 里快速复制格式/格式刷？</title>
+    <url>/2020/09/07/pages-formatting/</url>
+    <content><![CDATA[<h1 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h1><p>快捷键：</p>
+<ul>
+<li><p>opt+command+c 复制格式</p>
+</li>
+<li><p>opt+command+v 粘贴格式</p>
+</li>
+</ul>
+<p>常规方法：</p>
+<ul>
+<li>pages标签栏-格式-拷贝样式/粘贴样式</li>
+</ul>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiao3q6cvj30ti0m40tz.jpg" alt="9808904-778c5800c618cf4c"></p>
+<h1 id="小栗子"><a href="#小栗子" class="headerlink" title="小栗子"></a>小栗子</h1><p>1.0版：<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiaoc2qskg30sf0kbwhv.gif" alt="9808904-d6799f3140157c59"></p>
+<p>2.0版<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giiaovee63g30sf0kbabl.gif" alt="9808904-4812c80c61f8814c"></p>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>pages</tag>
+        <tag>小技巧</tag>
       </tags>
   </entry>
   <entry>
@@ -1011,40 +994,6 @@ chmod 755 deploy.sh
       </tags>
   </entry>
   <entry>
-    <title>VSCode无法调用已安装python库</title>
-    <url>/2021/08/08/python-import/</url>
-    <content><![CDATA[<p>折腾了半天结果居然是拼错了，emmm……无论如何，记录一下这个过程好啦</p>
-<p>一开始以为是环境不一样，开始找怎么查询环境和改变环境。</p>
-<ol>
-<li><p>查询当前VScode环境（VScode界面左下方）</p>
-</li>
-<li><p>查询当前terminal环境</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">python --version</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>改变termianl的python版本</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#查看python安装路径</span></span><br><span class="line">ls -l /usr/<span class="built_in">local</span>/bin/python*</span><br><span class="line"></span><br><span class="line"><span class="comment">#更改</span></span><br><span class="line">ln -s -f /usr/<span class="built_in">local</span>/bin/python3.8 /usr/<span class="built_in">local</span>/bin/python <span class="comment">#这个路径是上面结果第一行的路径</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#关闭terminal再次打开查看路径</span></span><br><span class="line">python --version</span><br></pre></td></tr></table></figure>
-
-<p>当然，我没有改，主要是看到知乎上有人说这样可能会影响一些调用python2的软件。</p>
-<p>Reference：<a href="https://zhuanlan.zhihu.com/p/341868531">在Mac终端修改Python版本</a></p>
-</li>
-</ol>
-<p>但是后来想起来用的pip安装的，调用pip安装时都是要先python3 -m pip install xx，所以肯定也是python3，所以就不是这个问题，于是开始想是不是安装路径的问题。</p>
-<ol>
-<li><p>查看一下当前vscode import路径</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line">print(sys.path)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>经过一同查询，发现pip一般会安装在/usr/local/lib/python3.7/site-packages的路径中，确认刚刚sys.path的结果里有这个地方，再去finder里进这个路径里，看一下里面有没有安装的目标包，发现有，然后把文件名复制粘贴过来就成了，所以结果是拼写错误……</p>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>python小菜鸟备忘录：用python读取word</title>
     <url>/2021/05/23/python%20-%20wordread/</url>
     <content><![CDATA[<p>突发奇想想将读取pdf做anki卡组，以为会很简单，没想到最后卡在读取word上，赶紧记在小本本上，下回读取word就不怕啦！</p>
@@ -1058,45 +1007,6 @@ chmod 755 deploy.sh
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> p <span class="keyword">in</span> file.paragraphs:</span><br><span class="line">    <span class="keyword">for</span> n <span class="keyword">in</span> p.runs: <span class="comment">#p.runs里有该段落每个字符（包括空格）的属性信息 也是list</span></span><br><span class="line">        color = str(n.font.color.rgb) <span class="comment">#获取每个字符的颜色（空格是字符串的None）</span></span><br><span class="line">  </span><br></pre></td></tr></table></figure>
 
 <h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://blog.csdn.net/Pythoncxy/article/details/95339953">Python读取word文档识别字段颜色，解析字段</a></p>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>python小菜鸟备忘录：用python做简易爬虫</title>
-    <url>/2021/07/02/python%20-%20%E7%88%AC%E8%99%AB/</url>
-    <content><![CDATA[<p>小菜鸟开始爬虫之旅了！记录一下！</p>
-<h2 id="安装库"><a href="#安装库" class="headerlink" title="安装库"></a>安装库</h2><p>安装 requests 库</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">python3 -m pip install requests</span><br></pre></td></tr></table></figure>
-
-<p>安装 beautifulsoup4</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">python3 -m pip install beautifulsoup4</span><br></pre></td></tr></table></figure>
-
-<h2 id="爬取网页"><a href="#爬取网页" class="headerlink" title="爬取网页"></a>爬取网页</h2><p>import库</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br></pre></td></tr></table></figure>
-
-<p>指定 url 并提取网页内容</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">url = <span class="string">&quot;https://……&quot;</span></span><br><span class="line">r = requests.get(url)  </span><br><span class="line">html_doc = r.text</span><br><span class="line"></span><br><span class="line"><span class="comment">#if 要加headers</span></span><br><span class="line">headers = &#123;<span class="string">&#x27;User-Agent&#x27;</span>: <span class="string">&#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36&#x27;</span>&#125;</span><br><span class="line">r = requests.get(res_url, headers=headers)</span><br><span class="line">html_doc = r.text</span><br></pre></td></tr></table></figure>
-
-<h2 id="处理网页内容"><a href="#处理网页内容" class="headerlink" title="处理网页内容"></a>处理网页内容</h2><p>初始化 beautifulsoup4</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Soup = BeautifulSoup(html_doc, <span class="string">&#x27;lxml&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
-<p>寻找需要的部分</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#网页里包含多个相同class的内容</span></span><br><span class="line">cols = Soup.find_all(<span class="string">&#x27;div&#x27;</span>, class_=<span class="string">&#x27;col2 articleDetailTeaser&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(cols)):</span><br><span class="line">    all_a = cols[i].find_all(<span class="string">&#x27;a&#x27;</span>) <span class="comment">#找到所有指定class底下的链接</span></span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(len(all_a)):</span><br><span class="line">        res_url = all_a[j][<span class="string">&#x27;href&#x27;</span>] <span class="comment">#[&#x27;href&#x27;]后就是真的链接</span></span><br><span class="line">        </span><br><span class="line"><span class="comment">#网页里只有一个相同class的内容</span></span><br><span class="line">links = Soup.find(<span class="string">&#x27;div&#x27;</span>, class_=<span class="string">&#x27;linkList download&#x27;</span>)</span><br><span class="line">link = links.find(<span class="string">&#x27;a&#x27;</span>)[<span class="string">&#x27;href&#x27;</span>]</span><br></pre></td></tr></table></figure>
-
-<h2 id="下载指定链接文件"><a href="#下载指定链接文件" class="headerlink" title="下载指定链接文件"></a>下载指定链接文件</h2><p>pdf</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">target_file = requests.get(url)</span><br><span class="line">fo = open(<span class="string">&#x27;name.pdf&#x27;</span>,<span class="string">&#x27;wb&#x27;</span>)</span><br><span class="line">fo.write(target_file.content)  </span><br><span class="line">fo.close()</span><br></pre></td></tr></table></figure>
-
-<p>mp3</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">target_file = requests.get(url,stream=<span class="literal">True</span>)</span><br><span class="line">fo = open(<span class="string">&#x27;name.mp3&#x27;</span>,<span class="string">&#x27;ab&#x27;</span>)</span><br><span class="line">fo.write(res.content)</span><br><span class="line">fo.flush()</span><br><span class="line">fo.close()</span><br></pre></td></tr></table></figure>
-
-<h2 id="其他处理"><a href="#其他处理" class="headerlink" title="其他处理"></a>其他处理</h2><p>速度减慢</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line">time.sleep(<span class="number">0.2</span>)</span><br></pre></td></tr></table></figure>
-
 ]]></content>
       <categories>
         <category>鼓捣电脑</category>
@@ -1163,6 +1073,62 @@ chmod 755 deploy.sh
       </tags>
   </entry>
   <entry>
+    <title>python小菜鸟备忘录：用python做简易爬虫</title>
+    <url>/2021/07/02/python%20-%20%E7%88%AC%E8%99%AB/</url>
+    <content><![CDATA[<p>小菜鸟开始爬虫之旅了！记录一下！</p>
+<h2 id="安装库"><a href="#安装库" class="headerlink" title="安装库"></a>安装库</h2><p>安装 requests 库</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">python3 -m pip install requests</span><br></pre></td></tr></table></figure>
+
+<p>安装 beautifulsoup4</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">python3 -m pip install beautifulsoup4</span><br></pre></td></tr></table></figure>
+
+<h2 id="爬取网页"><a href="#爬取网页" class="headerlink" title="爬取网页"></a>爬取网页</h2><p>import库</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br></pre></td></tr></table></figure>
+
+<p>指定 url 并提取网页内容</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">url = <span class="string">&quot;https://……&quot;</span></span><br><span class="line">r = requests.get(url)  </span><br><span class="line">html_doc = r.text</span><br><span class="line"></span><br><span class="line"><span class="comment">#if 要加headers</span></span><br><span class="line">headers = &#123;<span class="string">&#x27;User-Agent&#x27;</span>: <span class="string">&#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36&#x27;</span>&#125;</span><br><span class="line">r = requests.get(res_url, headers=headers)</span><br><span class="line">html_doc = r.text</span><br></pre></td></tr></table></figure>
+
+<h2 id="处理网页内容"><a href="#处理网页内容" class="headerlink" title="处理网页内容"></a>处理网页内容</h2><p>初始化 beautifulsoup4</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Soup = BeautifulSoup(html_doc, <span class="string">&#x27;lxml&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>寻找需要的部分</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#网页里包含多个相同class的内容</span></span><br><span class="line">cols = Soup.find_all(<span class="string">&#x27;div&#x27;</span>, class_=<span class="string">&#x27;col2 articleDetailTeaser&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(cols)):</span><br><span class="line">    all_a = cols[i].find_all(<span class="string">&#x27;a&#x27;</span>) <span class="comment">#找到所有指定class底下的链接</span></span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(len(all_a)):</span><br><span class="line">        res_url = all_a[j][<span class="string">&#x27;href&#x27;</span>] <span class="comment">#[&#x27;href&#x27;]后就是真的链接</span></span><br><span class="line">        </span><br><span class="line"><span class="comment">#网页里只有一个相同class的内容</span></span><br><span class="line">links = Soup.find(<span class="string">&#x27;div&#x27;</span>, class_=<span class="string">&#x27;linkList download&#x27;</span>)</span><br><span class="line">link = links.find(<span class="string">&#x27;a&#x27;</span>)[<span class="string">&#x27;href&#x27;</span>]</span><br></pre></td></tr></table></figure>
+
+<h2 id="下载指定链接文件"><a href="#下载指定链接文件" class="headerlink" title="下载指定链接文件"></a>下载指定链接文件</h2><p>pdf</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">target_file = requests.get(url)</span><br><span class="line">fo = open(<span class="string">&#x27;name.pdf&#x27;</span>,<span class="string">&#x27;wb&#x27;</span>)</span><br><span class="line">fo.write(target_file.content)  </span><br><span class="line">fo.close()</span><br></pre></td></tr></table></figure>
+
+<p>mp3</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">target_file = requests.get(url,stream=<span class="literal">True</span>)</span><br><span class="line">fo = open(<span class="string">&#x27;name.mp3&#x27;</span>,<span class="string">&#x27;ab&#x27;</span>)</span><br><span class="line">fo.write(res.content)</span><br><span class="line">fo.flush()</span><br><span class="line">fo.close()</span><br></pre></td></tr></table></figure>
+
+<h2 id="其他处理"><a href="#其他处理" class="headerlink" title="其他处理"></a>其他处理</h2><p>速度减慢</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line">time.sleep(<span class="number">0.2</span>)</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mac图片大小调整</title>
+    <url>/2020/09/08/mac-photo-sizing/</url>
+    <content><![CDATA[<p>有时某些网站会限制上传照片的大小（50K变到10K），或者需要调整照片的大小（2寸照片变成1寸），这些当然可以通过phtooshop简单做到，但是mac预览本身也提供了非常简单的方法可以进行修改。</p>
+<p>预览-工具-调整大小。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gijgkcz6yuj30zq0m44pj.jpg" alt="mac-photo-01"></p>
+<p>调到合适大小就可以啦，分辨率越低、图片大小越小，所占的Size也就越小啦。</p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gijgof6ohaj30zk0mc4qp.jpg" alt="mac-photo-02"></p>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>mac</tag>
+        <tag>小技巧</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>python如何用csv包读取和写入csv</title>
     <url>/2022/11/01/python-csv/</url>
     <content><![CDATA[<h2 id="读取"><a href="#读取" class="headerlink" title="读取"></a>读取</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> csv</span><br><span class="line"></span><br><span class="line">file_path = <span class="string">&#x27;1908194624.csv&#x27;</span></span><br><span class="line"><span class="keyword">with</span> open(file_path,encoding=<span class="string">&quot;utf_8&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    reader = csv.reader(f)</span><br><span class="line">    header_row = next(reader) <span class="comment">#略过标题行 </span></span><br><span class="line">    <span class="keyword">for</span> row <span class="keyword">in</span> reader: <span class="comment">#遍历每一行</span></span><br><span class="line">        weibo_id = row[<span class="number">1</span>]</span><br></pre></td></tr></table></figure>
@@ -1185,6 +1151,124 @@ chmod 755 deploy.sh
 <li>所有后缀非csv的都不要</li>
 </ol>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line">folder_path = <span class="string">&#x27;/Users/.../subforum info&#x27;</span></span><br><span class="line"></span><br><span class="line">forum_files = os.listdir(forum_dictpath)</span><br><span class="line">forum_file_paths = []</span><br><span class="line"><span class="keyword">for</span> file <span class="keyword">in</span> forum_files: <span class="comment">#除csv文件外都不要</span></span><br><span class="line">    file_path = os.path.join(forum_dictpath,file)</span><br><span class="line">    <span class="keyword">if</span> file_path.split(<span class="string">&#x27;.&#x27;</span>)[<span class="number">1</span>] == <span class="string">&#x27;csv&#x27;</span>:</span><br><span class="line">        <span class="comment">#files.remove(file)</span></span><br><span class="line">            forum_file_paths.append(file_path)</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>VSCode无法调用已安装python库</title>
+    <url>/2021/08/08/python-import/</url>
+    <content><![CDATA[<p>折腾了半天结果居然是拼错了，emmm……无论如何，记录一下这个过程好啦</p>
+<p>一开始以为是环境不一样，开始找怎么查询环境和改变环境。</p>
+<ol>
+<li><p>查询当前VScode环境（VScode界面左下方）</p>
+</li>
+<li><p>查询当前terminal环境</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">python --version</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>改变termianl的python版本</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#查看python安装路径</span></span><br><span class="line">ls -l /usr/<span class="built_in">local</span>/bin/python*</span><br><span class="line"></span><br><span class="line"><span class="comment">#更改</span></span><br><span class="line">ln -s -f /usr/<span class="built_in">local</span>/bin/python3.8 /usr/<span class="built_in">local</span>/bin/python <span class="comment">#这个路径是上面结果第一行的路径</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#关闭terminal再次打开查看路径</span></span><br><span class="line">python --version</span><br></pre></td></tr></table></figure>
+
+<p>当然，我没有改，主要是看到知乎上有人说这样可能会影响一些调用python2的软件。</p>
+<p>Reference：<a href="https://zhuanlan.zhihu.com/p/341868531">在Mac终端修改Python版本</a></p>
+</li>
+</ol>
+<p>但是后来想起来用的pip安装的，调用pip安装时都是要先python3 -m pip install xx，所以肯定也是python3，所以就不是这个问题，于是开始想是不是安装路径的问题。</p>
+<ol>
+<li><p>查看一下当前vscode import路径</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line">print(sys.path)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>经过一同查询，发现pip一般会安装在/usr/local/lib/python3.7/site-packages的路径中，确认刚刚sys.path的结果里有这个地方，再去finder里进这个路径里，看一下里面有没有安装的目标包，发现有，然后把文件名复制粘贴过来就成了，所以结果是拼写错误……</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>vscode报错找不到已安装的python包怎么办</title>
+    <url>/2023/06/17/python-package-not-found/</url>
+    <content><![CDATA[<p>第一种方法，找到特定package的path，然后加进代码里</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">python3 -m pip show flask</span><br></pre></td></tr></table></figure>
+
+<p>找到安装位置，然后将其加入python文件</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line">sys.path.append(<span class="string">&#x27;/Users/site-packages&#x27;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>第二种方法，下载miniconda（pkg格式，好安装），然后重新在conda环境里下载package</p>
+<ol>
+<li><p>在终端中，输入以下命令以更新Conda：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">csharpCopy code</span><br><span class="line">conda update -n base -c defaults conda</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>现在，你可以创建一个新的Conda环境并安装所需的软件包。例如，要创建一个名为”myenv”的新环境：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">luaCopy code</span><br><span class="line">conda create --name myenv</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>激活新环境：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Copy code</span><br><span class="line">conda activate myenv</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>现在，你可以使用Conda来安装所需的软件包，例如：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Copy code</span><br><span class="line">conda install numpy</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>然后vscode里也要修改相应的环境</p>
+<ol>
+<li>打开VSCode。</li>
+<li>安装Python插件。在侧边栏中点击扩展图标（四个方块组成的正方形），搜索并安装”Python”插件，它是由Microsoft提供的官方插件。</li>
+<li>点击VSCode顶部菜单栏中的”View”（视图）选项。</li>
+<li>在”View”菜单下选择”Command Palette”（命令面板），或使用快捷键<code>Ctrl+Shift+P</code>（Windows/Linux）或<code>Cmd+Shift+P</code>（Mac）打开命令面板。</li>
+<li>在命令面板中输入”Python: Select Interpreter”（Python: 选择解释器），然后选择该命令来设置Python解释器。</li>
+<li>在弹出的解释器列表中，你应该能够看到Miniconda环境。选择你想要的Miniconda环境作为默认解释器。</li>
+<li>如果没有看到Miniconda环境，选择”Enter interpreter path”（输入解释器路径），然后在弹出的输入框中输入Miniconda解释器的路径。通常情况下，Miniconda的解释器路径为<code>~/miniconda3/bin/python</code>。</li>
+<li>选择你想要的Miniconda环境后，VSCode将会将其设置为默认Python解释器。你可以在VSCode的状态栏中看到当前使用的解释器。</li>
+<li>接下来，你可以在VSCode中创建Python文件，并在所选的Miniconda环境中运行代码。你可以使用VSCode的终端来执行命令，或者使用VSCode提供的调试功能进行代码调试。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>用python识别语音的音调（speech analysis - intonation)</title>
+    <url>/2021/10/27/python-intonation%20detection/</url>
+    <content><![CDATA[<p>一直想完成我心中很想做的一个东西，不过好难啊，只好拆接下来，一步一步来咯。</p>
+<p>第一步，就是用python识别语音的音调。</p>
+<h2 id="praat"><a href="#praat" class="headerlink" title="praat"></a>praat</h2><p>先说个不用python的方法。最初是偶然找到了praat这个软件，很简单，打开praat-点open-read from file - view &amp; edit - pitch - show pitch 就可以啦（注意要短于10秒，如果超过的话zoom in才能看到线条）。</p>
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gvu76v6bn7j321w0t6qav.jpg" alt="截屏2021-10-27 下午9.37.50"></p>
+<h2 id="python"><a href="#python" class="headerlink" title="python"></a>python</h2><p>再说用python 的2个方法。</p>
+<h3 id="amfm-decompy"><a href="#amfm-decompy" class="headerlink" title="amfm_decompy"></a>amfm_decompy</h3><p>首先安装amfm_decompy</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">python3 -m pip install amfm_decompy</span><br></pre></td></tr></table></figure>
+
+<p>使用</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> amfm_decompy.basic_tools <span class="keyword">as</span> basic</span><br><span class="line"><span class="keyword">import</span> amfm_decompy.pYAAPT <span class="keyword">as</span> pYAAPT</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment">#load audio 注意必须是wav</span></span><br><span class="line">signal = basic.SignalObj(<span class="string">&quot;01.wav&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#pYAAPT pitches 生成pitches文件</span></span><br><span class="line">pitch = pYAAPT.yaapt(signal, frame_length = <span class="number">40</span>, tda_frame_length=<span class="number">40</span>,f0_min=<span class="number">75</span>, f0_max=<span class="number">600</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#plot </span></span><br><span class="line">plt.plot(pitch.samp_values)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gvu7bl4cgmj30ym0tcq58.jpg" alt="截屏2021-10-27 下午9.42.32"></p>
+<p>要去掉0的话：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">p_nan = pitch.samp_values</span><br><span class="line">p_nan[pitch.samp_values==<span class="number">0</span>] = np.nan</span><br><span class="line">plt.plot(p_nan)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<h3 id="praat-1"><a href="#praat-1" class="headerlink" title="praat"></a>praat</h3><ol>
+<li><p>用刚刚的praat软件 view &amp; edit 后，点击 pitch - pitch listing，生成一个txt文件</p>
+</li>
+<li><p>使用</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line">praat = np.genfromtxt(<span class="string">&quot;info.txt&quot;</span>)</span><br><span class="line">praat = praat[:,<span class="number">1</span>]</span><br><span class="line">plt.plot(praat)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>结果：<br><img src="https://tva1.sinaimg.cn/large/008i3skNly1gvu7ipcosjj30wo0qiabe.jpg" alt="截屏2021-10-27 下午9.49.22"></p>
+<h2 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h2><p>两者对比一下，可以看到结果基本差不多。</p>
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gvu7jt39o5j31780u0go4.jpg" alt="截屏2021-10-27 下午9.50.59"></p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://medium.com/@neurodatalab/pitch-tracking-or-how-to-estimate-the-fundamental-frequency-in-speech-on-the-examples-of-praat-fe0ca50f61fd">Pitch-Tracking, or How to Estimate the Fundamental Frequency in Speech — on the Examples of Praat, YAAPT, and YIN Algorithms</a></p>
+<p>关于进一步增进matplotlib：<a href="https://zhuanlan.zhihu.com/p/109245779">https://zhuanlan.zhihu.com/p/109245779</a></p>
+]]></content>
       <categories>
         <category>鼓捣电脑</category>
       </categories>
@@ -1236,42 +1320,46 @@ chmod 755 deploy.sh
       </tags>
   </entry>
   <entry>
-    <title>如何无需重新渲染裁剪剪辑视频——使用Quicktime Player</title>
-    <url>/2020/09/07/quickplayer-render/</url>
-    <content><![CDATA[<ol>
-<li>用Quicktime Player打开所需要剪辑的视频 标签栏-编辑-修剪（快捷键command+T)<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giicjb4ltvj30ro0o8dh3.jpg" alt="9808904-4e3b9f42045188b1"></li>
-</ol>
-<ol start="2">
-<li><p>滑动视图轴进行修剪（修建过程中将鼠标长时间停留在某个地方 可以打开该位置时间间隔更小的时间轴）</p>
-</li>
-<li><p>修建完毕后点击“修剪”进行保存 不会覆盖原文件 而是生成新视频</p>
-</li>
-</ol>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giicjl16sfg30xc0htx6p.gif" alt="9808904-3f002fd35eb2c531"></p>
-<ol start="4">
-<li>点按关闭 命名&amp;选择存储位置</li>
-</ol>
-<hr>
-<p>另外，Quicktime Player也支持将一个视频分离成多段进行重新整合：</p>
-<ol>
-<li><p>用Quicktime Player打开所需要剪辑的视频 找到要被分离的点（注意：无法在视频开头分离）</p>
-</li>
-<li><p>标签栏-编辑-分离剪辑（快捷键command+Y)<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giicjlnjjvj30o80nugn8.jpg" alt="9808904-5fd1bc0d45e64fac"></p>
-</li>
-<li><p>滑动各段进行挪移<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giicjs73feg30xc0ionpd.gif" alt="9808904-aff0080167c8c7d1"></p>
-</li>
-<li><p>修建完毕后点击“修剪”进行保存 不会覆盖原文件 而是生成新视频</p>
-</li>
-<li><p>点按关闭 命名&amp;选择存储位置</p>
-</li>
-</ol>
+    <title>python录音 生成wav 并播放</title>
+    <url>/2021/10/29/python-record-play%20audio/</url>
+    <content><![CDATA[<h2 id="安装包"><a href="#安装包" class="headerlink" title="安装包"></a>安装包</h2><h3 id="pyaudio"><a href="#pyaudio" class="headerlink" title="pyaudio"></a>pyaudio</h3><p>安装pyaudio真是曲折的过程……</p>
+<p>直接用pip安装会报错</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">python3 -m pip install pyaudio</span><br><span class="line">&gt;  fatal error: <span class="string">&#x27;portaudio.h&#x27;</span> file not found</span><br></pre></td></tr></table></figure>
+
+<p>所以要先用brew下portaudio，但是我的homebrew死活无法下载portaudio</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">brew install portaudio</span><br><span class="line">&gt; no formulae found</span><br></pre></td></tr></table></figure>
+
+<p>试过重启什么的都不行，最后重新安装了homebrew</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/Homebrew/Library/Taps/homebrew/</span><br><span class="line">rm -rf homebrew-core</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/Homebrew/homebrew-core.git</span><br></pre></td></tr></table></figure>
+
+<p>然后就成功安装了portaudio，但是安装pyaudio依然报错失败，尝试link</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">brew link portaudio</span><br></pre></td></tr></table></figure>
+
+<p>但是显示已经link了，仍然无法安装。</p>
+<p>最后终于找到了方法，手动找到portaudio.h的位置‘usr/local/Cellar/portaudio/19.7.0/include’ ，然后以如下方式安装就可以啦</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">python3 -m pip install --global-option=<span class="string">&#x27;build_ext&#x27;</span> --global-option=<span class="string">&#x27;-I/usr/local/Cellar/portaudio/19.7.0/include&#x27;</span> --global-option=<span class="string">&#x27;-L/usr/local/Cellar/portaudio/19.7.0/lib&#x27;</span> pyaudio</span><br></pre></td></tr></table></figure>
+
+<h3 id="playsound-pydub"><a href="#playsound-pydub" class="headerlink" title="playsound/pydub"></a>playsound/pydub</h3><p>这个就正常安装就没问题。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">python3 -m pip install playsound pydub</span><br></pre></td></tr></table></figure>
+
+<h2 id="播放音频"><a href="#播放音频" class="headerlink" title="播放音频"></a>播放音频</h2><p>这个很简单。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> playsound <span class="keyword">import</span> playsound</span><br><span class="line"></span><br><span class="line">playsound(<span class="string">&quot;chunk3.wav&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>另外一种方法</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> pydub <span class="keyword">import</span> AudioSegment</span><br><span class="line"><span class="keyword">from</span> pydub.playback <span class="keyword">import</span> play</span><br><span class="line"></span><br><span class="line"><span class="comment"># read MP3 file</span></span><br><span class="line">song = AudioSegment.from_wav(<span class="string">&quot;/Users/whitelephant/Files/ENN/发音/audio-chunks/chunk3.wav&quot;</span>)</span><br><span class="line"><span class="comment"># song = AudioSegment.from_mp3(&quot;audio_file.mp3&quot;)</span></span><br><span class="line"><span class="comment"># you can also read from other formats such as MP4</span></span><br><span class="line"><span class="comment"># song = AudioSegment.from_file(&quot;audio_file.mp4&quot;, &quot;mp4&quot;)</span></span><br><span class="line">play(song)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="录音并生成文件"><a href="#录音并生成文件" class="headerlink" title="录音并生成文件"></a>录音并生成文件</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">CHUNK = <span class="number">1024</span>  <span class="comment"># 每个缓冲区的帧数</span></span><br><span class="line">FORMAT = pyaudio.paInt16  <span class="comment"># 采样位数</span></span><br><span class="line">CHANNELS = <span class="number">1</span>  <span class="comment"># 单声道</span></span><br><span class="line">RATE = <span class="number">44100</span>  <span class="comment"># 采样频率</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">record_audio</span>(<span class="params">wave_out_path, record_second</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot; 录音功能 &quot;&quot;&quot;</span></span><br><span class="line">    p = pyaudio.PyAudio()  <span class="comment"># 实例化对象</span></span><br><span class="line">    stream = p.open(format=FORMAT,</span><br><span class="line">                    channels=CHANNELS,</span><br><span class="line">                    rate=RATE,</span><br><span class="line">                    input=<span class="literal">True</span>,</span><br><span class="line">                    frames_per_buffer=CHUNK)  <span class="comment"># 打开流，传入响应参数</span></span><br><span class="line">    wf = wave.open(wave_out_path, <span class="string">&#x27;wb&#x27;</span>)  <span class="comment"># 打开 wav 文件。</span></span><br><span class="line">    wf.setnchannels(CHANNELS)  <span class="comment"># 声道设置</span></span><br><span class="line">    wf.setsampwidth(p.get_sample_size(FORMAT))  <span class="comment"># 采样位数设置</span></span><br><span class="line">    wf.setframerate(RATE)  <span class="comment"># 采样频率设置</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">0</span>, int(RATE * record_second / CHUNK)):</span><br><span class="line">        data = stream.read(CHUNK)</span><br><span class="line">        wf.writeframes(data)  <span class="comment"># 写入数据</span></span><br><span class="line">    stream.stop_stream()  <span class="comment"># 关闭流</span></span><br><span class="line">    stream.close()</span><br><span class="line">    p.terminate()</span><br><span class="line">    wf.close()</span><br><span class="line"></span><br><span class="line">filepath = <span class="string">&#x27;try.wav&#x27;</span></span><br><span class="line">record_audio(filepath,<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://zhuanlan.zhihu.com/p/92205480">Python实现电脑录音（含音频基础知识讲解）</a></p>
+<p><a href="https://www.thepythoncode.com/article/play-and-record-audio-sound-in-python">How to Play and Record Audio in Python</a></p>
 ]]></content>
       <categories>
         <category>鼓捣电脑</category>
       </categories>
       <tags>
-        <tag>小技巧</tag>
-        <tag>视频</tag>
+        <tag>python</tag>
       </tags>
   </entry>
   <entry>
@@ -1325,6 +1413,45 @@ chmod 755 deploy.sh
       </tags>
   </entry>
   <entry>
+    <title>如何无需重新渲染裁剪剪辑视频——使用Quicktime Player</title>
+    <url>/2020/09/07/quickplayer-render/</url>
+    <content><![CDATA[<ol>
+<li>用Quicktime Player打开所需要剪辑的视频 标签栏-编辑-修剪（快捷键command+T)<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giicjb4ltvj30ro0o8dh3.jpg" alt="9808904-4e3b9f42045188b1"></li>
+</ol>
+<ol start="2">
+<li><p>滑动视图轴进行修剪（修建过程中将鼠标长时间停留在某个地方 可以打开该位置时间间隔更小的时间轴）</p>
+</li>
+<li><p>修建完毕后点击“修剪”进行保存 不会覆盖原文件 而是生成新视频</p>
+</li>
+</ol>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giicjl16sfg30xc0htx6p.gif" alt="9808904-3f002fd35eb2c531"></p>
+<ol start="4">
+<li>点按关闭 命名&amp;选择存储位置</li>
+</ol>
+<hr>
+<p>另外，Quicktime Player也支持将一个视频分离成多段进行重新整合：</p>
+<ol>
+<li><p>用Quicktime Player打开所需要剪辑的视频 找到要被分离的点（注意：无法在视频开头分离）</p>
+</li>
+<li><p>标签栏-编辑-分离剪辑（快捷键command+Y)<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giicjlnjjvj30o80nugn8.jpg" alt="9808904-5fd1bc0d45e64fac"></p>
+</li>
+<li><p>滑动各段进行挪移<br><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1giicjs73feg30xc0ionpd.gif" alt="9808904-aff0080167c8c7d1"></p>
+</li>
+<li><p>修建完毕后点击“修剪”进行保存 不会覆盖原文件 而是生成新视频</p>
+</li>
+<li><p>点按关闭 命名&amp;选择存储位置</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>小技巧</tag>
+        <tag>视频</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Rmarkdown 输出中文 pdf 报错解决</title>
     <url>/2022/01/30/rmarkdown%20-%20pdf%20outpuf/</url>
     <content><![CDATA[<ol>
@@ -1357,6 +1484,34 @@ chmod 755 deploy.sh
       </categories>
       <tags>
         <tag>word</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>you-get安装和使用</title>
+    <url>/2020/09/09/you-get/</url>
+    <content><![CDATA[<p><a href="https://github.com/soimort/you-get#supported-sites">You-get</a> 和 <a href="https://whitelephantee.github.io/2020/09/08/youtube-dl/">youtube-dl</a> 一样，都是命令行下载工具，不过you-get是国人开发的，对国内视频网站的支持更好。</p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>用homebrew安装。</p>
+<pre><code>brew install you-get</code></pre>
+<p>再升级一下。</p>
+<pre><code>pip3 install --upgrade you-get</code></pre>
+<p>然后就可以用啦。</p>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><p>使用和youtube-dl也很相似，超简单。</p>
+<pre><code>you-get &#123;url&#125;</code></pre>
+<p>you-get也支持断点续传，会留有之前的记录。</p>
+<p>可以设置存储位置(-o)和存储名称(-0)。</p>
+<pre><code>you-get -o ~/Videos -O zoo.webm &#39;https://www.youtube.com/watch?v=jNQXAC9IVRw&#39;</code></pre>
+<p>设置代理</p>
+<pre><code>you-get -x 127.0.0.1:8087 &#39;https://www.youtube.com/watch?v=jNQXAC9IVRw&#39;</code></pre>
+<p>也可以把视频发送到播放器或者浏览器中，不要广告，</p>
+<pre><code> you-get -p vlc &#39;https://www.youtube.com/watch?v=jNQXAC9IVRw&#39;
+ you-get -p chromium &#39;https://www.youtube.com/watch?v=jNQXAC9IVRw&#39;</code></pre>
+]]></content>
+      <categories>
+        <category>鼓捣电脑</category>
+      </categories>
+      <tags>
+        <tag>mac</tag>
+        <tag>downloader</tag>
       </tags>
   </entry>
   <entry>
@@ -1393,91 +1548,6 @@ chmod 755 deploy.sh
 <li>如果非视频的网站，会猜测你想要什么，可以用来下载<strong>大图片</strong></li>
 <li>如果是关键词，会自动google并下载第一个匹配的视频</li>
 </ul>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>downloader</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>you-get安装和使用</title>
-    <url>/2020/09/09/you-get/</url>
-    <content><![CDATA[<p><a href="https://github.com/soimort/you-get#supported-sites">You-get</a> 和 <a href="https://whitelephantee.github.io/2020/09/08/youtube-dl/">youtube-dl</a> 一样，都是命令行下载工具，不过you-get是国人开发的，对国内视频网站的支持更好。</p>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>用homebrew安装。</p>
-<pre><code>brew install you-get</code></pre>
-<p>再升级一下。</p>
-<pre><code>pip3 install --upgrade you-get</code></pre>
-<p>然后就可以用啦。</p>
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><p>使用和youtube-dl也很相似，超简单。</p>
-<pre><code>you-get &#123;url&#125;</code></pre>
-<p>you-get也支持断点续传，会留有之前的记录。</p>
-<p>可以设置存储位置(-o)和存储名称(-0)。</p>
-<pre><code>you-get -o ~/Videos -O zoo.webm &#39;https://www.youtube.com/watch?v=jNQXAC9IVRw&#39;</code></pre>
-<p>设置代理</p>
-<pre><code>you-get -x 127.0.0.1:8087 &#39;https://www.youtube.com/watch?v=jNQXAC9IVRw&#39;</code></pre>
-<p>也可以把视频发送到播放器或者浏览器中，不要广告，</p>
-<pre><code> you-get -p vlc &#39;https://www.youtube.com/watch?v=jNQXAC9IVRw&#39;
- you-get -p chromium &#39;https://www.youtube.com/watch?v=jNQXAC9IVRw&#39;</code></pre>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>mac</tag>
-        <tag>downloader</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>用python识别语音的音调（speech analysis - intonation)</title>
-    <url>/2021/10/27/python-intonation%20detection/</url>
-    <content><![CDATA[<p>一直想完成我心中很想做的一个东西，不过好难啊，只好拆接下来，一步一步来咯。</p>
-<p>第一步，就是用python识别语音的音调。</p>
-<h2 id="praat"><a href="#praat" class="headerlink" title="praat"></a>praat</h2><p>先说个不用python的方法。最初是偶然找到了praat这个软件，很简单，打开praat-点open-read from file - view &amp; edit - pitch - show pitch 就可以啦（注意要短于10秒，如果超过的话zoom in才能看到线条）。</p>
-<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gvu76v6bn7j321w0t6qav.jpg" alt="截屏2021-10-27 下午9.37.50"></p>
-<h2 id="python"><a href="#python" class="headerlink" title="python"></a>python</h2><p>再说用python 的2个方法。</p>
-<h3 id="amfm-decompy"><a href="#amfm-decompy" class="headerlink" title="amfm_decompy"></a>amfm_decompy</h3><p>首先安装amfm_decompy</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">python3 -m pip install amfm_decompy</span><br></pre></td></tr></table></figure>
-
-<p>使用</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> amfm_decompy.basic_tools <span class="keyword">as</span> basic</span><br><span class="line"><span class="keyword">import</span> amfm_decompy.pYAAPT <span class="keyword">as</span> pYAAPT</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment">#load audio 注意必须是wav</span></span><br><span class="line">signal = basic.SignalObj(<span class="string">&quot;01.wav&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#pYAAPT pitches 生成pitches文件</span></span><br><span class="line">pitch = pYAAPT.yaapt(signal, frame_length = <span class="number">40</span>, tda_frame_length=<span class="number">40</span>,f0_min=<span class="number">75</span>, f0_max=<span class="number">600</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#plot </span></span><br><span class="line">plt.plot(pitch.samp_values)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gvu7bl4cgmj30ym0tcq58.jpg" alt="截屏2021-10-27 下午9.42.32"></p>
-<p>要去掉0的话：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">p_nan = pitch.samp_values</span><br><span class="line">p_nan[pitch.samp_values==<span class="number">0</span>] = np.nan</span><br><span class="line">plt.plot(p_nan)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
-
-<h3 id="praat-1"><a href="#praat-1" class="headerlink" title="praat"></a>praat</h3><ol>
-<li><p>用刚刚的praat软件 view &amp; edit 后，点击 pitch - pitch listing，生成一个txt文件</p>
-</li>
-<li><p>使用</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line">praat = np.genfromtxt(<span class="string">&quot;info.txt&quot;</span>)</span><br><span class="line">praat = praat[:,<span class="number">1</span>]</span><br><span class="line">plt.plot(praat)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<p>结果：<br><img src="https://tva1.sinaimg.cn/large/008i3skNly1gvu7ipcosjj30wo0qiabe.jpg" alt="截屏2021-10-27 下午9.49.22"></p>
-<h2 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h2><p>两者对比一下，可以看到结果基本差不多。</p>
-<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gvu7jt39o5j31780u0go4.jpg" alt="截屏2021-10-27 下午9.50.59"></p>
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://medium.com/@neurodatalab/pitch-tracking-or-how-to-estimate-the-fundamental-frequency-in-speech-on-the-examples-of-praat-fe0ca50f61fd">Pitch-Tracking, or How to Estimate the Fundamental Frequency in Speech — on the Examples of Praat, YAAPT, and YIN Algorithms</a></p>
-<p>关于进一步增进matplotlib：<a href="https://zhuanlan.zhihu.com/p/109245779">https://zhuanlan.zhihu.com/p/109245779</a></p>
-]]></content>
-      <categories>
-        <category>鼓捣电脑</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>youtube-dl mac使用（2021更新）</title>
-    <url>/2021/10/18/youtube-dl-2/</url>
-    <content><![CDATA[<p>上次写过youtube-dl的<a href="https://whitelephantee.github.io/2020/09/08/youtube-dl/">一些基本使用方法</a>，但是实际上由于某些原因一直没有办法真正用上……</p>
-<p>今天突发奇想又折腾了一下，终于真的能下载东西了！</p>
-<p>记录一下一些有用的东西～</p>
-<p>最基本的下载方法（会下载到terminal当前的文件夹下）：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">youtube-dl <span class="string">&#x27;http://...&#x27;</span></span><br></pre></td></tr></table></figure>
-
-<p>嗯，好像没什么需要补充的了，其他需要的原来的文章里都有，就是这样啦～</p>
 ]]></content>
       <categories>
         <category>鼓捣电脑</category>
@@ -1660,46 +1730,21 @@ youtube-dl -o &#39;/Users/&#123;username&#125;/Downloads/%(title)s.%(ext)s&#39; 
       </tags>
   </entry>
   <entry>
-    <title>python录音 生成wav 并播放</title>
-    <url>/2021/10/29/python-record-play%20audio/</url>
-    <content><![CDATA[<h2 id="安装包"><a href="#安装包" class="headerlink" title="安装包"></a>安装包</h2><h3 id="pyaudio"><a href="#pyaudio" class="headerlink" title="pyaudio"></a>pyaudio</h3><p>安装pyaudio真是曲折的过程……</p>
-<p>直接用pip安装会报错</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">python3 -m pip install pyaudio</span><br><span class="line">&gt;  fatal error: <span class="string">&#x27;portaudio.h&#x27;</span> file not found</span><br></pre></td></tr></table></figure>
+    <title>youtube-dl mac使用（2021更新）</title>
+    <url>/2021/10/18/youtube-dl-2/</url>
+    <content><![CDATA[<p>上次写过youtube-dl的<a href="https://whitelephantee.github.io/2020/09/08/youtube-dl/">一些基本使用方法</a>，但是实际上由于某些原因一直没有办法真正用上……</p>
+<p>今天突发奇想又折腾了一下，终于真的能下载东西了！</p>
+<p>记录一下一些有用的东西～</p>
+<p>最基本的下载方法（会下载到terminal当前的文件夹下）：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">youtube-dl <span class="string">&#x27;http://...&#x27;</span></span><br></pre></td></tr></table></figure>
 
-<p>所以要先用brew下portaudio，但是我的homebrew死活无法下载portaudio</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">brew install portaudio</span><br><span class="line">&gt; no formulae found</span><br></pre></td></tr></table></figure>
-
-<p>试过重启什么的都不行，最后重新安装了homebrew</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/Homebrew/Library/Taps/homebrew/</span><br><span class="line">rm -rf homebrew-core</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/Homebrew/homebrew-core.git</span><br></pre></td></tr></table></figure>
-
-<p>然后就成功安装了portaudio，但是安装pyaudio依然报错失败，尝试link</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">brew link portaudio</span><br></pre></td></tr></table></figure>
-
-<p>但是显示已经link了，仍然无法安装。</p>
-<p>最后终于找到了方法，手动找到portaudio.h的位置‘usr/local/Cellar/portaudio/19.7.0/include’ ，然后以如下方式安装就可以啦</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">python3 -m pip install --global-option=<span class="string">&#x27;build_ext&#x27;</span> --global-option=<span class="string">&#x27;-I/usr/local/Cellar/portaudio/19.7.0/include&#x27;</span> --global-option=<span class="string">&#x27;-L/usr/local/Cellar/portaudio/19.7.0/lib&#x27;</span> pyaudio</span><br></pre></td></tr></table></figure>
-
-<h3 id="playsound-pydub"><a href="#playsound-pydub" class="headerlink" title="playsound/pydub"></a>playsound/pydub</h3><p>这个就正常安装就没问题。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">python3 -m pip install playsound pydub</span><br></pre></td></tr></table></figure>
-
-<h2 id="播放音频"><a href="#播放音频" class="headerlink" title="播放音频"></a>播放音频</h2><p>这个很简单。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> playsound <span class="keyword">import</span> playsound</span><br><span class="line"></span><br><span class="line">playsound(<span class="string">&quot;chunk3.wav&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<p>另外一种方法</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> pydub <span class="keyword">import</span> AudioSegment</span><br><span class="line"><span class="keyword">from</span> pydub.playback <span class="keyword">import</span> play</span><br><span class="line"></span><br><span class="line"><span class="comment"># read MP3 file</span></span><br><span class="line">song = AudioSegment.from_wav(<span class="string">&quot;/Users/whitelephant/Files/ENN/发音/audio-chunks/chunk3.wav&quot;</span>)</span><br><span class="line"><span class="comment"># song = AudioSegment.from_mp3(&quot;audio_file.mp3&quot;)</span></span><br><span class="line"><span class="comment"># you can also read from other formats such as MP4</span></span><br><span class="line"><span class="comment"># song = AudioSegment.from_file(&quot;audio_file.mp4&quot;, &quot;mp4&quot;)</span></span><br><span class="line">play(song)</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="录音并生成文件"><a href="#录音并生成文件" class="headerlink" title="录音并生成文件"></a>录音并生成文件</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">CHUNK = <span class="number">1024</span>  <span class="comment"># 每个缓冲区的帧数</span></span><br><span class="line">FORMAT = pyaudio.paInt16  <span class="comment"># 采样位数</span></span><br><span class="line">CHANNELS = <span class="number">1</span>  <span class="comment"># 单声道</span></span><br><span class="line">RATE = <span class="number">44100</span>  <span class="comment"># 采样频率</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">record_audio</span>(<span class="params">wave_out_path, record_second</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot; 录音功能 &quot;&quot;&quot;</span></span><br><span class="line">    p = pyaudio.PyAudio()  <span class="comment"># 实例化对象</span></span><br><span class="line">    stream = p.open(format=FORMAT,</span><br><span class="line">                    channels=CHANNELS,</span><br><span class="line">                    rate=RATE,</span><br><span class="line">                    input=<span class="literal">True</span>,</span><br><span class="line">                    frames_per_buffer=CHUNK)  <span class="comment"># 打开流，传入响应参数</span></span><br><span class="line">    wf = wave.open(wave_out_path, <span class="string">&#x27;wb&#x27;</span>)  <span class="comment"># 打开 wav 文件。</span></span><br><span class="line">    wf.setnchannels(CHANNELS)  <span class="comment"># 声道设置</span></span><br><span class="line">    wf.setsampwidth(p.get_sample_size(FORMAT))  <span class="comment"># 采样位数设置</span></span><br><span class="line">    wf.setframerate(RATE)  <span class="comment"># 采样频率设置</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">0</span>, int(RATE * record_second / CHUNK)):</span><br><span class="line">        data = stream.read(CHUNK)</span><br><span class="line">        wf.writeframes(data)  <span class="comment"># 写入数据</span></span><br><span class="line">    stream.stop_stream()  <span class="comment"># 关闭流</span></span><br><span class="line">    stream.close()</span><br><span class="line">    p.terminate()</span><br><span class="line">    wf.close()</span><br><span class="line"></span><br><span class="line">filepath = <span class="string">&#x27;try.wav&#x27;</span></span><br><span class="line">record_audio(filepath,<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
-
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://zhuanlan.zhihu.com/p/92205480">Python实现电脑录音（含音频基础知识讲解）</a></p>
-<p><a href="https://www.thepythoncode.com/article/play-and-record-audio-sound-in-python">How to Play and Record Audio in Python</a></p>
+<p>嗯，好像没什么需要补充的了，其他需要的原来的文章里都有，就是这样啦～</p>
 ]]></content>
       <categories>
         <category>鼓捣电脑</category>
       </categories>
       <tags>
-        <tag>python</tag>
+        <tag>downloader</tag>
       </tags>
   </entry>
 </search>
